@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
 using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 
@@ -26,12 +27,18 @@ namespace XMLpad
     {
         public MainWindow()
         {
-            // TextEditor is an AvalonEdit.TextEditor
-            TextEditor edit = new TextEditor();
-            XmlReader reader = XmlReader.Create("..\\net6.0-windows\\Resources\\XML.xshd");
-            edit.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
 
             InitializeComponent();
+
+        }
+
+        public void textEditor_TextChanged(object sender, EventArgs e)
+        {
+            LineCharacterPosition.Content = $"Line: {textEditor.TextArea.Caret.Line} Column: {textEditor.TextArea.Caret.Column}";
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

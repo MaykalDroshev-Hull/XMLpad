@@ -5,18 +5,77 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XMLpad" xmlns:avalon="http://icsharpcode.net/sharpdevelop/avalonedit"
         mc:Ignorable="d"
-        Title="XMLpad" Icon="Assets/XMLpad-logos.jpeg" Height="450" Width="800">
+        Title="XMLpad" Icon="Assets/XMLpad-logos.jpeg" Height="900" Width="1600">
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
-                    <MenuItem Header="_New" />
-                    <MenuItem Header="_Open" />
-                    <MenuItem Header="_Save" />
+                    <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MenuItem_Click" />
+                    <MenuItem Header="_Open" InputGestureText="Ctrl+O"/>
+                    <MenuItem Header="_Open Containing Folder" />
+                    <MenuItem Header="_Save" InputGestureText="Ctrl+S"/>
+                    <MenuItem Header="_Save As" InputGestureText="Ctrl+Shift+S"/>
+                    <MenuItem Header="_Save A Copy As" />
+                    <MenuItem Header="_Print" InputGestureText="Ctrl+P"/>
                     <Separator />
-                    <MenuItem Header="_Exit" />
+                    <MenuItem Header="_Exit" InputGestureText="Ctrl+F4"/>
                 </MenuItem>
                 <MenuItem Header="Edit">
+                    <MenuItem Header="_Undo" InputGestureText="Ctrl+Z"/>
+                    <MenuItem Header="_Redo" InputGestureText="Ctrl+Y"/>
+                    <MenuItem Header="_Cut" InputGestureText="Ctrl+X"/>
+                    <MenuItem Header="_Copy" InputGestureText="Ctrl+C"/>
+                    <MenuItem Header="_Duplicate Line" InputGestureText="Ctrl+D"/>
+                    <MenuItem Header="_Paste" InputGestureText="Ctrl+V"/>
+                    <MenuItem Header="_Delete" InputGestureText="DEL"/>
+                    <MenuItem Header="_Select All" InputGestureText="Ctrl+A"/>
+                    <Separator/>
+                    <MenuItem Header="_Insert">
+                        <MenuItem Header="_Date Time (Short)"/>
+                        <MenuItem Header="_Date Time (Long)"/>
+                        <MenuItem Header="_Date Time (Customised)"/>
+                        <Separator/>
+                        <MenuItem Header="_Customise Date Time"/>
+                    </MenuItem>
+                    <MenuItem Header="_Copy">
+                        <MenuItem Header="_Copy Current File Path"/>
+                        <MenuItem Header="_Copy Current File Name"/>
+                    </MenuItem>
+
+                    <MenuItem Header="_Indent">
+                        <MenuItem Header="_Increase Indent (+)" InputGestureText="Ctrl+M"/>
+                        <MenuItem Header="_Decrease Indent (-)" InputGestureText="Ctrl+Shift+M"/>
+                    </MenuItem>
+                    <MenuItem Header="_Convert Case">
+                        <MenuItem Header="_All Uppercase" InputGestureText="Ctrl+Shift+U"/>
+                        <MenuItem Header="_All Lowercase" InputGestureText="Ctrl+U"/>
+                        <MenuItem Header="_Invert Case"/>
+                        <MenuItem Header="_Random Case"/>
+                    </MenuItem>
+                    <MenuItem Header="_Line Operations">
+                        <MenuItem Header="_Duplicate Line" InputGestureText="Ctrl+D"/>
+                        <MenuItem Header="_Remove Duplicate Lines"/>
+                        <MenuItem Header="_Remove Consecutive Duplicate Lines"/>
+                        <MenuItem Header="_Move Up The Current Line" InputGestureText="Ctrl+Shift+Up"/>
+                        <MenuItem Header="_Move Down The Current Line" InputGestureText="Ctrl+Shift+Down"/>
+                        <MenuItem Header="_Remove Empty Lines"/>
+                        <MenuItem Header="_Insert Blank Line Above Current" InputGestureText="Ctrl+Alt+Enter"/>
+                        <MenuItem Header="_Insert Blank Line Below Current" InputGestureText="Ctrl+Alt+Shift+Enter"/>
+                    </MenuItem>
+                    <MenuItem Header="_Comment/Uncomment">
+                        <MenuItem Header="_Comment" InputGestureText="Ctrl+K+C"/>
+                        <MenuItem Header="_Uncomment" InputGestureText="Ctrl+K+Y"/>
+                    </MenuItem>
+                    <MenuItem Header="_Blank Operations">
+                        <MenuItem Header="_Trim Trailing Space"/>
+                        <MenuItem Header="_Trim Leading Space"/>
+                        <MenuItem Header="_Trim Trailing And Leading Space"/>
+                        <MenuItem Header="_TAB To Space"/>
+                        <MenuItem Header="_Space To TAB(Leading)"/>
+                        <MenuItem Header="_Space To TAB(Trailing)"/>
+                        <MenuItem Header="_Space To TAB(All)"/>
+                    </MenuItem>
+                    <MenuItem Header="Set As Read-Only"/>
                 </MenuItem>
                 <MenuItem Header="View">
                 </MenuItem>
@@ -28,21 +87,22 @@
                 <MenuItem Header="Help">
                 </MenuItem>
             </Menu>
-            <TabControl>
-                <TabItem Header="File_1.xml">
-                    <avalonEdit:TextEditor
-    xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+
+
+            <StatusBar DockPanel.Dock="Bottom">
+                <Label x:Name="LineCharacterPosition" Content="Line: 0, Column: 0"/>
+            </StatusBar>
+
+            <avalonEdit:TextEditor
+                xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
     x:Name="textEditor"
     ShowLineNumbers="True"
     FontFamily="Consolas"
     SyntaxHighlighting="XML"
-    FontSize="10pt" Width="788"/>
-                </TabItem>
-                <TabItem Header="File_2.xml">
-                    <Grid Background="#FFE5E5E5"/>
-                </TabItem>
+    FontSize="10pt"
+               TextChanged="textEditor_TextChanged"
 
-            </TabControl>
+                        />
         </DockPanel>
     </Grid>
 </Window>
