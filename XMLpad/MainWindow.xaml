@@ -1,0 +1,48 @@
+﻿<Window x:Class="XMLpad.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XMLpad" xmlns:avalon="http://icsharpcode.net/sharpdevelop/avalonedit"
+        mc:Ignorable="d"
+        Title="XMLpad" Icon="Assets/XMLpad-logos.jpeg" Height="450" Width="800">
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New" />
+                    <MenuItem Header="_Open" />
+                    <MenuItem Header="_Save" />
+                    <Separator />
+                    <MenuItem Header="_Exit" />
+                </MenuItem>
+                <MenuItem Header="Edit">
+                </MenuItem>
+                <MenuItem Header="View">
+                </MenuItem>
+                <MenuItem Header="Tools">
+                    <MenuItem Header="Settings"/>
+                </MenuItem>
+                <MenuItem Header="Window">
+                </MenuItem>
+                <MenuItem Header="Help">
+                </MenuItem>
+            </Menu>
+            <TabControl>
+                <TabItem Header="File_1.xml">
+                    <avalonEdit:TextEditor
+    xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+    x:Name="textEditor"
+    ShowLineNumbers="True"
+    FontFamily="Consolas"
+    SyntaxHighlighting="XML"
+    FontSize="10pt" Width="788"/>
+                </TabItem>
+                <TabItem Header="File_2.xml">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+
+            </TabControl>
+        </DockPanel>
+    </Grid>
+</Window>
