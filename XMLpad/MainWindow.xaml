@@ -3,14 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:XMLpad" xmlns:avalon="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:viewmodel="clr-namespace:XMLpad"
         mc:Ignorable="d"
-        Title="XMLpad" Icon="Assets/XMLpad-logos.jpeg" Height="900" Width="1600">
+        Title="XMLpad" Icon="Assets/XMLpad-logos_transparent.png" Height="900" Width="1600">
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
-                    <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MenuItem_Click" />
+                    <MenuItem Header="_New" InputGestureText="Ctrl+N"/>
                     <MenuItem Header="_Open" InputGestureText="Ctrl+O"/>
                     <MenuItem Header="_Open Containing Folder" />
                     <MenuItem Header="_Save" InputGestureText="Ctrl+S"/>
@@ -75,33 +75,44 @@
                         <MenuItem Header="_Space To TAB(Trailing)"/>
                         <MenuItem Header="_Space To TAB(All)"/>
                     </MenuItem>
-                    <MenuItem Header="Set As Read-Only"/>
+                    <MenuItem Header="_Set As Read-Only"/>
                 </MenuItem>
-                <MenuItem Header="View">
+                <MenuItem Header="_View">
+                    <MenuItem Header="_Toggle Full Screen Mode" InputGestureText="F11"/>
+                    <MenuItem Header="_Show Symbol" >
+                        <MenuItem Header="_Show spaces and Tabs"/>
+                        <MenuItem Header="_Show new lines"/>
+                        <MenuItem Header="_Show all characters"/>
+                    </MenuItem>
+                    <MenuItem Header="_Zoom">
+                        <MenuItem Header="_Zoom in" InputGestureText="Ctrl+Num+"/>
+                        <MenuItem Header="_Zoom out" InputGestureText="Ctrl+Num-"/>
+                        <MenuItem Header="_Restore default zoom" InputGestureText="Ctrl+Num/"/>
+                    </MenuItem>
+
                 </MenuItem>
-                <MenuItem Header="Tools">
-                    <MenuItem Header="Settings"/>
-                </MenuItem>
-                <MenuItem Header="Window">
+                <MenuItem Header="Settings">
+                    <MenuItem Header="Environment Preferences"/>
                 </MenuItem>
                 <MenuItem Header="Help">
+                    <MenuItem Header="View Manual"/>
                 </MenuItem>
             </Menu>
 
 
             <StatusBar DockPanel.Dock="Bottom">
-                <Label x:Name="LineCharacterPosition" Content="Line: 0, Column: 0"/>
+                <Label x:Name="LineCharacterPosition" Content="Line: 0 Column: 0"/>
             </StatusBar>
 
             <avalonEdit:TextEditor
+                x:Name="textEditor"
                 xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
-    x:Name="textEditor"
     ShowLineNumbers="True"
     FontFamily="Consolas"
     SyntaxHighlighting="XML"
     FontSize="10pt"
-               TextChanged="textEditor_TextChanged"
-
+                PreviewKeyDown="textEditor_TextChanged"
+                PreviewMouseDoubleClick="textEditor_PreviewMouseDoubleClick"
                         />
         </DockPanel>
     </Grid>

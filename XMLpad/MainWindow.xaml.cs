@@ -27,19 +27,19 @@ namespace XMLpad
     {
         public MainWindow()
         {
-
             InitializeComponent();
+            textEditor.Focus();
 
         }
 
-        public void textEditor_TextChanged(object sender, EventArgs e)
+        public void textEditor_TextChanged(object sender, KeyEventArgs e)
         {
             LineCharacterPosition.Content = $"Line: {textEditor.TextArea.Caret.Line} Column: {textEditor.TextArea.Caret.Column}";
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void textEditor_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            LineCharacterPosition.Content = $"Line: {textEditor.TextArea.Caret.Line} Column: {textEditor.TextArea.Caret.Column}";
         }
     }
 }
