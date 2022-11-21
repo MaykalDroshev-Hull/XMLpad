@@ -5,20 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodel="clr-namespace:XMLpad"
         mc:Ignorable="d"
+        Closing="Window_Closing"
         Title="XMLpad" Icon="Assets/XMLpad-logos_transparent.png" Height="900" Width="1600">
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
-                    <MenuItem Header="_New" InputGestureText="Ctrl+N"/>
-                    <MenuItem Header="_Open" InputGestureText="Ctrl+O"/>
-                    <MenuItem Header="_Open Containing Folder" />
-                    <MenuItem Header="_Save" InputGestureText="Ctrl+S"/>
-                    <MenuItem Header="_Save As" InputGestureText="Ctrl+Shift+S"/>
-                    <MenuItem Header="_Save A Copy As" />
-                    <MenuItem Header="_Print" InputGestureText="Ctrl+P"/>
+                    <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MainMenu_File_NewFile"/>
+                    <MenuItem Header="_Clear" Click="MainMenu_File_Clear"/>
+                    <MenuItem Header="_Open" InputGestureText="Ctrl+O" Click="MainMenu_File_OpenFile"/>
+                    <MenuItem Header="_Open Containing Folder" Click="MainMenu_File_OpenContainingFolder"/>
+                    <MenuItem Header="_Save" InputGestureText="Ctrl+S" Click="MainMenu_File_Save"/>
+                    <MenuItem Header="_Save As" InputGestureText="Ctrl+Shift+S" Click="MainMenu_File_SaveAs"/>
+                    <MenuItem Header="_Save A Copy As" Click="MainMenu_File_SaveACopyAs"/>
+                    <MenuItem Header="_Print" InputGestureText="Ctrl+P" Click="MainMenu_File_Print"/>
                     <Separator />
-                    <MenuItem Header="_Exit" InputGestureText="Ctrl+F4"/>
+                    <MenuItem Header="_Exit" InputGestureText="Ctrl+F4" Click="MainMenu_File_Exit"/>
                 </MenuItem>
                 <MenuItem Header="Edit">
                     <MenuItem Header="_Undo" InputGestureText="Ctrl+Z"/>
