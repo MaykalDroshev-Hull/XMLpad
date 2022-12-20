@@ -273,5 +273,42 @@ namespace XMLpad
         {
             SaveTempFile();
         }
+
+        private void MenuItem_Undo(object sender, RoutedEventArgs e) => textEditor.Undo();
+
+        private void MenuItem_Redo(object sender, RoutedEventArgs e) => textEditor.Redo();
+
+        private void MenuItem_Cut(object sender, RoutedEventArgs e) => textEditor.Cut();
+
+        private void MenuItem_Copy(object sender, RoutedEventArgs e) => textEditor.Copy();
+
+        private void MenuItem_DuplicateLine(object sender, RoutedEventArgs e) => textEditor.DuplicateLine();//TODO Copy the files and make them editable
+        private void MenuItem_Paste(object sender, RoutedEventArgs e) => textEditor.Paste();
+        private void MenuItem_Delete(object sender, RoutedEventArgs e) => textEditor.Delete();
+        private void MenuItem_SelectAll(object sender, RoutedEventArgs e) => textEditor.SelectAll();
+        private void MenuItem_Insert_DateTimeShort(object sender, RoutedEventArgs e)
+        {
+            textEditor.SelectedText += DateTime.Now.ToShortDateString();
+        }
+
+        private void MenuItem_Insert_DateTimeLong(object sender, RoutedEventArgs e)
+        {
+            textEditor.SelectedText += DateTime.Now.ToLongDateString();
+        }
+
+        private void MenuItem_Insert_DateTimeCustomized(object sender, RoutedEventArgs e)
+        {
+            // todo insert the loaded custom date time format if created otherwise call MenuItem_Insert_CustomizeFormat after a dialog that it is not set
+        }
+
+        private void MenuItem_Insert_CustomizeFormat(object sender, RoutedEventArgs e)
+        {
+            // Todo: Create a window for customizing date time format
+        }
+        private void MainMenu_IncreaseIndent(object sender , RoutedEventArgs e)
+        {
+            //todo find the string between the cursor and the previous carriage return \r\n and insert  tab or 4 spacesdepending on prefernece
+        }
+
     }
 }

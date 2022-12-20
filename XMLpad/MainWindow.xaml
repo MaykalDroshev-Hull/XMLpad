@@ -6,40 +6,39 @@
         xmlns:viewmodel="clr-namespace:XMLpad"
         mc:Ignorable="d"
         Closing="Window_Closing"
-        Background="#1F1F1F"
-        Foreground="White"
+        Style="{DynamicResource DarkModeStyleWindow}"
         Title="XMLpad" Icon="Assets/XMLpad-logos_transparent.png" Height="900" Width="1600">
     <Grid>
         <DockPanel>
-            <Menu DockPanel.Dock="Top" Background="#1F1F1F" Foreground="White" BorderThickness="0" BorderBrush="#1F1F1F">
+            <Menu DockPanel.Dock="Top" Style="{DynamicResource DarkModeStyleMenu}">
                 <MenuItem Header="_File" Background="#1F1F1F" Foreground="White">
-                    <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MainMenu_File_NewFile" Background="#1F1F1F" Foreground="White" BorderThickness="0"/>
-                    <MenuItem Header="_Clear" Click="MainMenu_File_Clear" Background="#1F1F1F" Foreground="White" BorderThickness="0"/>
-                    <MenuItem Header="_Open" InputGestureText="Ctrl+O" Click="MainMenu_File_OpenFile" Background="#1F1F1F" Foreground="White" BorderThickness="0"/>
-                    <MenuItem Header="_Open Containing Folder" Click="MainMenu_File_OpenContainingFolder" Background="#1F1F1F" Foreground="White" BorderThickness="0"/>
-                    <MenuItem Header="_Save" InputGestureText="Ctrl+S" Click="MainMenu_File_Save" Background="#1F1F1F" Foreground="White" BorderThickness="0"/>
-                    <MenuItem Header="_Save As" InputGestureText="Ctrl+Shift+S" Click="MainMenu_File_SaveAs" Background="#1F1F1F" Foreground="White" BorderThickness="0"/>
-                    <MenuItem Header="_Save A Copy As" Click="MainMenu_File_SaveACopyAs" Background="#1F1F1F" Foreground="White" BorderThickness="0"/>
-                    <MenuItem Header="_Print" InputGestureText="Ctrl+P" Click="MainMenu_File_Print" Background="#1F1F1F" Foreground="White" BorderThickness="0"/>
+                    <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MainMenu_File_NewFile" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                    <MenuItem Header="_Clear" Click="MainMenu_File_Clear" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                    <MenuItem Header="_Open" InputGestureText="Ctrl+O" Click="MainMenu_File_OpenFile" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                    <MenuItem Header="_Open Containing Folder" Click="MainMenu_File_OpenContainingFolder" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                    <MenuItem Header="_Save" InputGestureText="Ctrl+S" Click="MainMenu_File_Save" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                    <MenuItem Header="_Save As" InputGestureText="Ctrl+Shift+S" Click="MainMenu_File_SaveAs" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                    <MenuItem Header="_Save A Copy As" Click="MainMenu_File_SaveACopyAs" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                    <MenuItem Header="_Print" InputGestureText="Ctrl+P" Click="MainMenu_File_Print" Style="{DynamicResource DarkModeStyleMenuItem}"/>
                     <Separator  Style="{DynamicResource DarkModeStyleSeparator}"/>
-                    <MenuItem Header="_Exit" InputGestureText="Ctrl+F4" Click="MainMenu_File_Exit" Background="#1F1F1F" Foreground="White" BorderThickness="0"/>
+                    <MenuItem Header="_Exit" InputGestureText="Ctrl+F4" Click="MainMenu_File_Exit" Style="{DynamicResource DarkModeStyleMenuItem}"/>
                 </MenuItem>
-                <MenuItem Header="Edit" Background="#1F1F1F" Foreground="White" BorderThickness="0">
-                    <MenuItem Header="_Undo" InputGestureText="Ctrl+Z" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                    <MenuItem Header="_Redo" InputGestureText="Ctrl+Y" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                    <MenuItem Header="_Cut" InputGestureText="Ctrl+X" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                    <MenuItem Header="_Copy" InputGestureText="Ctrl+C" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                    <MenuItem Header="_Duplicate Line" InputGestureText="Ctrl+D" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                    <MenuItem Header="_Paste" InputGestureText="Ctrl+V" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                    <MenuItem Header="_Delete" InputGestureText="DEL" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                    <MenuItem Header="_Select All" InputGestureText="Ctrl+A" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                <MenuItem Header="Edit" Style="{DynamicResource DarkModeStyleMenuItem}">
+                    <MenuItem Header="_Undo" InputGestureText="Ctrl+Z" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Undo"/>
+                    <MenuItem Header="_Redo" InputGestureText="Ctrl+Y" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Redo"/>
+                    <MenuItem Header="_Cut" InputGestureText="Ctrl+X" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Cut" />
+                    <MenuItem Header="_Copy" InputGestureText="Ctrl+C" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Copy"/>
+                    <MenuItem Header="_Duplicate Line" InputGestureText="Ctrl+D" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_DuplicateLine"/>
+                    <MenuItem Header="_Paste" InputGestureText="Ctrl+V" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Paste"/>
+                    <MenuItem Header="_Delete" InputGestureText="DEL" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Delete"/>
+                    <MenuItem Header="_Select All" InputGestureText="Ctrl+A" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_SelectAll"/>
                     <Separator Style="{DynamicResource DarkModeStyleSeparator}"/>
                     <MenuItem Header="_Insert" Style="{DynamicResource DarkModeStyleMenuItem}">
-                        <MenuItem Header="_Date Time (Short)" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Date Time (Long)" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Date Time (Customised)" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                        <MenuItem Header="_Date Time (Short)" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Insert_DateTimeShort"/>
+                        <MenuItem Header="_Date Time (Long)" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Insert_DateTimeLong"/>
+                        <MenuItem Header="_Date Time (Customised)" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Insert_DateTimeCustomized"/>
                         <Separator Style="{DynamicResource DarkModeStyleSeparator}"/>
-                        <MenuItem Header="_Customise Date Time" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                        <MenuItem Header="_Customise Date Time" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Insert_CustomizeFormat"/>
                     </MenuItem>
                     <MenuItem Header="_Copy" Style="{DynamicResource DarkModeStyleMenuItem}">
                         <MenuItem Header="_Copy Current File Path" Style="{DynamicResource DarkModeStyleMenuItem}"/>
@@ -47,7 +46,7 @@
                     </MenuItem>
 
                     <MenuItem Header="_Indent" Style="{DynamicResource DarkModeStyleMenuItem}">
-                        <MenuItem Header="_Increase Indent (+)" InputGestureText="Ctrl+M" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                        <MenuItem Header="_Increase Indent (+)" InputGestureText="Ctrl+M" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_IncreaseIndent"/>
                         <MenuItem Header="_Decrease Indent (-)" InputGestureText="Ctrl+Shift+M" Style="{DynamicResource DarkModeStyleMenuItem}"/>
                     </MenuItem>
                     <MenuItem Header="_Convert Case" Style="{DynamicResource DarkModeStyleMenuItem}">
@@ -104,23 +103,22 @@
             </Menu>
 
 
-            <StatusBar DockPanel.Dock="Bottom" Background="#1F1F1F" >
+            <StatusBar DockPanel.Dock="Bottom" Style="{DynamicResource DarkModeStyleStatusBar}" >
                 <Label  x:Name="LineCharacterPosition" Content="Line: 0 Column: 0" Foreground="White"/>
             </StatusBar>
 
             <avalonEdit:TextEditor
                 x:Name="textEditor"
                 xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
-    ShowLineNumbers="True"
+                ShowLineNumbers="True"
                 Background="#2f2f2f"
                 Foreground="White"
-    FontFamily="Consolas"
-    SyntaxHighlighting="XML"
-    FontSize="10pt"
+                FontFamily="Consolas"
+                SyntaxHighlighting="XML"
+                FontSize="10pt"
                 PreviewMouseUp="textEditor_PreviewMouseDoubleClick"
                 PreviewKeyDown="textEditor_TextChanged"
-                PreviewMouseDoubleClick="textEditor_PreviewMouseDoubleClick"
-                        />
+                PreviewMouseDoubleClick="textEditor_PreviewMouseDoubleClick"/>
         </DockPanel>
     </Grid>
 </Window>
