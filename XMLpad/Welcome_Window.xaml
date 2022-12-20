@@ -11,12 +11,12 @@
         ResizeMode="NoResize"
         Title="Welcome_Window" Height="450" Width="420">
     <Grid>
-        <Canvas x:Name="welcomeScreenControlsCanvas" Visibility="Hidden">
-            <Button Name="CloseButton" Content="X" Canvas.Right="0" BorderThickness="0" Background="White" Width="20" FontWeight="Bold" Click="CloseButton_Click" />
-            <Label x:Name="nameLabel" Content="XMLPad" Canvas.Top="20" Canvas.Left="140" Foreground="Black" FontSize="25" Width="140" HorizontalContentAlignment="Center"/>
-            <Label x:Name="openReacentLabel" Content="Open Recent           Or" Canvas.Top="90" Canvas.Left="20" Foreground="Black" FontSize="20"/>
-            <ListBox x:Name="recentFilesListBox" Canvas.Top="150" Canvas.Left="20" Foreground="Black" FontSize="15" Width="380" Height="275" BorderThickness="0" />
-            <Button x:Name="createNewButon" Content="Create New" Canvas.Left="300" Canvas.Top="90" Cursor="Hand" Width="100" Height="40" BorderThickness="0" Background="Black" Foreground="White" Click="createNewButon_Click">
+        <Canvas x:Name="welcomeScreenControlsCanvas" Visibility="Hidden" Background="#1F1F1F">
+            <Button Name="CloseButton" Content="X" Canvas.Right="0" BorderThickness="0" Width="20" FontWeight="Bold" Click="CloseButton_Click" Foreground="White" Background="#1F1F1F" Cursor="Hand" MouseEnter="CloseButton_MouseEnter"/>
+            <Label x:Name="nameLabel" Content="XMLPad" Canvas.Top="20" Canvas.Left="140" Foreground="White" FontSize="25" Width="140" HorizontalContentAlignment="Center"/>
+            <Label x:Name="openReacentLabel" Content="Open Recent           Or" Canvas.Top="90" Canvas.Left="20" Foreground="White" FontSize="20"/>
+            <ListBox  Background="#1F1F1F" Foreground="White" x:Name="recentFilesListBox" Canvas.Top="150" Canvas.Left="20" FontSize="15" Width="380" Height="275" BorderThickness="0" />
+            <Button x:Name="createNewButon" Background="#1F1F1F" Content="Create New" Canvas.Left="300" Canvas.Top="90" Cursor="Hand" Width="100" Height="40" BorderThickness="0" Foreground="White" Click="createNewButon_Click">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="5"/>

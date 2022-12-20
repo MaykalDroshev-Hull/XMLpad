@@ -28,7 +28,7 @@ namespace XMLpad
         /// <summary>
         /// The timer
         /// </summary>
-        DispatcherTimer timer = new DispatcherTimer();
+        readonly DispatcherTimer timer = new DispatcherTimer();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Welcome_Window"/> class.
@@ -124,7 +124,16 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void createNewButon_Click(object sender, RoutedEventArgs e)
         {
+            SetFileNameDialog setFileNameDialog = new SetFileNameDialog();
+            setFileNameDialog.ShowDialog();
+        }
 
+        private void CloseButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            string hex = "#FFFFFF";
+            System.Drawing.Color _color = System.Drawing.ColorTranslator.FromHtml(hex);
+            System.Windows.Media.Color newColor = System.Windows.Media.Color.FromArgb(_color.A, _color.R, _color.G, _color.B);
+            CloseButton.Background = new SolidColorBrush(newColor);
         }
     }
 }

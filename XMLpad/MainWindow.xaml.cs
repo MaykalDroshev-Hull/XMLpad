@@ -41,11 +41,11 @@ namespace XMLpad
         {
             Welcome_Window welcome_Window = new Welcome_Window();
             if (welcome_Window.ShowDialog() == false)
-                Close();
-
-            InitializeComponent();
-            GenerateInitializationText();
-            textEditor.Focus();
+            {
+                InitializeComponent();
+                GenerateInitializationText();
+                textEditor.Focus();
+            }
         }
 
         /// <summary>
@@ -243,6 +243,7 @@ namespace XMLpad
             try
             {
                 fileStream = new FileStream("C:/temp/tempfile.txt", FileMode.Truncate, FileAccess.Write);
+
             }catch(FileNotFoundException)
             {
                 fileStream = new FileStream("C:/temp/tempfile.txt", FileMode.Create, FileAccess.Write);

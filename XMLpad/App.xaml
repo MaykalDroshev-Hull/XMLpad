@@ -1,9 +1,33 @@
 ﻿<Application x:Class="XMLpad.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:XMLpad"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="DarkModeStyleWindow" TargetType="{x:Type Window}">
+            <Setter Property="Background" Value="#1F1F1F" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style x:Key="DarkModeStyleButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#1F1F1F" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style x:Key="DarkModeStyleMenu" TargetType="{x:Type Menu}">
+            <Setter Property="Background" Value="#1F1F1F" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style x:Key="DarkModeStyleMenuItem" TargetType="{x:Type MenuItem}">
+            <Setter Property="Background" Value="#1F1F1F" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property ="BorderThickness" Value="0"/>
+        </Style>
+        <Style x:Key="DarkModeStyleStatusBar" TargetType="{x:Type StatusBar}">
+            <Setter Property="Background" Value="#1F1F1F" />
+            <Setter Property="Foreground" Value="White" />
+        </Style> 
+        <Style x:Key="DarkModeStyleSeparator" TargetType="{x:Type Separator}">
+            <Setter Property="Background" Value="#1F1F1F" />
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
     </Application.Resources>
 </Application>

@@ -16,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Assets\noun-cross-1776298.png" />
+    <None Remove="Assets\noun-plus-1807535.png" />
     <None Remove="Assets\XMLpad-logos.jpeg" />
   </ItemGroup>
 
@@ -33,6 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\noun-cross-1776298.png" />
+    <Resource Include="Assets\noun-plus-1807535.png" />
     <Resource Include="Assets\XMLpad-logos.jpeg" />
     <Resource Include="Assets\XMLpad-logos_transparent.png" />
   </ItemGroup>
