@@ -24,82 +24,84 @@
                     <MenuItem Header="_Exit" InputGestureText="Ctrl+F4" Click="MainMenu_File_Exit" Style="{DynamicResource DarkModeStyleMenuItem}"/>
                 </MenuItem>
                 <MenuItem Header="Edit" Style="{DynamicResource DarkModeStyleMenuItem}">
-                    <MenuItem Header="_Undo" InputGestureText="Ctrl+Z" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Undo"/>
-                    <MenuItem Header="_Redo" InputGestureText="Ctrl+Y" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Redo"/>
-                    <MenuItem Header="_Cut" InputGestureText="Ctrl+X" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Cut" />
-                    <MenuItem Header="_Copy" InputGestureText="Ctrl+C" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Copy"/>
-                    <MenuItem Header="_Duplicate Line" InputGestureText="Ctrl+D" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_DuplicateLine"/>
-                    <MenuItem Header="_Paste" InputGestureText="Ctrl+V" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Paste"/>
-                    <MenuItem Header="_Delete" InputGestureText="DEL" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Delete"/>
-                    <MenuItem Header="_Select All" InputGestureText="Ctrl+A" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_SelectAll"/>
+                    <MenuItem Header="_Undo" InputGestureText="Ctrl+Z" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Undo"/>
+                    <MenuItem Header="_Redo" InputGestureText="Ctrl+Y" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Redo"/>
+                    <MenuItem Header="_Cut" InputGestureText="Ctrl+X" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Cut" />
+                    <MenuItem Header="_Copy" InputGestureText="Ctrl+C" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Copy"/>
+                    <MenuItem Header="_Duplicate Line" InputGestureText="Ctrl+D" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_DuplicateLine"/>
+                    <MenuItem Header="_Paste" InputGestureText="Ctrl+V" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Paste"/>
+                    <MenuItem Header="_Delete" InputGestureText="DEL" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Delete"/>
+                    <MenuItem Header="_Select All" InputGestureText="Ctrl+A" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_SelectAll"/>
                     <Separator Style="{DynamicResource DarkModeStyleSeparator}"/>
                     <MenuItem Header="_Insert" Style="{DynamicResource DarkModeStyleMenuItem}">
-                        <MenuItem Header="_Date Time (Short)" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Insert_DateTimeShort"/>
-                        <MenuItem Header="_Date Time (Long)" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Insert_DateTimeLong"/>
-                        <MenuItem Header="_Date Time (Customised)" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Insert_DateTimeCustomized"/>
+                        <MenuItem Header="_Date Time (Short)" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Insert_DateTimeShort"/>
+                        <MenuItem Header="_Date Time (Long)" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Insert_DateTimeLong"/>
+                        <MenuItem Header="_Date Time (Customised)" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Insert_DateTimeCustomized"/>
                         <Separator Style="{DynamicResource DarkModeStyleSeparator}"/>
-                        <MenuItem Header="_Customise Date Time" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MenuItem_Insert_CustomizeFormat"/>
+                        <MenuItem Header="_Customise Date Time" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Insert_CustomizeFormat"/>
                     </MenuItem>
                     <MenuItem Header="_Copy" Style="{DynamicResource DarkModeStyleMenuItem}">
-                        <MenuItem Header="_Copy Current File Path" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Copy Current File Name" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                        <MenuItem Header="_Copy Current File Path" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Copy_CurrentFilePath"/>
+                        <MenuItem Header="_Copy Current File Name" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Copy_CurrentFileName"/>
                     </MenuItem>
 
                     <MenuItem Header="_Indent" Style="{DynamicResource DarkModeStyleMenuItem}">
                         <MenuItem Header="_Increase Indent (+)" InputGestureText="Ctrl+M" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_IncreaseIndent"/>
-                        <MenuItem Header="_Decrease Indent (-)" InputGestureText="Ctrl+Shift+M" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                        <MenuItem Header="_Decrease Indent (-)" InputGestureText="Ctrl+Shift+M" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_DecreaseIndent"/>
                     </MenuItem>
                     <MenuItem Header="_Convert Case" Style="{DynamicResource DarkModeStyleMenuItem}">
-                        <MenuItem Header="_All Uppercase" InputGestureText="Ctrl+Shift+U" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_All Lowercase" InputGestureText="Ctrl+U" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Invert Case" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Random Case" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                        <MenuItem Header="_All Uppercase" InputGestureText="Ctrl+Shift+U" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_ConvertCase_AllUppercase"/>
+                        <MenuItem Header="_All Lowercase" InputGestureText="Ctrl+U" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_ConvertCase_AllLowercase"/>
+                        <MenuItem Header="_Invert Case" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_ConvertCase_InvertCase"/>
+                        <MenuItem Header="_Random Case" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_ConvertCase_RandomCase"/>
                     </MenuItem>
                     <MenuItem Header="_Line Operations" Style="{DynamicResource DarkModeStyleMenuItem}">
-                        <MenuItem Header="_Duplicate Line" InputGestureText="Ctrl+D" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Remove Duplicate Lines" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Remove Consecutive Duplicate Lines" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Move Up The Current Line" InputGestureText="Ctrl+Shift+Up" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Move Down The Current Line" InputGestureText="Ctrl+Shift+Down" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Remove Empty Lines" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Insert Blank Line Above Current" InputGestureText="Ctrl+Alt+Enter" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Insert Blank Line Below Current" InputGestureText="Ctrl+Alt+Shift+Enter" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                        <MenuItem Header="_Duplicate Line" InputGestureText="Ctrl+D" Style="{DynamicResource DarkModeStyleMenuItem}"  Click="MainMenu_LineOperations_DuplicateLine"/>
+                        <MenuItem Header="_Remove Duplicate Lines" Style="{DynamicResource DarkModeStyleMenuItem}"  Click="MainMenu_LineOperations_RemoveDuplicateLines"/>
+                        <MenuItem Header="_Remove Consecutive Duplicate Lines" Style="{DynamicResource DarkModeStyleMenuItem}"  Click="MainMenu_LineOperations_RemoveConsecutiveDuplicateLines"/>
+                        <MenuItem Header="_Move Up The Current Line" InputGestureText="Ctrl+Shift+Up" Style="{DynamicResource DarkModeStyleMenuItem}"  Click="MainMenu_LineOperations_MoveUpCurrentLine"/>
+                        <MenuItem Header="_Move Down The Current Line" InputGestureText="Ctrl+Shift+Down" Style="{DynamicResource DarkModeStyleMenuItem}"  Click="MainMenu_LineOperations_MoveDownCurrentLine"/>
+                        <MenuItem Header="_Remove Empty Lines" Style="{DynamicResource DarkModeStyleMenuItem}"  Click="MainMenu_LineOperations_RemoveEmptyLines"/>
+                        <MenuItem Header="_Insert Blank Line Above Current" InputGestureText="Ctrl+Alt+Enter" Style="{DynamicResource DarkModeStyleMenuItem}"  Click="MainMenu_LineOperations_InsertBlankLineAboveCurrent"/>
+                        <MenuItem Header="_Insert Blank Line Below Current" InputGestureText="Ctrl+Alt+Shift+Enter" Style="{DynamicResource DarkModeStyleMenuItem}"  Click="MainMenu_LineOperations_InsertBlankLineBelowCurrent"/>
+
+                        <MenuItem Header="_Comment/Uncomment" Style="{DynamicResource DarkModeStyleMenuItem}">
+                            <MenuItem Header="_Comment" InputGestureText="Ctrl+K+C" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Comment"/>
+                            <MenuItem Header="_Uncomment" InputGestureText="Ctrl+K+Y" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Uncomment"/>
+                        </MenuItem>
+                        <MenuItem Header="_Blank Operations" Style="{DynamicResource DarkModeStyleMenuItem}">
+                            <MenuItem Header="_Trim Trailing Space" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Edit_BlankOperations_TrimTrailingSpace"/>
+                            <MenuItem Header="_Trim Leading Space" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Edit_BlankOperations_TrimLeadingSpace"/>
+                            <MenuItem Header="_Trim Trailing And Leading Space" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Edit_BlankOperations_TrimTrailingAndLeadingSpace"/>
+                            <MenuItem Header="_TAB To Space" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Edit_BlankOperations_TabToSpace"/>
+                            <MenuItem Header="_Space To TAB(Leading)" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Edit_BlankOperations_SpaceToTabLeading"/>
+                            <MenuItem Header="_Space To TAB(Trailing)" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Edit_BlankOperations_SpaceToTabTrailing"/>
+                            <MenuItem Header="_Space To TAB(All)" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Edit_BlankOperations_SpaceToTabAll"/>
+                        </MenuItem>
+                        <MenuItem Header="_Set As Read-Only" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Edit_SetAsReadOnly"/>
                     </MenuItem>
-                    <MenuItem Header="_Comment/Uncomment" Style="{DynamicResource DarkModeStyleMenuItem}">
-                        <MenuItem Header="_Comment" InputGestureText="Ctrl+K+C" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Uncomment" InputGestureText="Ctrl+K+Y" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                    </MenuItem>
-                    <MenuItem Header="_Blank Operations" Style="{DynamicResource DarkModeStyleMenuItem}">
-                        <MenuItem Header="_Trim Trailing Space" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Trim Leading Space" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Trim Trailing And Leading Space" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_TAB To Space" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Space To TAB(Leading)" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Space To TAB(Trailing)" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Space To TAB(All)" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                    </MenuItem>
-                    <MenuItem Header="_Set As Read-Only" Style="{DynamicResource DarkModeStyleMenuItem}"/>
                 </MenuItem>
                 <MenuItem Header="_View" Style="{DynamicResource DarkModeStyleMenuItem}">
-                    <MenuItem Header="_Toggle Full Screen Mode" InputGestureText="F11" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                    <MenuItem x:Name="MenuItem_FullScreen"  Header="_Toggle Full Screen Mode" InputGestureText="F11" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_View_ToggleFullScreen"/>
                     <MenuItem Header="_Show Symbol" Style="{DynamicResource DarkModeStyleMenuItem}">
-                        <MenuItem Header="_Show spaces and Tabs" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Show new lines" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Show all characters" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                        <MenuItem Header="_Show spaces and Tabs" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_View_ShowSymbol_ShowSpacesAndTabs"/>
+                        <MenuItem Header="_Show new lines" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_View_ShowSymbol_ShowNewLines"/>
+                        <MenuItem Header="_Show all characters" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_View_ShowSymbol_ShowAllCharacters"/>
                     </MenuItem>
                     <MenuItem Header="_Zoom" Style="{DynamicResource DarkModeStyleMenuItem}">
-                        <MenuItem Header="_Zoom in" InputGestureText="Ctrl+Num+" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Zoom out" InputGestureText="Ctrl+Num-" Style="{DynamicResource DarkModeStyleMenuItem}"/>
-                        <MenuItem Header="_Restore default zoom" InputGestureText="Ctrl+Num/" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                        <MenuItem Header="_Zoom in" InputGestureText="Ctrl+Num+" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_View_ZoomIn"/>
+                        <MenuItem Header="_Zoom out" InputGestureText="Ctrl+Num-" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_View_ZoomOut"/>
+                        <MenuItem Header="_Restore default zoom" InputGestureText="Ctrl+Num/" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_View_ZoomDefault"/>
                     </MenuItem>
                 </MenuItem>
 
                 <MenuItem Header="Settings" Style="{DynamicResource DarkModeStyleMenuItem}">
-                    <MenuItem Header="Environment Preferences" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                    <MenuItem Header="Environment Preferences" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Settings_EnvironmentPreferences"/>
                 </MenuItem>
                 <MenuItem Header="Help" Style="{DynamicResource DarkModeStyleMenuItem}">
-                    <MenuItem Header="View Manual" Style="{DynamicResource DarkModeStyleMenuItem}"/>
+                    <MenuItem Header="View Manual" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Help_ViewManual"/>
                 </MenuItem>
+
             </Menu>
 
 
