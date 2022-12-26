@@ -8,9 +8,16 @@
         Closing="Window_Closing"
         Style="{DynamicResource DarkModeStyleWindow}"
         Title="XMLpad" Icon="Assets/XMLpad-logos_transparent.png" Height="900" Width="1600">
+    <Window.Resources>
+        <ControlTemplate x:Key="MenuTemplate1" TargetType="{x:Type Menu}">
+            <Border x:Name="SubMenuBorder" Background="{StaticResource Menu.Static.Background}" BorderThickness="0" BorderBrush="{StaticResource Menu.Static.Border}" Padding="2">
+                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+            </Border>
+        </ControlTemplate>
+    </Window.Resources>
     <Grid>
         <DockPanel>
-            <Menu DockPanel.Dock="Top" Style="{DynamicResource DarkModeStyleMenu}">
+            <Menu Template="{DynamicResource MenuTemplate1}" DockPanel.Dock="Top" Style="{DynamicResource DarkModeStyleMenu}">
                 <MenuItem Header="_File" Background="#1F1F1F" Foreground="White">
                     <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MainMenu_File_NewFile" Style="{DynamicResource DarkModeStyleMenuItem}"/>
                     <MenuItem Header="_Clear" Click="MainMenu_File_Clear" Style="{DynamicResource DarkModeStyleMenuItem}"/>
@@ -120,7 +127,9 @@
                 FontSize="10pt"
                 PreviewMouseUp="textEditor_PreviewMouseDoubleClick"
                 PreviewKeyDown="textEditor_TextChanged"
-                PreviewMouseDoubleClick="textEditor_PreviewMouseDoubleClick"/>
+                PreviewMouseDoubleClick="textEditor_PreviewMouseDoubleClick"
+                ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
         </DockPanel>
     </Grid>
 </Window>
