@@ -21,6 +21,8 @@ using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using System.IO;
 using System.Diagnostics;
 using System.Windows.Automation;
+using ICSharpCode.AvalonEdit.Document;
+using System.Windows.Annotations;
 
 namespace XMLpad
 {
@@ -34,6 +36,7 @@ namespace XMLpad
         Microsoft.Win32.OpenFileDialog mDlgOpen = new Microsoft.Win32.OpenFileDialog();
         Microsoft.Win32.SaveFileDialog mDlgSave = new Microsoft.Win32.SaveFileDialog();
         PrintDialog mDlgPrint;
+        CurrentFile mCurrentFile;
 
 
         /// <summary>
@@ -57,12 +60,24 @@ namespace XMLpad
         {
             try
             {
-                FileStream fileStream = new FileStream("C:/temp/tempfile.txt", FileMode.Open, FileAccess.Read);
-                StreamReader reader = new StreamReader(fileStream);
-                textEditor.Text = reader.ReadToEnd();
-                reader.Close();
+                mCurrentFile = CurrentFile.getInstance();
+                if (mCurrentFile.FileName == null)
+                {
+                    FileStream fileStream = new FileStream("C:/temp/tempfile.txt", FileMode.Open, FileAccess.Read);
+                    StreamReader reader = new StreamReader(fileStream);
+                    textEditor.Text = reader.ReadToEnd();
+                    reader.Close();
+                }
+                else
+                {
+                    FileStream fileStream = new FileStream(mCurrentFile.FilePath, FileMode.Open, FileAccess.Read);
+                    StreamReader reader = new StreamReader(fileStream);
+                    textEditor.Text = reader.ReadToEnd();
+                    reader.Close();
+                    UpdateTitle();
+                }
             }
-            catch (IOException)
+            catch (IOException e)
             {
                 textEditor.Text = "Open a file or start writing a new one";
             }
@@ -71,6 +86,11 @@ namespace XMLpad
             // TODO: check if a file is saved
             // Then load the file
             // Else create NewFile.xml and opn it here
+        }
+
+        private void UpdateTitle()
+        {
+            this.Title = mCurrentFile.FileName + " - XMLpad";
         }
 
         /// <summary>
@@ -112,7 +132,7 @@ namespace XMLpad
         /// <param name="text">The text.</param>
         private void SaveCurrentFile(/*mFilename*/ string text)
         {
-            StreamWriter writer = new StreamWriter(mFilename);
+            StreamWriter writer = new StreamWriter(mCurrentFile.FilePath);
             writer.Write(textEditor.Text);
             writer.Flush();
             writer.Close();
@@ -142,10 +162,13 @@ namespace XMLpad
             if (mDlgOpen.ShowDialog() == true)
             {
                 StreamReader reader = new StreamReader(mDlgOpen.FileName);
-                mFilename = mDlgOpen.FileName;
+                mFilename = mDlgOpen.SafeFileName;
                 textEditor.Text = reader.ReadToEnd();
                 reader.Close();
                 UpdateStatusBar(pAppend: true, "Read " + mDlgOpen.FileName);
+                mCurrentFile.FileName = mFilename;
+                mCurrentFile.FilePath = mDlgOpen.FileName;
+                UpdateTitle();
             }
         }
 
@@ -188,7 +211,7 @@ namespace XMLpad
         /// </summary>
         private void SaveFile()
         {
-            FileStream fileStream = new FileStream(mDlgSave.FileName, FileMode.Create, FileAccess.Write);
+            FileStream fileStream = new FileStream(mCurrentFile.FilePath, FileMode.Create, FileAccess.Write);
             StreamWriter writer = new StreamWriter(fileStream);
             writer.Write(textEditor.Text);
             writer.Flush();
@@ -331,15 +354,29 @@ namespace XMLpad
         #region ConvertCase
         private void MainMenu_ConvertCase_AllUppercase(object sender, RoutedEventArgs e)
         {
+            textEditor.SelectedText =  textEditor.SelectedText.ToUpper();
         }
         private void MainMenu_ConvertCase_AllLowercase(object sender, RoutedEventArgs e)
         {
+            textEditor.SelectedText = textEditor.SelectedText.ToLower();
         }
+
+        // https://stackoverflow.com/questions/3681552/reverse-case-of-all-alphabetic-characters-in-c-sharp-string
         private void MainMenu_ConvertCase_InvertCase(object sender, RoutedEventArgs e)
         {
+            textEditor.SelectedText = new string(
+                textEditor.SelectedText.Select(c => char.IsLetter(c) ? (char.IsUpper(c) ?
+                    char.ToLower(c) : char.ToUpper(c)) : c).ToArray());
         }
+        // https://stackoverflow.com/questions/43969153/converting-random-letters-within-a-string-to-upper-lower-case
         private void MainMenu_ConvertCase_RandomCase(object sender, RoutedEventArgs e)
         {
+            var randomizer = new Random();
+            var final =
+                textEditor.SelectedText.Select(x => randomizer.Next() % 2 == 0 ?
+                (char.IsUpper(x) ? x.ToString().ToLower().First() : x.ToString().ToUpper().First()) : x);
+            var randomUpperLower = new string(final.ToArray());
+            textEditor.SelectedText = randomUpperLower;
         }
         #endregion
         #region LineOperations

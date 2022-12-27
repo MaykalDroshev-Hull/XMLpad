@@ -58,10 +58,7 @@ namespace XMLpad
                 }
                 reader.Close();
             }
-            catch (IOException) {
-                recentFilesListBox.Items.Add("Create a new file");
-
-            }
+            catch (IOException) {}
         }
 
         /// <summary>
@@ -124,8 +121,38 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void createNewButon_Click(object sender, RoutedEventArgs e)
         {
-            SetFileNameDialog setFileNameDialog = new SetFileNameDialog();
-            setFileNameDialog.ShowDialog();
+            if (!fileNameTextBox.Text.EndsWith(".xml"))
+                fileNameTextBox.AppendText(".xml");
+
+            // Create the new file
+            FileStream fileStream = new FileStream($"C:/temp/{fileNameTextBox.Text}", FileMode.Create, FileAccess.Write);
+            StreamWriter writer = new StreamWriter(fileStream);
+            writer.Flush();
+            writer.Close();
+
+            // Add the file to the list of files
+            try
+            {
+                fileStream = new FileStream("C:/temp/XMLpadRecentFiles.txt", FileMode.Append, FileAccess.Write);
+
+            }
+            catch (FileNotFoundException)
+            {
+                fileStream = new FileStream("C:/temp/XMLpadRecentFiles.txt", FileMode.Create, FileAccess.Write);
+            }
+            writer = new StreamWriter(fileStream);
+            writer.Write($"\r\n{fileNameTextBox.Text}");
+            writer.Flush();
+            writer.Close();
+            SetFileName(fileNameTextBox.Text);
+            this.Close();
+        }
+
+        private void SetFileName(string pFileName)
+        {
+            CurrentFile currentFile = CurrentFile.getInstance();
+            currentFile.FileName = pFileName;
+            currentFile.FilePath = $"C:/temp/{pFileName}";
         }
 
         private void CloseButton_MouseEnter(object sender, MouseEventArgs e)
@@ -134,6 +161,16 @@ namespace XMLpad
             System.Drawing.Color _color = System.Drawing.ColorTranslator.FromHtml(hex);
             System.Windows.Media.Color newColor = System.Windows.Media.Color.FromArgb(_color.A, _color.R, _color.G, _color.B);
             CloseButton.Background = new SolidColorBrush(newColor);
+        }
+
+        private void recentFilesListBox_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            int index = recentFilesListBox.SelectedIndex;
+            if (index != System.Windows.Forms.ListBox.NoMatches)
+            {
+                SetFileName(recentFilesListBox.SelectedItem.ToString());
+                this.Close();
+            }
         }
     }
 }
