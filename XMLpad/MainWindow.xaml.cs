@@ -488,6 +488,8 @@ namespace XMLpad
         }
         private void MainMenu_Help_ViewManual(object sender, RoutedEventArgs e)
         {
+            ManualWindow manualWindow = new ManualWindow();
+            manualWindow.Show();
         }
         #endregion
     }

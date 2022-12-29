@@ -1,0 +1,134 @@
+﻿<Window x:Class="XMLpad.ManualWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XMLpad"
+        mc:Ignorable="d"
+        Title="ManualWindow" Height="450" Width="800" Style="{DynamicResource DarkModeStyleWindow}"
+        BorderBrush="White"
+        BorderThickness="1pt"
+        WindowStyle="None">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Button Name="CloseButton" Content="X" Canvas.Right="0" BorderThickness="0" Width="20" FontWeight="Bold" Click="CloseButton_Click" Foreground="White" Background="#1F1F1F" Cursor="Hand" MouseEnter="CloseButton_MouseEnter"/>
+        <Image Source="/Assets/XMLpad-logos_transparent.png" Grid.Column="0" Grid.Row="0"/>
+        <Label Grid.Column="1" Content="XMLPad v1.0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Grid.ColumnSpan="3" FontSize="27"/>
+        <Label Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.ColumnSpan="3" Margin="60,0" >
+            <Label.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="GitHub Repository:" Foreground="White"/>
+                    <TextBlock Margin="0,5,0,0">
+                        <Hyperlink NavigateUri="https://github.com/MaykalDroshev-Hull/XMLpad" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://github.com/MaykalDroshev-Hull/XMLpad
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </Label.Content>
+        </Label>
+        <TreeView Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="5" Margin="20,20,0,20" Background="#2F2F2F" Foreground="White">
+            <TreeViewItem Foreground="White" Header="MenuBarCommands" IsExpanded="True">
+                <TreeViewItem Foreground="White" Header="File Commands">
+                    <TreeViewItem Foreground="White" Header="New"/>
+                    <TreeViewItem Foreground="White" Header="Clear"/>
+                    <TreeViewItem Foreground="White" Header="Open"/>
+                    <TreeViewItem Foreground="White" Header="Save"/>
+                    <TreeViewItem Foreground="White" Header="Save As"/>
+                    <TreeViewItem Foreground="White" Header="Save A Copy As"/>
+                    <TreeViewItem Foreground="White" Header="Print"/>
+                    <TreeViewItem Foreground="White" Header="Exit"/>
+                </TreeViewItem>
+                <TreeViewItem Foreground="White" Header="Edit Commands">
+                    <TreeViewItem Foreground="White" Header="Undo"/>
+                    <TreeViewItem Foreground="White" Header="Redo"/>
+                    <TreeViewItem Foreground="White" Header="Cut"/>
+                    <TreeViewItem Foreground="White" Header="Copy"/>
+                    <TreeViewItem Foreground="White" Header="Duplicate Line"/>
+                    <TreeViewItem Foreground="White" Header="Paste"/>
+                    <TreeViewItem Foreground="White" Header="Delete"/>
+                    <TreeViewItem Foreground="White" Header="Select All"/>
+                    <TreeViewItem Foreground="White" Header="Insert">
+                        <TreeViewItem Foreground="White" Header="Date Time (Short)"/>
+                        <TreeViewItem Foreground="White" Header="Date Time (Long)"/>
+                        <TreeViewItem Foreground="White" Header="Date Time (Customised)"/>
+                        <TreeViewItem Foreground="White" Header="Customise Date Time"/>
+                    </TreeViewItem>
+                    <TreeViewItem Foreground="White" Header="Copy">
+                        <TreeViewItem Foreground="White" Header="Copy Current File Path"/>
+                        <TreeViewItem Foreground="White" Header="Copy Current File Name"/>
+                    </TreeViewItem>
+
+                    <TreeViewItem Foreground="White" Header="Indent">
+                        <TreeViewItem Foreground="White" Header="Increase Indent (+)" />
+                        <TreeViewItem Foreground="White" Header="Decrease Indent (-)" />
+                    </TreeViewItem>
+                    <TreeViewItem Foreground="White" Header="Convert Case">
+                        <TreeViewItem Foreground="White" Header="All Uppercase" />
+                        <TreeViewItem Foreground="White" Header="All Lowercase" />
+                        <TreeViewItem Foreground="White" Header="Invert Case"/>
+                        <TreeViewItem Foreground="White" Header="Random Case"/>
+                    </TreeViewItem>
+                    <TreeViewItem Foreground="White" Header="Line Operations">
+                        <TreeViewItem Foreground="White" Header="Duplicate Line" />
+                        <TreeViewItem Foreground="White" Header="Remove Duplicate Lines"/>
+                        <TreeViewItem Foreground="White" Header="Remove Consecutive Duplicate Lines"/>
+                        <TreeViewItem Foreground="White" Header="Move Up The Current Line" />
+                        <TreeViewItem Foreground="White" Header="Move Down The Current Line" />
+                        <TreeViewItem Foreground="White" Header="Remove Empty Lines"/>
+                        <TreeViewItem Foreground="White" Header="Insert Blank Line Above Current" />
+                        <TreeViewItem Foreground="White" Header="Insert Blank Line Below Current" />
+
+                        <TreeViewItem Foreground="White" Header="Comment/Uncomment">
+                            <TreeViewItem Foreground="White" Header="Comment" />
+                            <TreeViewItem Foreground="White" Header="Uncomment" />
+                        </TreeViewItem>
+                        <TreeViewItem Foreground="White" Header="Blank Operations">
+                            <TreeViewItem Foreground="White" Header="Trim Trailing Space"/>
+                            <TreeViewItem Foreground="White" Header="Trim Leading Space"/>
+                            <TreeViewItem Foreground="White" Header="Trim Trailing And Leading Space"/>
+                            <TreeViewItem Foreground="White" Header="TAB To Space"/>
+                            <TreeViewItem Foreground="White" Header="Space To TAB(Leading)"/>
+                            <TreeViewItem Foreground="White" Header="Space To TAB(Trailing)"/>
+                            <TreeViewItem Foreground="White" Header="Space To TAB(All)"/>
+                        </TreeViewItem>
+                        <TreeViewItem Foreground="White" Header="Set As Read-Only"/>
+                    </TreeViewItem>
+                </TreeViewItem>
+                <TreeViewItem Foreground="White" Header="View">
+                    <TreeViewItem x:Name="TreeViewItem_FullScreen"  Header="Toggle Full Screen Mode"/>
+                    <TreeViewItem Foreground="White" Header="Show Symbol">
+                        <TreeViewItem Foreground="White" Header="Show spaces and Tabs"/>
+                        <TreeViewItem Foreground="White" Header="Show new lines"/>
+                        <TreeViewItem Foreground="White" Header="Show all characters"/>
+                    </TreeViewItem>
+                    <TreeViewItem Foreground="White" Header="Zoom">
+                        <TreeViewItem Foreground="White" Header="Zoom in"/>
+                        <TreeViewItem Foreground="White" Header="Zoom out"/>
+                        <TreeViewItem Foreground="White" Header="Restore default zoom"/>
+                    </TreeViewItem>
+                </TreeViewItem>
+
+                <TreeViewItem Foreground="White" Header="Settings">
+                    <TreeViewItem Foreground="White" Header="Environment Preferences"/>
+                </TreeViewItem>
+                <TreeViewItem Foreground="White" Header="Help">
+                    <TreeViewItem Foreground="White" Header="View Manual"/>
+                </TreeViewItem>
+            </TreeViewItem>
+        </TreeView>
+    </Grid>
+</Window>
