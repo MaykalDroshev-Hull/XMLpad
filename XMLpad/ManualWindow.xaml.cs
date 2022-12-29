@@ -35,6 +35,14 @@ namespace XMLpad
         }
 
         /// <summary>
+        /// Handles the Click event of the CloseButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void CloseButton_Click(object sender, RoutedEventArgs e) => Close();
+
+
+        /// <summary>
         /// Invoked when an unhandled <see cref="E:System.Windows.UIElement.MouseLeftButtonDown" /> routed event is raised on this element. Implement this method to add class handling for this event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. The event data reports that the left mouse button was pressed.</param>
