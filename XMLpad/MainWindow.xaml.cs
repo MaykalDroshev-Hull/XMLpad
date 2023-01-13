@@ -37,7 +37,7 @@ namespace XMLpad
         Microsoft.Win32.SaveFileDialog mDlgSave = new Microsoft.Win32.SaveFileDialog();
         PrintDialog mDlgPrint;
         CurrentFile mCurrentFile;
-
+        private int mTabSpacesCount = 4; // TODO: Change to be dynamic
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -383,11 +383,60 @@ namespace XMLpad
         private void MainMenu_LineOperations_DuplicateLine(object sender, RoutedEventArgs e)
         {
         }
+        /// <summary>
+        /// Handles the RemoveDuplicateLines event of the MainMenu_LineOperations control.
+        /// This method first splits the input string into an array of lines using the
+        /// Environment.NewLine separator. It then uses a HashSet to keep track of unique
+        /// lines, and iterates through the array of lines. If a line is not already in the
+        /// HashSet, it is added, and appended to the result StringBuilder. The final result
+        /// is returned as a string.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_RemoveDuplicateLines(object sender, RoutedEventArgs e)
         {
+            var lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var uniqueLines = new HashSet<string>();
+            var result = new StringBuilder();
+
+            foreach (var line in lines)
+            {
+                if (uniqueLines.Add(line))
+                {
+                    result.AppendLine(line);
+                }
+            }
+
+            textEditor.Text = result.ToString();
         }
+        /// <summary>
+        /// Handles the RemoveConsecutiveDuplicateLines event of the MainMenu_LineOperations control.
+        /// This method first splits the input string into an array of strings, where each element in
+        /// the array represents a line of the input. Then, it iterates through the array of lines,
+        /// comparing each line with the previous line. If a line is different from the previous line,
+        /// it is added to the output string, otherwise it is skipped. Finally, it returns the output
+        /// string containing only the non-consecutive duplicate lines.
+        ///
+        /// It's important to note that this method does not compare lines case-sensitive.
+        /// If you want case-sensitive comparison, you can replace the equality operator
+        /// with string.Compare(line, previousLine) != 0
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_RemoveConsecutiveDuplicateLines(object sender, RoutedEventArgs e)
         {
+            var lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var output = new StringBuilder();
+            var previousLine = "";
+            foreach (var line in lines)
+            {
+                if (line != previousLine)
+                {
+                    output.AppendLine(line);
+                    previousLine = line;
+                }
+            }
+            textEditor.Text = output.ToString();
         }
         private void MainMenu_LineOperations_MoveUpCurrentLine(object sender, RoutedEventArgs e)
         {
@@ -397,6 +446,8 @@ namespace XMLpad
         }
         private void MainMenu_LineOperations_RemoveEmptyLines(object sender, RoutedEventArgs e)
         {
+            var nonEmptyLines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            textEditor.Text = string.Join(Environment.NewLine, nonEmptyLines);
         }
         private void MainMenu_LineOperations_InsertBlankLineAboveCurrent(object sender, RoutedEventArgs e)
         {
@@ -418,28 +469,78 @@ namespace XMLpad
         #region BlankOperations
         private void MainMenu_Edit_BlankOperations_TrimTrailingSpace(object sender, RoutedEventArgs e)
         {
+            var lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i] = lines[i].TrimEnd();
+            }
+            textEditor.Text = string.Join(Environment.NewLine, lines);
         }
         private void MainMenu_Edit_BlankOperations_TrimLeadingSpace(object sender, RoutedEventArgs e)
         {
+            textEditor.Text = string.Join("\n", textEditor.Text.Split('\n').Select(x => x.TrimStart()));
         }
         private void MainMenu_Edit_BlankOperations_TrimTrailingAndLeadingSpace(object sender, RoutedEventArgs e)
         {
+            MainMenu_Edit_BlankOperations_TrimLeadingSpace(sender, e);
+            MainMenu_Edit_BlankOperations_TrimTrailingSpace(sender, e);
         }
         private void MainMenu_Edit_BlankOperations_TabToSpace(object sender, RoutedEventArgs e)
         {
+            textEditor.Text.Replace("\t", new string(' ', mTabSpacesCount));
         }
         private void MainMenu_Edit_BlankOperations_SpaceToTabLeading(object sender, RoutedEventArgs e)
         {
+            StringBuilder result = new StringBuilder();
+            int spaces = 0;
+            foreach (char c in textEditor.Text)
+            {
+                if (c == ' ')
+                {
+                    spaces++;
+                    if (spaces == mTabSpacesCount)
+                    {
+                        result.Append("\t");
+                        spaces = 0;
+                    }
+                }
+                else
+                {
+                    if (spaces > 0)
+                    {
+                        result.Append(new string(' ', spaces));
+                        spaces = 0;
+                    }
+                    result.Append(c);
+                }
+            }
+            textEditor.Text = result.ToString();
         }
         private void MainMenu_Edit_BlankOperations_SpaceToTabTrailing(object sender, RoutedEventArgs e)
         {
+            var lines = textEditor.Text.Split('\n');
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var line = lines[i];
+                int spacesCount = line.Length - line.TrimEnd().Length;
+                int tabCount = spacesCount / mTabSpacesCount;
+                lines[i] = line.TrimEnd() + new string('\t', tabCount);
+            }
+            textEditor.Text = string.Join("\n", lines);
         }
         private void MainMenu_Edit_BlankOperations_SpaceToTabAll(object sender, RoutedEventArgs e)
         {
+            var lines = textEditor.Text.Split('\n');
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i] = lines[i].Replace(new string(' ',mTabSpacesCount), "\t");
+            }
+            textEditor.Text = string.Join("\n", lines);
         }
         #endregion
         private void MainMenu_Edit_SetAsReadOnly(object sender, RoutedEventArgs e)
         {
+            textEditor.IsReadOnly = !textEditor.IsReadOnly;
         }
 
         #region View
@@ -462,6 +563,7 @@ namespace XMLpad
             #region ShowSymbols
         private void MainMenu_View_ShowSymbol_ShowSpacesAndTabs(object sender, RoutedEventArgs e)
         {
+            
         }
         private void MainMenu_View_ShowSymbol_ShowNewLines(object sender, RoutedEventArgs e)
         {
