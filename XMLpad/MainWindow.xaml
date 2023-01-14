@@ -9,7 +9,6 @@
         Style="{DynamicResource DarkModeStyleWindow}"
         Title="XMLpad" Icon="Assets/XMLpad-logos_transparent.png" Height="900" Width="1600">
     <Window.Resources>
-        <local:DuplicateCommand x:Key="DuplicateCommand"/>
         <ControlTemplate x:Key="MenuTemplate1" TargetType="{x:Type Menu}">
             <Border x:Name="SubMenuBorder" Background="{StaticResource Menu.Static.Background}" BorderThickness="0" BorderBrush="{StaticResource Menu.Static.Border}" Padding="2">
                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
@@ -27,10 +26,12 @@
         <CommandBinding Command="ApplicationCommands.Redo" Executed="MainMenu_Redo"/>
         <CommandBinding Command="ApplicationCommands.Cut" Executed="MainMenu_Cut"/>
         <CommandBinding Command="ApplicationCommands.Copy" Executed="MainMenu_Copy"/>
-        <CommandBinding Command="ApplicationCommands.DuplicateLine" Executed="MainMenu_DuplicateLine"/>
+       <!--<CommandBinding Command="ApplicationCommands.DuplicateLine" Executed="MainMenu_DuplicateLine"/>--> 
         <CommandBinding Command="ApplicationCommands.Paste" Executed="MainMenu_Paste"/>
         <CommandBinding Command="ApplicationCommands.Delete" Executed="MainMenu_Delete"/>
         <CommandBinding Command="ApplicationCommands.SelectAll" Executed="MainMenu_SelectAll"/>
+        <!--<CommandBinding Command="ApplicationCommands.IncreaseIndent" Executed="MainMenu_IncreaseIndent"/>
+        <CommandBinding Command="ApplicationCommands.DecreaseIndent" Executed="MainMenu_DecreaseIndent"/>-->
     </Window.CommandBindings>
     <Grid>
         <DockPanel>
@@ -150,12 +151,40 @@
                     </MenuItem>
 
                     <MenuItem Header="_Indent" Style="{DynamicResource DarkModeStyleMenuItem}">
-                        <MenuItem Header="_Increase Indent (+)" InputGestureText="Ctrl+M" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_IncreaseIndent"/>
-                        <MenuItem Header="_Decrease Indent (-)" InputGestureText="Ctrl+Shift+M" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_DecreaseIndent"/>
+                        <MenuItem Header="_Increase Indent (+)">
+                            <MenuItem.InputBindings>
+                                <!--<KeyBinding Key="M" Modifiers="Ctrl" Command="ApplicationCommands.IncreaseIndent"/>-->
+                            </MenuItem.InputBindings>
+                            <MenuItem.Style>
+                                <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                            </MenuItem.Style>
                     </MenuItem>
+                    <MenuItem Header="_Decrease Indent (-)">
+                        <MenuItem.InputBindings>
+                            <!--<KeyBinding Key="M" Modifiers="Ctrl+Shift" Command="ApplicationCommands.DecreaseIndent"/>-->
+                        </MenuItem.InputBindings>
+                            <MenuItem.Style>
+                                <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                            </MenuItem.Style>
+                        </MenuItem>
+                </MenuItem>
                     <MenuItem Header="_Convert Case" Style="{DynamicResource DarkModeStyleMenuItem}">
-                        <MenuItem Header="_All Uppercase" InputGestureText="Ctrl+Shift+U" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_ConvertCase_AllUppercase"/>
-                        <MenuItem Header="_All Lowercase" InputGestureText="Ctrl+U" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_ConvertCase_AllLowercase"/>
+                        <MenuItem Header="_All Uppercase" Click="MainMenu_ConvertCase_AllUppercase">
+                            <MenuItem.InputBindings>
+                                <KeyBinding Key="U" Modifiers="Ctrl+Shift"/>
+                            </MenuItem.InputBindings>
+                            <MenuItem.Style>
+                                <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                            </MenuItem.Style>
+                        </MenuItem>
+                        <MenuItem Header="_All Lowercase" Click="MainMenu_ConvertCase_AllLowercase">
+                            <MenuItem.InputBindings>
+                                <KeyBinding Key="U" Modifiers="Ctrl"/>
+                            </MenuItem.InputBindings>
+                            <MenuItem.Style>
+                                <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                            </MenuItem.Style>
+                        </MenuItem>
                         <MenuItem Header="_Invert Case" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_ConvertCase_InvertCase"/>
                         <MenuItem Header="_Random Case" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_ConvertCase_RandomCase"/>
                     </MenuItem>

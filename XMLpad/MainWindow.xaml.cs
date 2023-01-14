@@ -23,13 +23,21 @@ using System.Diagnostics;
 using System.Windows.Automation;
 using ICSharpCode.AvalonEdit.Document;
 using System.Windows.Annotations;
+using Microsoft.VisualBasic.ApplicationServices;
+using ScintillaNET;
+using static ScintillaNET.Style;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.LinkLabel;
+using System.Reflection.Metadata;
 
 namespace XMLpad
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         private string mFilename;
         private static bool isFullScreen = false;
@@ -37,8 +45,16 @@ namespace XMLpad
         Microsoft.Win32.SaveFileDialog mDlgSave = new Microsoft.Win32.SaveFileDialog();
         PrintDialog mDlgPrint;
         CurrentFile mCurrentFile;
-        private int mTabSpacesCount = 4; // TODO: Change to be dynamic
+        private static int mTabSpacesCount = 4; // TODO: Change to be dynamic
+        private enum tabSelection
+        {
+            Tabs,
+            Spaces
+        };
 
+        private static tabSelection currentTabSelection = tabSelection.Tabs;
+
+        private string tabCharacters = currentTabSelection == tabSelection.Spaces ? new string(' ', mTabSpacesCount) : "\t";
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
@@ -77,7 +93,7 @@ namespace XMLpad
                     UpdateTitle();
                 }
             }
-            catch (IOException e)
+            catch (IOException)
             {
                 textEditor.Text = "Open a file or start writing a new one";
             }
@@ -90,7 +106,7 @@ namespace XMLpad
 
         private void UpdateTitle()
         {
-            this.Title = mCurrentFile.FileName + " - XMLpad";
+            Title = mCurrentFile.FileName + " - XMLpad";
         }
 
         /// <summary>
@@ -311,7 +327,7 @@ namespace XMLpad
 
         private void MainMenu_DuplicateLine(object sender, RoutedEventArgs e)
         {
-            //textEditor.DuplicateLine();//TODO Copy the files and make them editable
+            MainMenu_LineOperations_DuplicateLine(sender, e);
         }
 
         private void MainMenu_Paste(object sender, RoutedEventArgs e) => textEditor.Paste();
@@ -336,9 +352,24 @@ namespace XMLpad
         {
             // Todo: Create a window for customizing date time format
         }
+
+        private IEnumerable<string> GetSelectedLines()
+        {
+            string selectedText = textEditor.SelectedText;
+            return selectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        }
+
+        /// <summary>
+        /// Handles the IncreaseIndent event of the MainMenu control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_IncreaseIndent(object sender, RoutedEventArgs e)
         {
-            //todo find the string between the cursor and the previous carriage return \r\n and insert  tab or 4 spacesdepending on prefernece
+            // TODO: Test
+            var selectedText = textEditor.SelectedText;
+            var indentedText = selectedText.Replace("\n", "\n" + tabCharacters);
+            textEditor.Text.Replace(textEditor.SelectedText, indentedText);
         }
 
         private void MainMenu_Copy_CurrentFilePath(object sender, RoutedEventArgs e)
@@ -347,21 +378,46 @@ namespace XMLpad
         private void MainMenu_Copy_CurrentFileName(object sender, RoutedEventArgs e)
         {
         }
+        /// <summary>
+        /// Handles the DecreaseIndent event of the MainMenu control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_DecreaseIndent(object sender, RoutedEventArgs e)
         {
+            var selectedText = textEditor.SelectedText;
+            var indentedText = selectedText.Replace("\n" + tabCharacters, "\n");
+            textEditor.Text.Replace(textEditor.SelectedText, indentedText);
         }
 
         #region ConvertCase
+
+        /// <summary>
+        /// Handles the AllUppercase event of the MainMenu_ConvertCase control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_ConvertCase_AllUppercase(object sender, RoutedEventArgs e)
         {
-            textEditor.SelectedText =  textEditor.SelectedText.ToUpper();
+            textEditor.SelectedText = textEditor.SelectedText.ToUpper();
         }
+
+        /// <summary>
+        /// Handles the AllLowercase event of the MainMenu_ConvertCase control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_ConvertCase_AllLowercase(object sender, RoutedEventArgs e)
         {
             textEditor.SelectedText = textEditor.SelectedText.ToLower();
         }
 
         // https://stackoverflow.com/questions/3681552/reverse-case-of-all-alphabetic-characters-in-c-sharp-string
+        /// <summary>
+        /// Handles the InvertCase event of the MainMenu_ConvertCase control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_ConvertCase_InvertCase(object sender, RoutedEventArgs e)
         {
             textEditor.SelectedText = new string(
@@ -369,20 +425,44 @@ namespace XMLpad
                     char.ToLower(c) : char.ToUpper(c)) : c).ToArray());
         }
         // https://stackoverflow.com/questions/43969153/converting-random-letters-within-a-string-to-upper-lower-case
+        /// <summary>
+        /// Handles the RandomCase event of the MainMenu_ConvertCase control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_ConvertCase_RandomCase(object sender, RoutedEventArgs e)
         {
-            var randomizer = new Random();
-            var final =
+            Random randomizer = new Random();
+            IEnumerable<char> final =
                 textEditor.SelectedText.Select(x => randomizer.Next() % 2 == 0 ?
                 (char.IsUpper(x) ? x.ToString().ToLower().First() : x.ToString().ToUpper().First()) : x);
-            var randomUpperLower = new string(final.ToArray());
+            string randomUpperLower = new string(final.ToArray());
             textEditor.SelectedText = randomUpperLower;
         }
         #endregion
         #region LineOperations
+
+        /// <summary>
+        /// Handles the DuplicateLine event of the MainMenu_LineOperations control.
+        /// This method gets the current line by using the GetLineByOffset method of the Document class and passing the CaretOffset
+        /// property of the TextEditor.
+        /// Then it gets the text of the line using the GetText method of the Document class and passing the currentLine object.
+        /// It also get the line number of the current line.
+        /// Then it insert the text of the line at the end of the current line using the Insert method of the Document class,
+        /// passing the insertionOffset which is the end offset of the current line and the lineText + newline.
+        /// Finally, it sets the Caret offset to the insertion offset
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_DuplicateLine(object sender, RoutedEventArgs e)
         {
+            var currentLine = textEditor.Document.GetLineByOffset(textEditor.CaretOffset);
+            var lineText = textEditor.Document.GetText(currentLine);
+            var insertionOffset = currentLine.EndOffset;
+            textEditor.Document.Insert(insertionOffset, lineText + Environment.NewLine);
+            textEditor.CaretOffset = insertionOffset;
         }
+
         /// <summary>
         /// Handles the RemoveDuplicateLines event of the MainMenu_LineOperations control.
         /// This method first splits the input string into an array of lines using the
@@ -395,11 +475,11 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_RemoveDuplicateLines(object sender, RoutedEventArgs e)
         {
-            var lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            var uniqueLines = new HashSet<string>();
-            var result = new StringBuilder();
+            string[] lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            HashSet<string> uniqueLines = new HashSet<string>();
+            StringBuilder result = new StringBuilder();
 
-            foreach (var line in lines)
+            foreach (string line in lines)
             {
                 if (uniqueLines.Add(line))
                 {
@@ -409,6 +489,7 @@ namespace XMLpad
 
             textEditor.Text = result.ToString();
         }
+
         /// <summary>
         /// Handles the RemoveConsecutiveDuplicateLines event of the MainMenu_LineOperations control.
         /// This method first splits the input string into an array of strings, where each element in
@@ -425,10 +506,10 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_RemoveConsecutiveDuplicateLines(object sender, RoutedEventArgs e)
         {
-            var lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            var output = new StringBuilder();
-            var previousLine = "";
-            foreach (var line in lines)
+            string[] lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            StringBuilder output = new StringBuilder();
+            string previousLine = "";
+            foreach (string line in lines)
             {
                 if (line != previousLine)
                 {
@@ -438,57 +519,207 @@ namespace XMLpad
             }
             textEditor.Text = output.ToString();
         }
+
+        /// <summary>
+        /// Handles the MoveUpCurrentLine event of the MainMenu_LineOperations control.
+        /// Please note that this is a basic implementation that moves the current line up one line only
+        /// , if you want to move the current line up multiple lines you need to adjust the logic accordingly.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_MoveUpCurrentLine(object sender, RoutedEventArgs e)
         {
+            var textArea = textEditor.TextArea;
+            var currentLine = textArea.Caret.Line;
+            if (currentLine == 0)
+                return; // Already at the top, can't move up
+
+            var currentLineStart = textArea.Document.GetOffset(currentLine, 0);
+            var currentLineEnd = textArea.Document.GetOffset(currentLine + 1, 0);
+            var currentLineText = textArea.Document.GetText(currentLineStart, currentLineEnd - currentLineStart);
+
+            var previousLineStart = textArea.Document.GetOffset(currentLine - 1, 0);
+            var previousLineEnd = textArea.Document.GetOffset(currentLine, 0);
+            var previousLineText = textArea.Document.GetText(previousLineStart, previousLineEnd - previousLineStart);
+
+            // Replace the current line with the previous line
+            textArea.Document.Replace(currentLineStart, currentLineEnd - currentLineStart, previousLineText);
+
+            // Replace the previous line with the current line
+            textArea.Document.Replace(previousLineStart, previousLineEnd - previousLineStart, currentLineText);
+
+            // Move the caret to the new current line
+            textArea.Caret.Line--;
         }
+
+        /// <summary>
+        /// Handles the MoveDownCurrentLine event of the MainMenu_LineOperations control.
+        /// This method uses the TextEditor's Document property to access the current
+        /// document and manipulate its text. First, it gets the current line by using
+        /// the CaretOffset property to find the offset of the caret, and then finds
+        /// the line number of the line by using the GetLineByOffset method.
+        /// Then it gets the text of the current line using the GetText method.
+        /// Then it checks whether the current line is the last line of the document, if so then it return nothing.
+        /// Then it gets the line below the current line by using the GetLineByNumber
+        /// method and the line number + 1. Then it gets the text of the line below using the GetText method.
+        /// Then it replaces the current line with the text of the current line and the text
+        /// of the line below, by using the Replace method.Then it removes the current line
+        /// below from the document using the Remove method.Finally, it sets the caret offset
+        /// to the end of the current line using the CaretOffset property.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_MoveDownCurrentLine(object sender, RoutedEventArgs e)
         {
+            var line = textEditor.Document.GetLineByOffset(textEditor.CaretOffset);
+            var lineNumber = line.LineNumber;
+            var lineText = textEditor.Document.GetText(line);
+
+            if (lineNumber == textEditor.Document.LineCount)
+                return;
+
+            var lineBelow = textEditor.Document.GetLineByNumber(lineNumber + 1);
+            var lineBelowText = textEditor.Document.GetText(lineBelow);
+
+            textEditor.Document.Replace(line, lineText + Environment.NewLine + lineBelowText);
+            textEditor.Document.Remove(lineBelow.Offset, lineBelow.Length);
+            textEditor.CaretOffset = line.Offset + line.Length;
         }
+
+        /// <summary>
+        /// Handles the RemoveEmptyLines event of the MainMenu_LineOperations control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_RemoveEmptyLines(object sender, RoutedEventArgs e)
         {
-            var nonEmptyLines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            string[] nonEmptyLines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             textEditor.Text = string.Join(Environment.NewLine, nonEmptyLines);
         }
+
+        /// <summary>
+        /// Handles the InsertBlankLineAboveCurrent event of the MainMenu_LineOperations control.
+        /// In the above code, _textEditor is an instance of AvalonEdit.TextEditor.
+        ///You can call the InsertBlankLineAbove() when the user wants to insert a blank line above the current line.
+        ///You can bind the method to appropriate keybindings or button clicks.
+        ///This method is using the Environment.NewLine property to insert a newline character which is platform
+        ///dependent(\r\n on Windows and \n on Linux and macOS). If you want to use a specific newline character
+        ///you can use "\r\n" or "\n" instead.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_InsertBlankLineAboveCurrent(object sender, RoutedEventArgs e)
         {
+            ICSharpCode.AvalonEdit.Editing.TextArea textArea = textEditor.TextArea;
+            int currentLine = textArea.Caret.Line;
+            int currentLineStart = textEditor.Document.GetLineByNumber(currentLine).Offset;
+            string textToInsert = Environment.NewLine;
+            textEditor.Document.Insert(currentLineStart, textToInsert);
         }
+
+        /// <summary>
+        /// Handles the InsertBlankLineBelowCurrent event of the MainMenu_LineOperations control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_InsertBlankLineBelowCurrent(object sender, RoutedEventArgs e)
         {
+            ICSharpCode.AvalonEdit.Editing.TextArea textArea = textEditor.TextArea;
+            int currentLine = textArea.Caret.Line;
+            int currentLineStart = textEditor.Document.GetLineByNumber(currentLine).EndOffset;
+            string textToInsert = Environment.NewLine;
+            textEditor.Document.Insert(currentLineStart, textToInsert);
         }
         #endregion
 
         #region Comment/Uncomment
+
+        /// <summary>
+        /// Handles the Comment event of the MainMenu control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Comment(object sender, RoutedEventArgs e)
         {
+            ICSharpCode.AvalonEdit.Editing.TextArea textArea = textEditor.TextArea;
+            int start = textArea.Selection.StartPosition.Column;
+            int end = textArea.Selection.EndPosition.Column;
+
+            string selectedText = textEditor.Document.GetText(start, end - start);
+            string commentedText = "<!--" + selectedText + "-->";
+            textEditor.Document.Replace(start, end - start, commentedText);
         }
+
+        /// <summary>
+        /// Handles the Uncomment event of the MainMenu control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Uncomment(object sender, RoutedEventArgs e)
         {
+            ICSharpCode.AvalonEdit.Editing.TextArea textArea = textEditor.TextArea;
+            int start = textArea.Selection.StartPosition.Column;
+            int end = textArea.Selection.EndPosition.Column;
+
+            string selectedText = textEditor.Document.GetText(start, end - start);
+            string uncommentedText = selectedText.Replace("<!--", "").Replace("-->", "");
+            textEditor.Document.Replace(start, end - start, uncommentedText);
         }
         #endregion
 
         #region BlankOperations
+
+        /// <summary>
+        /// Handles the TrimTrailingSpace event of the MainMenu_Edit_BlankOperations control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_TrimTrailingSpace(object sender, RoutedEventArgs e)
         {
-            var lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             for (int i = 0; i < lines.Length; i++)
             {
                 lines[i] = lines[i].TrimEnd();
             }
             textEditor.Text = string.Join(Environment.NewLine, lines);
         }
+
+        /// <summary>
+        /// Handles the TrimLeadingSpace event of the MainMenu_Edit_BlankOperations control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_TrimLeadingSpace(object sender, RoutedEventArgs e)
         {
             textEditor.Text = string.Join("\n", textEditor.Text.Split('\n').Select(x => x.TrimStart()));
         }
+
+        /// <summary>
+        /// Handles the TrimTrailingAndLeadingSpace event of the MainMenu_Edit_BlankOperations control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_TrimTrailingAndLeadingSpace(object sender, RoutedEventArgs e)
         {
             MainMenu_Edit_BlankOperations_TrimLeadingSpace(sender, e);
             MainMenu_Edit_BlankOperations_TrimTrailingSpace(sender, e);
         }
+
+        /// <summary>
+        /// Handles the TabToSpace event of the MainMenu_Edit_BlankOperations control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_TabToSpace(object sender, RoutedEventArgs e)
         {
             textEditor.Text.Replace("\t", new string(' ', mTabSpacesCount));
         }
+
+        /// <summary>
+        /// Handles the SpaceToTabLeading event of the MainMenu_Edit_BlankOperations control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_SpaceToTabLeading(object sender, RoutedEventArgs e)
         {
             StringBuilder result = new StringBuilder();
@@ -500,7 +731,7 @@ namespace XMLpad
                     spaces++;
                     if (spaces == mTabSpacesCount)
                     {
-                        result.Append("\t");
+                        result.Append('\t');
                         spaces = 0;
                     }
                 }
@@ -516,34 +747,58 @@ namespace XMLpad
             }
             textEditor.Text = result.ToString();
         }
+
+        /// <summary>
+        /// Handles the SpaceToTabTrailing event of the MainMenu_Edit_BlankOperations control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_SpaceToTabTrailing(object sender, RoutedEventArgs e)
         {
-            var lines = textEditor.Text.Split('\n');
+            string[] lines = textEditor.Text.Split('\n');
             for (int i = 0; i < lines.Length; i++)
             {
-                var line = lines[i];
+                string line = lines[i];
                 int spacesCount = line.Length - line.TrimEnd().Length;
                 int tabCount = spacesCount / mTabSpacesCount;
                 lines[i] = line.TrimEnd() + new string('\t', tabCount);
             }
             textEditor.Text = string.Join("\n", lines);
         }
+
+        /// <summary>
+        /// Handles the SpaceToTabAll event of the MainMenu_Edit_BlankOperations control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_SpaceToTabAll(object sender, RoutedEventArgs e)
         {
-            var lines = textEditor.Text.Split('\n');
+            string[] lines = textEditor.Text.Split('\n');
             for (int i = 0; i < lines.Length; i++)
             {
-                lines[i] = lines[i].Replace(new string(' ',mTabSpacesCount), "\t");
+                lines[i] = lines[i].Replace(new string(' ', mTabSpacesCount), "\t");
             }
             textEditor.Text = string.Join("\n", lines);
         }
         #endregion
+
+        /// <summary>
+        /// Handles the SetAsReadOnly event of the MainMenu_Edit control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_SetAsReadOnly(object sender, RoutedEventArgs e)
         {
             textEditor.IsReadOnly = !textEditor.IsReadOnly;
         }
 
         #region View
+
+        /// <summary>
+        /// Handles the ToggleFullScreen event of the MainMenu_View control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_View_ToggleFullScreen(object sender, RoutedEventArgs e)
         {
             if (!isFullScreen)
@@ -560,34 +815,93 @@ namespace XMLpad
             }
             isFullScreen = !isFullScreen;
         }
-            #region ShowSymbols
+        #region ShowSymbols
+
+        /// <summary>
+        /// Handles the ShowSpacesAndTabs event of the MainMenu_View_ShowSymbol control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_View_ShowSymbol_ShowSpacesAndTabs(object sender, RoutedEventArgs e)
         {
-            
+            textEditor.Options.ShowSpaces = !textEditor.Options.ShowSpaces;
+            textEditor.Options.ShowTabs = textEditor.Options.ShowSpaces;
         }
+
+        /// <summary>
+        /// Handles the ShowNewLines event of the MainMenu_View_ShowSymbol control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_View_ShowSymbol_ShowNewLines(object sender, RoutedEventArgs e)
         {
+            textEditor.Options.ShowEndOfLine = !textEditor.Options.ShowEndOfLine;
         }
+
+        /// <summary>
+        /// Handles the ShowAllCharacters event of the MainMenu_View_ShowSymbol control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_View_ShowSymbol_ShowAllCharacters(object sender, RoutedEventArgs e)
         {
+            textEditor.Options.ShowSpaces = !textEditor.Options.ShowSpaces;
+            textEditor.Options.ShowTabs = textEditor.Options.ShowSpaces;
+            textEditor.Options.ShowEndOfLine = textEditor.Options.ShowSpaces;
         }
         #endregion
         #endregion
         #region Zoom
+
+        /// <summary>
+        /// Handles the ZoomIn event of the MainMenu_View control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_View_ZoomIn(object sender, RoutedEventArgs e)
         {
+            textEditor.FontSize += 2;
+
         }
+
+        /// <summary>
+        /// Handles the ZoomOut event of the MainMenu_View control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_View_ZoomOut(object sender, RoutedEventArgs e)
         {
+            textEditor.FontSize -= 2;
+
         }
+
+        /// <summary>
+        /// Handles the ZoomDefault event of the MainMenu_View control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_View_ZoomDefault(object sender, RoutedEventArgs e)
         {
+            textEditor.FontSize = 11;
         }
         #endregion
         #region Settings/Help
+
+        /// <summary>
+        /// Handles the EnvironmentPreferences event of the MainMenu_Settings control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Settings_EnvironmentPreferences(object sender, RoutedEventArgs e)
         {
+            // TODO: Open a new Window and have the settings there
         }
+
+        /// <summary>
+        /// Handles the ViewManual event of the MainMenu_Help control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Help_ViewManual(object sender, RoutedEventArgs e)
         {
             ManualWindow manualWindow = new ManualWindow();
