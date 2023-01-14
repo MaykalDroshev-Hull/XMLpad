@@ -24,8 +24,10 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <Button Name="CloseButton" Content="X" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0" Width="20" FontWeight="Bold" Click="CloseButton_Click" Foreground="White" Background="#1F1F1F" Cursor="Hand"/>
+        <Button Name="CloseButton" Content="X" Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0" Width="20" FontWeight="Bold" Click="CloseButton_Click" Foreground="White" Background="#1F1F1F" Cursor="Hand"/>
         <Image Source="/Assets/XMLpad-logos_transparent.png" Grid.Column="0" Grid.Row="0"/>
         <Label Grid.Column="1" Content="XMLPad v1.0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Grid.ColumnSpan="3" FontSize="27"/>
         <Label Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.ColumnSpan="3" Margin="60,0" >
@@ -40,7 +42,7 @@
                 </StackPanel>
             </Label.Content>
         </Label>
-        <TreeView Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="5" Margin="20,20,0,20" Background="#2F2F2F" Foreground="White">
+        <TreeView x:Name="manualTreeView" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="5" Margin="20,20,0,20" Background="#2F2F2F" Foreground="White" SelectedItemChanged="TreeView_SelectedItemChanged">
             <TreeViewItem Foreground="White" Header="MenuBarCommands" IsExpanded="True">
                 <TreeViewItem Foreground="White" Header="File Commands">
                     <TreeViewItem Foreground="White" Header="New"/>
@@ -130,5 +132,6 @@
                 </TreeViewItem>
             </TreeViewItem>
         </TreeView>
+        <TextBlock x:Name="explanationTextBlock" Grid.Row="2" Grid.Column="2" Grid.RowSpan="5" Grid.ColumnSpan="5" Margin="0,20,20,20" Padding="10,5" Background="#2F2F2F" Foreground="White" TextWrapping="Wrap"/>
     </Grid>
 </Window>
