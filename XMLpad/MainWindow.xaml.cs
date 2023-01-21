@@ -31,6 +31,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.LinkLabel;
 using System.Reflection.Metadata;
+using System.ComponentModel.Design;
 
 namespace XMLpad
 {
@@ -45,6 +46,7 @@ namespace XMLpad
         Microsoft.Win32.SaveFileDialog mDlgSave = new Microsoft.Win32.SaveFileDialog();
         PrintDialog mDlgPrint;
         CurrentFile mCurrentFile;
+        FoldingManager mFoldingManager;
         private static int mTabSpacesCount = 4; // TODO: Change to be dynamic
         private enum tabSelection
         {
@@ -52,6 +54,13 @@ namespace XMLpad
             Spaces
         };
 
+        private enum theme
+        {
+            Dark,
+            Light
+        };
+
+        private static theme currentTheme = theme.Dark;
         private static tabSelection currentTabSelection = tabSelection.Tabs;
 
         private string tabCharacters = currentTabSelection == tabSelection.Spaces ? new string(' ', mTabSpacesCount) : "\t";
@@ -66,6 +75,7 @@ namespace XMLpad
                 InitializeComponent();
                 GenerateInitializationText();
                 textEditor.Focus();
+                mFoldingManager = FoldingManager.Install(textEditor.TextArea);
             }
         }
 
@@ -166,6 +176,18 @@ namespace XMLpad
                 LineCharacterPosition.Content = $"{DateTime.Now.ToShortDateString()}  {DateTime.Now.ToShortTimeString()} : {pValue}";
             else
                 LineCharacterPosition.Content = $"Line: {textEditor.TextArea.Caret.Line} Column: {textEditor.TextArea.Caret.Column} Chars: {textEditor.Text.ToCharArray().Length} ";
+
+            // Update the text folding as well
+            try
+            {
+                XmlFoldingStrategy mFoldingStrategy = new XmlFoldingStrategy();
+                mFoldingStrategy.UpdateFoldings(mFoldingManager, textEditor.Document);
+            }
+            catch (Exception) {
+            }
+            finally
+            {
+            }
         }
 
         /// <summary>
@@ -894,7 +916,47 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Settings_EnvironmentPreferences(object sender, RoutedEventArgs e)
         {
-            // TODO: Open a new Window and have the settings there
+            if (currentTheme == theme.Dark)
+            {
+                // Switch to Light Theme
+                textEditor.Foreground = Brushes.Black;
+                textEditor.Background = Brushes.White;
+                menu.Style = App.Current.Resources["LightModeStyleMenu"] as System.Windows.Style;
+                App.Current.Resources["Menu.Static.Background"] = new SolidColorBrush(Colors.White);
+                App.Current.Resources["Menu.Static.Border"] = new SolidColorBrush(Colors.White);
+                App.Current.Resources["Menu.Static.Foreground"] = new SolidColorBrush(Colors.Black);
+                App.Current.Resources["Menu.Static.Menu.Static.Separator"] = new SolidColorBrush(Colors.Black);
+                App.Current.Resources["MenuItem.Selected.Background"] = new SolidColorBrush(Colors.White);
+                App.Current.Resources["MenuItem.Selected.Border"] = new SolidColorBrush(Colors.White);
+                App.Current.Resources["MenuItem.Highlight.Background"] = new SolidColorBrush(Colors.White);
+                App.Current.Resources["MenuItem.Highlight.Border"] = new SolidColorBrush(Colors.White);
+                App.Current.Resources["MenuItem.Highlight.Disabled.Background"] = new SolidColorBrush(Colors.Black);
+                App.Current.Resources["MenuItem.Highlight.Disabled.Border"] = new SolidColorBrush(Colors.Black);
+                mainWindowStatusBar.Style = App.Current.Resources["LightModeStyleStatusBar"] as System.Windows.Style;
+                LineCharacterPosition.Foreground = Brushes.Black;
+                currentTheme = theme.Light;
+            }
+            else
+            {
+                // Switch to dark theme
+                textEditor.Foreground = Brushes.White;
+                textEditor.Background = Brushes.Black;
+                menu.Style = App.Current.Resources["DarkModeStyleMenu"] as System.Windows.Style;
+                App.Current.Resources["Menu.Static.Background"] = App.Current.Resources["grayBrush"] as SolidColorBrush;
+                App.Current.Resources["Menu.Static.Border"] = App.Current.Resources["grayBrush"] as SolidColorBrush;
+                App.Current.Resources["Menu.Static.Foreground"] = new SolidColorBrush(Colors.White);
+                App.Current.Resources["Menu.Static.Menu.Static.Separator"] = new SolidColorBrush(Colors.White);
+                App.Current.Resources["MenuItem.Selected.Background"] = new SolidColorBrush(Colors.Gray);
+                App.Current.Resources["MenuItem.Selected.Border"] = App.Current.Resources["lightBlue"] as SolidColorBrush;
+                App.Current.Resources["MenuItem.Highlight.Background"] = App.Current.Resources["lightAqua"] as SolidColorBrush;
+                App.Current.Resources["MenuItem.Highlight.Border"] = App.Current.Resources["lightBlue"] as SolidColorBrush;
+                App.Current.Resources["MenuItem.Highlight.Disabled.Background"] = new SolidColorBrush(Colors.Transparent);
+                App.Current.Resources["MenuItem.Highlight.Disabled.Border"] = new SolidColorBrush(Colors.Transparent);
+                mainWindowStatusBar.Style = App.Current.Resources["DarkModeStyleStatusBar"] as System.Windows.Style;
+                LineCharacterPosition.Foreground= Brushes.White;
+                currentTheme = theme.Dark;
+            }
+
         }
 
         /// <summary>

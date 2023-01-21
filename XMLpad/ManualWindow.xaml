@@ -30,7 +30,7 @@
         <Button Name="CloseButton" Content="X" Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0" Width="20" FontWeight="Bold" Click="CloseButton_Click" Foreground="White" Background="#1F1F1F" Cursor="Hand"/>
         <Image Source="/Assets/XMLpad-logos_transparent.png" Grid.Column="0" Grid.Row="0"/>
         <Label Grid.Column="1" Content="XMLPad v1.0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Grid.ColumnSpan="3" FontSize="27"/>
-        <Label Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.ColumnSpan="3" Margin="60,0" >
+        <Label Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.ColumnSpan="5" Margin="60,0" >
             <Label.Content>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="GitHub Repository:" Foreground="White"/>
@@ -111,7 +111,7 @@
                     </TreeViewItem>
                 </TreeViewItem>
                 <TreeViewItem Foreground="White" Header="View">
-                    <TreeViewItem x:Name="TreeViewItem_FullScreen"  Header="Toggle Full Screen Mode"/>
+                    <TreeViewItem x:Name="TreeViewItem_FullScreen" Foreground="White" Header="Toggle Full Screen Mode"/>
                     <TreeViewItem Foreground="White" Header="Show Symbol">
                         <TreeViewItem Foreground="White" Header="Show spaces and Tabs"/>
                         <TreeViewItem Foreground="White" Header="Show new lines"/>
@@ -125,7 +125,7 @@
                 </TreeViewItem>
 
                 <TreeViewItem Foreground="White" Header="Settings">
-                    <TreeViewItem Foreground="White" Header="Environment Preferences"/>
+                    <TreeViewItem Foreground="White" Header="Change Theme"/>
                 </TreeViewItem>
                 <TreeViewItem Foreground="White" Header="Help">
                     <TreeViewItem Foreground="White" Header="View Manual"/>

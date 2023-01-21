@@ -8,13 +8,26 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="Black" />
         </Style>
+        <Style x:Key="LightModeStyleWindow" TargetType="{x:Type Window}">
+            <Setter Property="Background" Value="Black" />
+            <Setter Property="Foreground" Value="Transparent" />
+        </Style>
         <Style x:Key="DarkModeStyleButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#1F1F1F" />
             <Setter Property="Foreground" Value="White" />
         </Style>
+        <Style x:Key="LightModeStyleButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#1F1F1F" />
+        </Style>
         <Style x:Key="DarkModeStyleMenu" TargetType="{x:Type Menu}">
             <Setter Property="Background" Value="#1F1F1F" />
             <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style x:Key="LightModeStyleMenu" TargetType="{x:Type Menu}">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="Black" />
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
         <Style x:Key="DarkModeStyleMenuItem" TargetType="{x:Type MenuItem}">
@@ -22,16 +35,26 @@
             <Setter Property="Foreground" Value="White" />
             <Setter Property ="BorderThickness" Value="0"/>
             <Setter Property="BorderThickness" Value="0"/>
-
+        </Style>
+        <Style x:Key="LightModeStyleMenuItem" TargetType="{x:Type MenuItem}">
+            <Setter Property="Background" Value="#1F1F1F" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property ="BorderThickness" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
         </Style>
         <Style x:Key="DarkModeStyleStatusBar" TargetType="{x:Type StatusBar}">
             <Setter Property="Background" Value="#1F1F1F" />
-            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style x:Key="LightModeStyleStatusBar" TargetType="{x:Type StatusBar}">
+            <Setter Property="Background" Value="White" />
         </Style>
         <Style x:Key="DarkModeStyleSeparator" TargetType="{x:Type Separator}">
             <Setter Property="Background" Value="#3D3D3D" />
             <Setter Property="Foreground" Value="White"/>
         </Style>
+        <SolidColorBrush x:Key="grayBrush" Color="#1F1F1F" />
+        <SolidColorBrush x:Key="lightBlue" Color="#FF26A0DA" />
+        <SolidColorBrush x:Key="lightAqua" Color="#3D26A0DA" />
         <SolidColorBrush x:Key="Menu.Static.Background" Color="#1F1F1F"/>
         <SolidColorBrush x:Key="Menu.Static.Border" Color="#FF999999"/>
         <SolidColorBrush x:Key="Menu.Static.Foreground" Color="#FFFFFF"/>
