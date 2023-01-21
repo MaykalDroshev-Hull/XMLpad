@@ -178,16 +178,8 @@ namespace XMLpad
                 LineCharacterPosition.Content = $"Line: {textEditor.TextArea.Caret.Line} Column: {textEditor.TextArea.Caret.Column} Chars: {textEditor.Text.ToCharArray().Length} ";
 
             // Update the text folding as well
-            try
-            {
-                XmlFoldingStrategy mFoldingStrategy = new XmlFoldingStrategy();
-                mFoldingStrategy.UpdateFoldings(mFoldingManager, textEditor.Document);
-            }
-            catch (Exception) {
-            }
-            finally
-            {
-            }
+            XmlFoldingStrategy mFoldingStrategy = new XmlFoldingStrategy();
+            mFoldingStrategy.UpdateFoldings(mFoldingManager, textEditor.Document);
         }
 
         /// <summary>
