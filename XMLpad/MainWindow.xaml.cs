@@ -32,6 +32,8 @@ using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.LinkLabel;
 using System.Reflection.Metadata;
 using System.ComponentModel.Design;
+using XMLpad.Models;
+using ICSharpCode.AvalonEdit.CodeCompletion;
 
 namespace XMLpad
 {
@@ -46,7 +48,9 @@ namespace XMLpad
         Microsoft.Win32.SaveFileDialog mDlgSave = new Microsoft.Win32.SaveFileDialog();
         PrintDialog mDlgPrint;
         CurrentFile mCurrentFile;
-        FoldingManager mFoldingManager;
+        List<string> mCompletionStrings = new List<string>();
+        FoldingManager mFoldingManager = new FoldingManager(new TextDocument());
+        CompletionWindow mCompletionWindow;
         private static int mTabSpacesCount = 4; // TODO: Change to be dynamic
         private enum tabSelection
         {
@@ -76,9 +80,76 @@ namespace XMLpad
                 GenerateInitializationText();
                 textEditor.Focus();
                 mFoldingManager = FoldingManager.Install(textEditor.TextArea);
+                textEditor.TextArea.TextEntering += textEditor_TextArea_TextEntering;
+                textEditor.TextArea.TextEntered += textEditor_TextArea_TextEntered;
             }
         }
 
+        /// <summary>
+        /// Handles the TextEntered event of the textEditor_TextArea control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
+        void textEditor_TextArea_TextEntered(object sender, TextCompositionEventArgs e)
+        {
+            mCompletionWindow = new CompletionWindow(textEditor.TextArea);
+
+            if (e.Text == "<" || e.Text == " ")
+            {
+                // Open code completion after the user has pressed dot:
+                IList<ICompletionData> mData = mCompletionWindow.CompletionList.CompletionData;
+                foreach (string entry in mCompletionStrings)
+                {
+                    mData.Add(new MyCompletionData(entry));
+
+                }
+                mCompletionWindow.Show();
+                mCompletionWindow.Closed += delegate
+                {
+                    mCompletionWindow = null;
+                };
+            }
+            else if (e.Text == ">")
+            {
+                int currentPos = textEditor.CaretOffset;
+                StringBuilder result = new StringBuilder();
+                while (currentPos > 0)
+                {
+                    char currentChar = textEditor.Document.GetCharAt(currentPos - 1);
+                    if (currentChar == '<')
+                    {
+                        break;
+                    }
+                    result.Append(currentChar);
+                    currentPos--;
+                }
+                string reversed = new string(result.ToString().Reverse().ToArray()).Substring(0, result.Length - 1);
+                if(!mCompletionStrings.Contains(reversed))
+                    mCompletionStrings.Add(reversed);
+
+            }
+        }
+
+
+        /// <summary>
+        /// Handles the TextEntering event of the textEditor_TextArea control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
+        void textEditor_TextArea_TextEntering(object sender, TextCompositionEventArgs e)
+        {
+            if (e.Text.Length > 0 && mCompletionWindow != null)
+            {
+                if (!char.IsLetterOrDigit(e.Text[0]))
+                {
+                    // Whenever a non-letter is typed while the completion window is open,
+                    // insert the currently selected element.
+                    mCompletionWindow.CompletionList.RequestInsertion(e);
+                }
+            }
+            // Do not set e.Handled=true.
+            // We still want to insert the character that was typed.
+        }
         /// <summary>
         /// Generates the initialization text.
         /// </summary>
@@ -945,7 +1016,7 @@ namespace XMLpad
                 App.Current.Resources["MenuItem.Highlight.Disabled.Background"] = new SolidColorBrush(Colors.Transparent);
                 App.Current.Resources["MenuItem.Highlight.Disabled.Border"] = new SolidColorBrush(Colors.Transparent);
                 mainWindowStatusBar.Style = App.Current.Resources["DarkModeStyleStatusBar"] as System.Windows.Style;
-                LineCharacterPosition.Foreground= Brushes.White;
+                LineCharacterPosition.Foreground = Brushes.White;
                 currentTheme = theme.Dark;
             }
 

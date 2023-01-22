@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Linq;
+using XMLpad.Models;
 
 namespace XMLpad
 {

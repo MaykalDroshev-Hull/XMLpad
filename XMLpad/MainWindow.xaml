@@ -255,6 +255,6 @@
                 PreviewMouseDoubleClick="textEditor_PreviewMouseDoubleClick"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
-        </DockPanel>
+            </DockPanel>
     </Grid>
 </Window>
