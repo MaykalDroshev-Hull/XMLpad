@@ -101,9 +101,11 @@ namespace XMLpad
                 foreach (string entry in mCompletionStrings)
                 {
                     mData.Add(new MyCompletionData(entry));
-
                 }
-                mCompletionWindow.Show();
+                if (mData.Count != 0)
+                {
+                    mCompletionWindow.Show();
+                }
                 mCompletionWindow.Closed += delegate
                 {
                     mCompletionWindow = null;
@@ -124,7 +126,7 @@ namespace XMLpad
                     currentPos--;
                 }
                 string reversed = new string(result.ToString().Reverse().ToArray()).Substring(0, result.Length - 1);
-                if(!mCompletionStrings.Contains(reversed))
+                if (!mCompletionStrings.Contains(reversed))
                     mCompletionStrings.Add(reversed);
 
             }
