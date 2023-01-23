@@ -229,6 +229,25 @@
 
                 <MenuItem Header="Settings" Style="{DynamicResource DarkModeStyleMenuItem}">
                     <MenuItem Header="Change Theme" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Settings_EnvironmentPreferences"/>
+                    <MenuItem Header="Syntax Highlighting">
+                        <MenuItem Header="XML" Click="Language_Click"/>
+                        <MenuItem Header="XmlDoc" Click="Language_Click"/>
+                        <MenuItem Header="C#" Click="Language_Click"/>
+                        <MenuItem Header="JavaScript" Click="Language_Click"/>
+                        <MenuItem Header="HTML" Click="Language_Click"/>
+                        <MenuItem Header="ASP/XHTML" Click="Language_Click"/>
+                        <MenuItem Header="Boo" Click="Language_Click"/>
+                        <MenuItem Header="Coco" Click="Language_Click"/>
+                        <MenuItem Header="CSS" Click="Language_Click"/>
+                        <MenuItem Header="C++" Click="Language_Click"/>
+                        <MenuItem Header="Java" Click="Language_Click"/>
+                        <MenuItem Header="Patch" Click="Language_Click"/>
+                        <MenuItem Header="PowerShell" Click="Language_Click"/>
+                        <MenuItem Header="PHP" Click="Language_Click"/>
+                        <MenuItem Header="TeX" Click="Language_Click"/>
+                        <MenuItem Header="VBNET" Click="Language_Click"/>
+                        <MenuItem Header="MarkDown" Click="Language_Click"/>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Help" Style="{DynamicResource DarkModeStyleMenuItem}">
                     <MenuItem Header="View Manual" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_Help_ViewManual"/>

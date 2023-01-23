@@ -64,6 +64,27 @@ namespace XMLpad
             Light
         };
 
+        enum Language
+        {
+            XmlDoc,
+            CSharp,
+            JavaScript,
+            HTML,
+            ASPXHTML,
+            Boo,
+            Coco,
+            CSS,
+            Cpp,
+            Java,
+            Patch,
+            PowerShell,
+            PHP,
+            TeX,
+            VBNET,
+            XML,
+            MarkDown
+        }
+
         private static theme currentTheme = theme.Dark;
         private static tabSelection currentTabSelection = tabSelection.Tabs;
 
@@ -1035,5 +1056,49 @@ namespace XMLpad
             manualWindow.Show();
         }
         #endregion
+
+        FoldingManager foldingManager;
+        dynamic foldingStrategy;
+
+        private void Language_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = sender as MenuItem;
+            if (menuItem == null)
+                return;
+            Language language = (Language)Enum.Parse(typeof(Language), menuItem.Header.ToString());
+            switch (language)
+            {
+                case Language.XML:
+                    foldingStrategy = new XmlFoldingStrategy();
+                    textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
+                    break;
+                case Language.CSharp:
+                case Language.Cpp:
+                case Language.PHP:
+                case Language.Java:
+                    textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.CSharp.CSharpIndentationStrategy(textEditor.Options);
+                    foldingStrategy = new BraceFoldingStrategy();
+                    break;
+                default:
+                    textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
+                    foldingStrategy = null;
+                    break;
+            }
+
+            if (foldingStrategy != null)
+            {
+                if (foldingManager == null)
+                    foldingManager = FoldingManager.Install(textEditor.TextArea);
+                foldingStrategy.UpdateFoldings(foldingManager, textEditor.Document);
+            }
+            else
+            {
+                if (foldingManager != null)
+                {
+                    FoldingManager.Uninstall(foldingManager);
+                    foldingManager = null;
+                }
+            }
+        }
     }
 }
