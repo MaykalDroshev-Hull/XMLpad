@@ -36,12 +36,10 @@ namespace XMLpad
         /// </summary>
         public Welcome_Window()
         {
-
             InitializeComponent();
-            media.Source = new Uri(Environment.CurrentDirectory + @"\Loading_Screen.gif");
+            //media.Source = new Uri(Environment.CurrentDirectory + @"\Loading_Screen.gif");
+            //Loading();
             FillRecentOpenDocument();
-            Loading();
-
         }
 
         /// <summary>
@@ -55,11 +53,13 @@ namespace XMLpad
                 StreamReader reader = new StreamReader(fileStream);
                 while (reader.Peek() >= 0)
                 {
-                    recentFilesListBox.Items.Add(reader.ReadLine());
+                    string entry = reader.ReadLine();
+                    if (entry != string.Empty)
+                        recentFilesListBox.Items.Add(entry);
                 }
                 reader.Close();
             }
-            catch (IOException) {}
+            catch (IOException) { }
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
         {
-            media.Position = new TimeSpan(0, 0, 1);
+            media.Position = new TimeSpan(0, 0, 0);
             media.Play();
         }
 
@@ -91,7 +91,7 @@ namespace XMLpad
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void CloseButton_Click(object sender, RoutedEventArgs e) => Close();
+        private void CloseButton_Click(object sender, RoutedEventArgs e) => Environment.Exit(0);
 
         /// <summary>
         /// Loadings this instance.
@@ -99,7 +99,7 @@ namespace XMLpad
         void Loading()
         {
             timer.Tick += timer_tick;
-            timer.Interval = new TimeSpan(0, 0, 4);
+            timer.Interval = new TimeSpan(0, 0, 1);
             timer.Start();
         }
 
@@ -122,38 +122,67 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void createNewButon_Click(object sender, RoutedEventArgs e)
         {
-            if (!fileNameTextBox.Text.EndsWith(".xml"))
-                fileNameTextBox.AppendText(".xml");
+            // Create a save file dialog
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
 
-            // Create the new file
-            FileStream fileStream = new FileStream($"C:/temp/{fileNameTextBox.Text}", FileMode.Create, FileAccess.Write);
-            StreamWriter writer = new StreamWriter(fileStream);
-            writer.Flush();
-            writer.Close();
+            // Set the filter for the file extension
 
+           saveFileDialog.Filter = "XML Files (*.xml)|*.xml|All files (*.*)|*.*";
+
+            // Set the default file extension
+            saveFileDialog.DefaultExt = ".xml";
+
+            saveFileDialog.FileName = fileNameTextBox.Text;
+
+            // Set the initial directory
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            // Show the dialog
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                // Create the new file
+                FileStream fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write);
+                StreamWriter writer = new StreamWriter(fileStream);
+                writer.Flush();
+                writer.Close();
+
+                // Add the file to the list of files
+                AddFileToRecentList(saveFileDialog.FileName);
+                SetFileName(saveFileDialog.FileName);
+                this.Close();
+            }
+        }
+
+        /// <summary>
+        /// Handles the PreviewKeyDown event of the MyTextBox control.
+        /// Fired when the user has focused the text box to enter a name and has pressed ENTER
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
+        private void MyTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                createNewButon_Click(sender, e);
+            }
+        }
+
+        private void AddFileToRecentList(string pFileName)
+        {
             // Add the file to the list of files
-            try
+            string recentFilesPath = "C:/temp/XMLpadRecentFiles.txt";
+            using (FileStream fileStream = new FileStream(recentFilesPath, FileMode.Append, FileAccess.Write))
+            using (StreamWriter writer = new StreamWriter(fileStream))
             {
-                fileStream = new FileStream("C:/temp/XMLpadRecentFiles.txt", FileMode.Append, FileAccess.Write);
-
+                writer.WriteLine(pFileName);
             }
-            catch (FileNotFoundException)
-            {
-                fileStream = new FileStream("C:/temp/XMLpadRecentFiles.txt", FileMode.Create, FileAccess.Write);
-            }
-            writer = new StreamWriter(fileStream);
-            writer.Write($"\r\n{fileNameTextBox.Text}");
-            writer.Flush();
-            writer.Close();
-            SetFileName(fileNameTextBox.Text);
-            this.Close();
         }
 
         private void SetFileName(string pFileName)
         {
             CurrentFile currentFile = CurrentFile.getInstance();
-            currentFile.FileName = pFileName;
-            currentFile.FilePath = $"C:/temp/{pFileName}";
+            currentFile.FileName = System.IO.Path.GetFileName(pFileName);
+            currentFile.FilePath = pFileName;
         }
 
         private void CloseButton_MouseEnter(object sender, MouseEventArgs e)

@@ -50,7 +50,7 @@ namespace XMLpad
         CurrentFile mCurrentFile;
         List<string> mCompletionStrings = new List<string>();
         FoldingManager mFoldingManager = new FoldingManager(new TextDocument());
-        CompletionWindow mCompletionWindow;
+        CompletionWindow? mCompletionWindow;
         private static int mTabSpacesCount = 4; // TODO: Change to be dynamic
         private enum tabSelection
         {
@@ -229,7 +229,7 @@ namespace XMLpad
         /// Saves the current file.
         /// </summary>
         /// <param name="text">The text.</param>
-        private void SaveCurrentFile(/*mFilename*/ string text)
+        private void SaveCurrentFile(string text)
         {
             StreamWriter writer = new StreamWriter(mCurrentFile.FilePath);
             writer.Write(textEditor.Text);
