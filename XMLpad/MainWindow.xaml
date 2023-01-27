@@ -10,7 +10,7 @@
         Title="XMLpad" Icon="Assets/XMLpad-logos_transparent.png" Height="900" Width="1600">
     <Window.Resources>
         <ControlTemplate x:Key="MenuTemplate1" TargetType="{x:Type Menu}">
-            <Border x:Name="SubMenuBorder" Background="{StaticResource Menu.Static.Background}" BorderThickness="0" BorderBrush="{StaticResource Menu.Static.Border}" Padding="2">
+            <Border x:Name="SubMenuBorder" Background="{DynamicResource Menu.Static.Background}" BorderThickness="0" BorderBrush="{DynamicResource Menu.Static.Border}" Padding="2">
                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
             </Border>
         </ControlTemplate>
@@ -37,7 +37,7 @@
     <Grid>
         <DockPanel>
             <Menu Template="{DynamicResource MenuTemplate1}" DockPanel.Dock="Top" Style="{DynamicResource DarkModeStyleMenu}" x:Name="menu">
-                <MenuItem Header="_File" Background="#1F1F1F" Foreground="White">
+                <MenuItem Header="_File"  Foreground="White">
                     <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MainMenu_File_NewFile">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="N" Modifiers="Ctrl" Command="ApplicationCommands.New"/>
@@ -66,6 +66,7 @@
                             <KeyBinding Key="P" Modifiers="Ctrl" Command="ApplicationCommands.Print"/>
                         </MenuItem.InputBindings>
                     </MenuItem>
+                    <MenuItem Header="_Compare File with Another"  Click="MainMenu_File_CompareFileWithAnother"/>
                     <Separator  Style="{DynamicResource DarkModeStyleSeparator}"/>
                     <MenuItem Header="_Exit" InputGestureText="Alt+F4" Click="MainMenu_File_Exit">
                         <MenuItem.InputBindings>
@@ -73,13 +74,13 @@
                         </MenuItem.InputBindings>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Edit" Style="{DynamicResource DarkModeStyleMenuItem}">
+                <MenuItem Header="Edit">
                     <MenuItem Header="_Undo" InputGestureText="Ctrl+Z" Click="MainMenu_Undo">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="Z" Modifiers="Ctrl" Command="ApplicationCommands.Undo"/>
                         </MenuItem.InputBindings>
                         <MenuItem.Style>
-                            <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                            <DynamicResource ResourceKey="DarkModeStyleMenuItem"/>
                         </MenuItem.Style>
                     </MenuItem>
                     <MenuItem Header="_Redo" InputGestureText="Ctrl+Y" Click="MainMenu_Redo">
@@ -87,7 +88,7 @@
                             <KeyBinding Key="Y" Modifiers="Ctrl" Command="ApplicationCommands.Redo"/>
                         </MenuItem.InputBindings>
                         <MenuItem.Style>
-                            <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                            <DynamicResource ResourceKey="DarkModeStyleMenuItem"/>
                         </MenuItem.Style>
                     </MenuItem>
                     <MenuItem Header="_Cut" InputGestureText="Ctrl+X" Click="MainMenu_Cut">
@@ -95,7 +96,7 @@
                             <KeyBinding Key="X" Modifiers="Ctrl" Command="ApplicationCommands.Cut"/>
                         </MenuItem.InputBindings>
                         <MenuItem.Style>
-                            <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                            <DynamicResource ResourceKey="DarkModeStyleMenuItem"/>
                         </MenuItem.Style>
                     </MenuItem>
                     <MenuItem Header="_Copy" InputGestureText="Ctrl+C" Click="MainMenu_Copy">
@@ -103,7 +104,7 @@
                             <KeyBinding Key="C" Modifiers="Ctrl" Command="ApplicationCommands.Copy"/>
                         </MenuItem.InputBindings>
                         <MenuItem.Style>
-                            <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                            <DynamicResource ResourceKey="DarkModeStyleMenuItem"/>
                         </MenuItem.Style>
                     </MenuItem>
                     <MenuItem Header="_Duplicate Line" Click="MainMenu_DuplicateLine" InputGestureText="Ctrl+D">
@@ -111,7 +112,7 @@
                             <KeyBinding Key="D" Modifiers="Ctrl" Command="ApplicationCommands.Replace"/>
                         </MenuItem.InputBindings>
                         <MenuItem.Style>
-                            <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                            <DynamicResource ResourceKey="DarkModeStyleMenuItem"/>
                         </MenuItem.Style>
                     </MenuItem>
                     <MenuItem Header="_Paste" Click="MainMenu_Paste" InputGestureText="Ctrl+V">
@@ -119,7 +120,7 @@
                             <KeyBinding Key="V" Modifiers="Ctrl" Command="ApplicationCommands.Paste"/>
                         </MenuItem.InputBindings>
                         <MenuItem.Style>
-                            <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                            <DynamicResource ResourceKey="DarkModeStyleMenuItem"/>
                         </MenuItem.Style>
                     </MenuItem>
                     <MenuItem Header="_Delete" Click="MainMenu_Delete" InputGestureText="DEL">
@@ -127,7 +128,7 @@
                             <KeyBinding Key="Delete" Command="ApplicationCommands.Delete"/>
                         </MenuItem.InputBindings>
                         <MenuItem.Style>
-                            <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                            <DynamicResource ResourceKey="DarkModeStyleMenuItem"/>
                         </MenuItem.Style>
                     </MenuItem>
                     <MenuItem Header="_Select All" Click="MainMenu_SelectAll" InputGestureText="Ctrl+A">
@@ -135,7 +136,7 @@
                             <KeyBinding Key="A" Modifiers="Ctrl" Command="ApplicationCommands.SelectAll"/>
                         </MenuItem.InputBindings>
                         <MenuItem.Style>
-                            <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                            <DynamicResource ResourceKey="DarkModeStyleMenuItem"/>
                         </MenuItem.Style>
                     </MenuItem>
                     <Separator Style="{DynamicResource DarkModeStyleSeparator}"/>
@@ -154,7 +155,7 @@
                                 <KeyBinding Key="Add" Modifiers="Ctrl" Command="EditingCommands.IncreaseFontSize"/>
                             </MenuItem.InputBindings>
                             <MenuItem.Style>
-                                <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                                <DynamicResource ResourceKey="DarkModeStyleMenuItem"/>
                             </MenuItem.Style>
                     </MenuItem>
                     <MenuItem Header="_Decrease Indent (-)" InputGestureText="Ctrl+Shift+Minus" Click="MainMenu_DecreaseIndent">
@@ -163,7 +164,7 @@
                             <KeyBinding Key="OemMinus" Modifiers="Ctrl+Shift" Command="EditingCommands.DecreaseFontSize"/>
                         </MenuItem.InputBindings>
                             <MenuItem.Style>
-                                <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                                <DynamicResource ResourceKey="DarkModeStyleMenuItem"/>
                             </MenuItem.Style>
                         </MenuItem>
                 </MenuItem>
@@ -173,7 +174,7 @@
                                 <KeyBinding Key="U" Modifiers="Ctrl+Shift"/>
                             </MenuItem.InputBindings>
                             <MenuItem.Style>
-                                <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                                <DynamicResource ResourceKey="DarkModeStyleMenuItem"/>
                             </MenuItem.Style>
                         </MenuItem>
                         <MenuItem Header="_All Lowercase" Click="MainMenu_ConvertCase_AllLowercase" InputGestureText="Ctrl+U">
@@ -181,7 +182,7 @@
                                 <KeyBinding Key="U" Modifiers="Ctrl"/>
                             </MenuItem.InputBindings>
                             <MenuItem.Style>
-                                <StaticResource ResourceKey="DarkModeStyleMenuItem"/>
+                                <DynamicResource ResourceKey="DarkModeStyleMenuItem"/>
                             </MenuItem.Style>
                         </MenuItem>
                         <MenuItem Header="_Invert Case" Style="{DynamicResource DarkModeStyleMenuItem}" Click="MainMenu_ConvertCase_InvertCase"/>
@@ -235,7 +236,6 @@
                         <MenuItem Header="C#" Click="Language_Click"/>
                         <MenuItem Header="JavaScript" Click="Language_Click"/>
                         <MenuItem Header="HTML" Click="Language_Click"/>
-                        <MenuItem Header="ASP/XHTML" Click="Language_Click"/>
                         <MenuItem Header="Boo" Click="Language_Click"/>
                         <MenuItem Header="Coco" Click="Language_Click"/>
                         <MenuItem Header="CSS" Click="Language_Click"/>

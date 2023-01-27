@@ -26,7 +26,7 @@ namespace XMLpad
     /// <summary>
     /// Allows producing foldings from a document based on braces.
     /// </summary>
-    public class BraceFoldingStrategy
+    public class BraceFoldingStrategy : AbstractFoldingStrategy
     {
         /// <summary>
         /// Gets/Sets the opening brace. The default value is '{'.
@@ -45,15 +45,6 @@ namespace XMLpad
         {
             this.OpeningBrace = '{';
             this.ClosingBrace = '}';
-        }
-
-        /// <summary>
-        /// Create <see cref="NewFolding"/>s for the specified document.
-        /// </summary>
-        public IEnumerable<NewFolding> CreateNewFoldings(TextDocument document, out int firstErrorOffset)
-        {
-            firstErrorOffset = -1;
-            return CreateNewFoldings(document);
         }
 
         /// <summary>
@@ -90,6 +81,12 @@ namespace XMLpad
             }
             newFoldings.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));
             return newFoldings;
+        }
+
+        public override IEnumerable<NewFolding> CreateNewFoldings(TextDocument document, out int firstErrorOffset)
+        {
+            firstErrorOffset = -1;
+            return CreateNewFoldings(document);
         }
     }
 }

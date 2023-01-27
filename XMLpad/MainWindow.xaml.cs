@@ -70,7 +70,6 @@ namespace XMLpad
             CSharp,
             JavaScript,
             HTML,
-            ASPXHTML,
             Boo,
             Coco,
             CSS,
@@ -257,6 +256,20 @@ namespace XMLpad
             writer.Flush();
             writer.Close();
             UpdateStatusBar(pAppend: true, $" Wrote {textEditor.Text.Length} chars in {mFilename}");
+        }
+
+        /// <summary>
+        /// Handles the CompareFileWithAnother event of the MainMenu_File control.
+        /// Saves the current file and open the compare files window. 
+        /// There the window will open the Open dialog and will compare the selected file with the current one.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void MainMenu_File_CompareFileWithAnother(object sender, RoutedEventArgs e)
+        {
+            SaveCurrentFile(textEditor.Text);
+            CompareFiles compareFiles = new CompareFiles();
+            compareFiles.Show();
         }
 
         /// <summary>
@@ -1026,7 +1039,7 @@ namespace XMLpad
             {
                 // Switch to dark theme
                 textEditor.Foreground = Brushes.White;
-                textEditor.Background = Brushes.Black;
+                textEditor.Background = App.Current.Resources["grayBrush"] as SolidColorBrush;
                 menu.Style = App.Current.Resources["DarkModeStyleMenu"] as System.Windows.Style;
                 App.Current.Resources["Menu.Static.Background"] = App.Current.Resources["grayBrush"] as SolidColorBrush;
                 App.Current.Resources["Menu.Static.Border"] = App.Current.Resources["grayBrush"] as SolidColorBrush;
@@ -1057,20 +1070,35 @@ namespace XMLpad
         }
         #endregion
 
-        FoldingManager foldingManager;
-        dynamic foldingStrategy;
+        dynamic? foldingStrategy;
+        IHighlightingDefinition? highlightingDefinition;
 
         private void Language_Click(object sender, RoutedEventArgs e)
         {
             var menuItem = sender as MenuItem;
             if (menuItem == null)
                 return;
-            Language language = (Language)Enum.Parse(typeof(Language), menuItem.Header.ToString());
+            Language language;
+            if (menuItem.Header.ToString() == "C#")
+            {
+                language = Language.CSharp;
+            }
+            else if (menuItem.Header.ToString() == "C++")
+            {
+                language = Language.Cpp;
+
+            }
+            else
+            {
+                language = (Language)Enum.Parse(typeof(Language), menuItem.Header.ToString());
+            }
             switch (language)
             {
                 case Language.XML:
+                case Language.HTML:
                     foldingStrategy = new XmlFoldingStrategy();
                     textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
+                    highlightingDefinition = HighlightingManager.Instance.GetDefinition("XML");
                     break;
                 case Language.CSharp:
                 case Language.Cpp:
@@ -1078,25 +1106,30 @@ namespace XMLpad
                 case Language.Java:
                     textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.CSharp.CSharpIndentationStrategy(textEditor.Options);
                     foldingStrategy = new BraceFoldingStrategy();
+                    highlightingDefinition = HighlightingManager.Instance.GetDefinition("C#");
                     break;
                 default:
                     textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
                     foldingStrategy = null;
+                    highlightingDefinition = null;
                     break;
             }
 
+            textEditor.SyntaxHighlighting = highlightingDefinition;
+
+
             if (foldingStrategy != null)
             {
-                if (foldingManager == null)
-                    foldingManager = FoldingManager.Install(textEditor.TextArea);
-                foldingStrategy.UpdateFoldings(foldingManager, textEditor.Document);
+                if (mFoldingManager == null)
+                    mFoldingManager = FoldingManager.Install(textEditor.TextArea);
+                foldingStrategy.UpdateFoldings(mFoldingManager, textEditor.Document);
             }
             else
             {
-                if (foldingManager != null)
+                if (mFoldingManager != null)
                 {
-                    FoldingManager.Uninstall(foldingManager);
-                    foldingManager = null;
+                    FoldingManager.Uninstall(mFoldingManager);
+                    mFoldingManager = null;
                 }
             }
         }
