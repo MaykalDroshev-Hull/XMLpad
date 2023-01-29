@@ -102,6 +102,42 @@ namespace XMLpad
                 mFoldingManager = FoldingManager.Install(textEditor.TextArea);
                 textEditor.TextArea.TextEntering += textEditor_TextArea_TextEntering;
                 textEditor.TextArea.TextEntered += textEditor_TextArea_TextEntered;
+                GatherCompletionString();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void GatherCompletionString()
+        {
+            mCompletionStrings.Clear();
+
+            int currentIndex = 0;
+            int startIndex = -1;
+            int endIndex = -1;
+            while (currentIndex < textEditor.Document.TextLength)
+            {
+                char currentChar = textEditor.Document.GetCharAt(currentIndex);
+
+                if (currentChar == '<')
+                {
+                    startIndex = currentIndex;
+                }
+                else if (currentChar == '>')
+                {
+                    endIndex = currentIndex;
+                    if (startIndex != -1 && endIndex != -1)
+                    {
+                        string word = textEditor.Document.GetText(startIndex + 1, endIndex - startIndex - 1).Replace("/", "");
+                        if (!mCompletionStrings.Contains(word))
+                            mCompletionStrings.Add(word);
+                        startIndex = -1;
+                        endIndex = -1;
+                    }
+                }
+
+                currentIndex++;
             }
         }
 
