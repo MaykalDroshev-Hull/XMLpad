@@ -12,7 +12,17 @@ namespace XMLpad
     class HighlightingColorizer : DocumentColorizingTransformer
     {
         private int lineNumber;
+        private int start;
+        private int end;
         private Color color;
+
+        public HighlightingColorizer(int lineNumber, int start, int end, Color color)
+        {
+            this.lineNumber = lineNumber;
+            this.start = start;
+            this.end = end;
+            this.color = color;
+        }
 
         public HighlightingColorizer(int lineNumber, Color color)
         {
@@ -24,7 +34,7 @@ namespace XMLpad
         {
             if (line.LineNumber == lineNumber)
             {
-                ChangeLinePart(line.Offset, line.EndOffset, ApplyChanges);
+                ChangeLinePart(line.Offset + start, line.Offset + end, ApplyChanges);
             }
         }
 

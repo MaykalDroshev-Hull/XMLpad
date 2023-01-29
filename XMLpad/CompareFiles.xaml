@@ -22,7 +22,7 @@
         <avalonEdit:TextEditor x:Name="txtFile1" Grid.Row="1" Grid.Column="0" Margin="5" IsReadOnly="True" ShowLineNumbers="True"/>
         <avalonEdit:TextEditor x:Name="txtFile2"  Grid.Row="1" Grid.Column="1" Margin="5" IsReadOnly="True" ShowLineNumbers="True"/>
 
-        <Button x:Name="btnClose" Content="Close" Grid.Row="2" Grid.Column="1" Margin="339,5,0,5" HorizontalAlignment="Left" 
+        <Button x:Name="btnClose" Content="Close" Grid.Row="2" Grid.Column="1" Margin="326,5,0,5" HorizontalAlignment="Left" 
                 Click="btnClose_Click" Width="56"/>
     </Grid>
 </Window>
