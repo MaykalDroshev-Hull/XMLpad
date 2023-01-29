@@ -58,13 +58,13 @@ namespace XMLpad
             Spaces
         };
 
-        private enum theme
+        public enum theme
         {
             Dark,
             Light
         };
 
-        enum Language
+        private enum Language
         {
             XmlDoc,
             CSharp,
@@ -84,7 +84,7 @@ namespace XMLpad
             MarkDown
         }
 
-        private static theme currentTheme = theme.Dark;
+        public static theme currentTheme = theme.Dark;
         private static tabSelection currentTabSelection = tabSelection.Tabs;
 
         private string tabCharacters = currentTabSelection == tabSelection.Spaces ? new string(' ', mTabSpacesCount) : "\t";
@@ -268,7 +268,8 @@ namespace XMLpad
         private void MainMenu_File_CompareFileWithAnother(object sender, RoutedEventArgs e)
         {
             SaveCurrentFile(textEditor.Text);
-            CompareFiles compareFiles = new CompareFiles();
+            CompareFiles compareFiles = new CompareFiles(currentTheme);
+            compareFiles.Owner = this;
             compareFiles.Show();
         }
 

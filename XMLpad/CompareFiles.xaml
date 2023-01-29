@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XMLpad" xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         mc:Ignorable="d"
-        Title="Text File Compare" Height="450" Width="800">
+        WindowStyle="None"
+        Title="Text File Compare" Height="900" Width="1600" x:Name="compareWindow" Closed="compareWindow_Closed">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -16,13 +17,13 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label x:Name="label1" Content="File 1" Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Center"/>
-        <Label x:Name="label2" Content="File 2" Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Center"/>
+        <Label x:Name="fileName1" Content="File 1" Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Center"/>
+        <Label x:Name="fileName2" Content="File 2" Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Center"/>
 
         <avalonEdit:TextEditor x:Name="txtFile1" Grid.Row="1" Grid.Column="0" Margin="5" IsReadOnly="True" ShowLineNumbers="True"/>
         <avalonEdit:TextEditor x:Name="txtFile2"  Grid.Row="1" Grid.Column="1" Margin="5" IsReadOnly="True" ShowLineNumbers="True"/>
 
-        <Button x:Name="btnClose" Content="Close" Grid.Row="2" Grid.Column="1" Margin="326,5,0,5" HorizontalAlignment="Left" 
-                Click="btnClose_Click" Width="56"/>
+        <Button x:Name="btnClose" Content="Close" Grid.Row="2" Grid.Column="1" Margin="682,5,0,5" HorizontalAlignment="Left"
+                Click="btnClose_Click" Width="83"/>
     </Grid>
 </Window>

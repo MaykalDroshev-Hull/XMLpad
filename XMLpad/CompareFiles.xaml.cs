@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
 using XMLpad.Models;
+using static ICSharpCode.AvalonEdit.Rendering.TextViewWeakEventManager;
 
 namespace XMLpad
 {
@@ -21,9 +22,28 @@ namespace XMLpad
     /// </summary>
     public partial class CompareFiles : Window
     {
-        public CompareFiles()
+        public CompareFiles(MainWindow.theme theme)
         {
             InitializeComponent();
+
+            if (theme == MainWindow.theme.Dark)
+            {
+                compareWindow.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
+                txtFile1.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
+                txtFile2.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
+                btnClose.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
+                btnClose.Foreground = Brushes.White;
+                fileName1.Foreground = Brushes.White;
+                fileName2.Foreground = Brushes.White;
+                txtFile1.Foreground = Brushes.White;
+                txtFile2.Foreground = Brushes.White;
+
+                // Removing the scroll bars as their color cannot be changed
+                txtFile1.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                txtFile2.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                txtFile1.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                txtFile2.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            }
             CompareProcess();
         }
         private void CompareProcess()
@@ -37,8 +57,8 @@ namespace XMLpad
                 CurrentFile currentFile = CurrentFile.getInstance();
                 filePaths.Add(currentFile.FilePath);
                 filePaths.Add(mDlgOpen.FileName);
-                label1.Content = filePaths[0];
-                label2.Content = filePaths[1];
+                fileName1.Content = filePaths[0];
+                fileName2.Content = filePaths[1];
 
                 if (filePaths.Count == 2)
                 {
@@ -89,11 +109,28 @@ namespace XMLpad
             txtFile2.Text = file2Text;
         }
 
-
-        private void btnClose_Click(object sender, RoutedEventArgs e)
+        private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        /// <summary>
+        /// Invoked when an unhandled <see cref="E:System.Windows.UIElement.MouseLeftButtonDown" /> routed event is raised on this element. Implement this method to add class handling for this event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. The event data reports that the left mouse button was pressed.</param>
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+
+            // Begin dragging the window
+            this.DragMove();
+        }
+
+        private void compareWindow_Closed(object sender, EventArgs e)
+        {
+            this.Owner.Activate();
+        }
     }
+
 }
 
