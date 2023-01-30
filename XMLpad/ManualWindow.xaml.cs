@@ -81,6 +81,9 @@ namespace XMLpad
                 case "Print":
                     explanationTextBlock.Text = "The 'Print' command prints the current file.";
                     break;
+                case "Compare File With Another":
+                    explanationTextBlock.Text = "The 'Compare File With Another' saves and compares the current file with another file chosen immediately after pressing the button.";
+                    break;
                 case "Exit":
                     explanationTextBlock.Text = "The 'Exit' command closes the application.";
                     break;
@@ -200,6 +203,9 @@ namespace XMLpad
                     break;
                 case "Toggle Full Screen Mode":
                     explanationTextBlock.Text = "The 'Toggle Full Screen Mode' command is used to toggle between full screen and windowed mode, allowing you to make the most of your screen space. To toggle full screen mode, simply click the 'Toggle Full Screen Mode' command from the menu. The program will then switch between full screen and windowed mode.";
+                    break;
+                case "Syntax Highlighting":
+                    explanationTextBlock.Text = "The syntax highlighting command usually has multiple options for different programming languages, and the highlighting rules for each language are defined in a syntax definition file. This file specifies which elements of the code should be highlighted and how they should be displayed. In addition to coloring, syntax highlighting can also provide code folding, which allows you to collapse blocks of code to make it easier to navigate large files. For example, you can fold all of the functions in a file so that only the function names are visible. When you need to access the code in a function, you can simply unfold it.";
                     break;
                 case "Show spaces and Tabs":
                     explanationTextBlock.Text = "The 'Show Spaces and Tabs' command is used to display any whitespace characters in a document, including spaces and tabs. This is useful for debugging and for visualizing how the document is structured. To display the whitespace characters, simply click the 'Show Spaces and Tabs' command from the menu. The whitespace characters will then be highlighted and visible in the document";

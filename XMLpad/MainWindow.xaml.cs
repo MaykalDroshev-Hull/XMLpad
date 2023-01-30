@@ -107,7 +107,7 @@ namespace XMLpad
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         private void GatherCompletionString()
         {
@@ -296,7 +296,7 @@ namespace XMLpad
 
         /// <summary>
         /// Handles the CompareFileWithAnother event of the MainMenu_File control.
-        /// Saves the current file and open the compare files window. 
+        /// Saves the current file and open the compare files window.
         /// There the window will open the Open dialog and will compare the selected file with the current one.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -1040,7 +1040,7 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_View_ZoomDefault(object sender, RoutedEventArgs e)
         {
-            textEditor.FontSize = 11;
+            textEditor.FontSize = Default;
         }
         #endregion
         #region Settings/Help
@@ -1063,6 +1063,7 @@ namespace XMLpad
                 App.Current.Resources["Menu.Static.Foreground"] = new SolidColorBrush(Colors.Black);
                 App.Current.Resources["Menu.Static.Menu.Static.Separator"] = new SolidColorBrush(Colors.Black);
                 App.Current.Resources["MenuItem.Selected.Background"] = new SolidColorBrush(Colors.White);
+                App.Current.Resources["MenuItem.Selected.Foreground"] = new SolidColorBrush(Colors.Black);
                 App.Current.Resources["MenuItem.Selected.Border"] = new SolidColorBrush(Colors.White);
                 App.Current.Resources["MenuItem.Highlight.Background"] = new SolidColorBrush(Colors.White);
                 App.Current.Resources["MenuItem.Highlight.Border"] = new SolidColorBrush(Colors.White);

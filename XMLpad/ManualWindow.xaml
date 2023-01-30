@@ -52,6 +52,7 @@
                     <TreeViewItem Foreground="White" Header="Save As"/>
                     <TreeViewItem Foreground="White" Header="Save A Copy As"/>
                     <TreeViewItem Foreground="White" Header="Print"/>
+                    <TreeViewItem Foreground="White" Header="Compare File With Another"/>
                     <TreeViewItem Foreground="White" Header="Exit"/>
                 </TreeViewItem>
                 <TreeViewItem Foreground="White" Header="Edit Commands">
@@ -111,7 +112,8 @@
                     </TreeViewItem>
                 </TreeViewItem>
                 <TreeViewItem Foreground="White" Header="View">
-                    <TreeViewItem x:Name="TreeViewItem_FullScreen" Foreground="White" Header="Toggle Full Screen Mode"/>
+                    <TreeViewItem Foreground="White" Header="Toggle Full Screen Mode"/>
+                    <TreeViewItem Foreground="White" Header="Syntax Highlighting"/>
                     <TreeViewItem Foreground="White" Header="Show Symbol">
                         <TreeViewItem Foreground="White" Header="Show spaces and Tabs"/>
                         <TreeViewItem Foreground="White" Header="Show new lines"/>
