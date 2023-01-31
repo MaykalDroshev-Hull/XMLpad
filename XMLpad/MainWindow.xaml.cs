@@ -52,6 +52,8 @@ namespace XMLpad
         FoldingManager mFoldingManager = new FoldingManager(new TextDocument());
         CompletionWindow? mCompletionWindow;
         private static int mTabSpacesCount = 4; // TODO: Change to be dynamic
+        private string mLoadedFile;
+
         private enum tabSelection
         {
             Tabs,
@@ -237,6 +239,9 @@ namespace XMLpad
                 textEditor.Text = "Open a file or start writing a new one";
             }
 
+            // Load the string that we are going to compare the edited file with
+            mLoadedFile = textEditor.Text;
+
             UpdateStatusBar(pAppend: false);
             // TODO: check if a file is saved
             // Then load the file
@@ -291,6 +296,7 @@ namespace XMLpad
             writer.Write(textEditor.Text);
             writer.Flush();
             writer.Close();
+            mLoadedFile = textEditor.Text;
             UpdateStatusBar(pAppend: true, $" Wrote {textEditor.Text.Length} chars in {mFilename}");
         }
 
@@ -324,6 +330,18 @@ namespace XMLpad
             // Update the text folding as well
             XmlFoldingStrategy mFoldingStrategy = new XmlFoldingStrategy();
             mFoldingStrategy.UpdateFoldings(mFoldingManager, textEditor.Document);
+            // Add the * as we have modified the file
+            if (mLoadedFile != textEditor.Text)
+            {
+                if (!Title.StartsWith("*"))
+                {
+                    Title = '*' + Title;
+                }
+            }
+            else
+            {
+                Title = Title.Replace("*", string.Empty);
+            }
         }
 
         /// <summary>
@@ -390,6 +408,9 @@ namespace XMLpad
             writer.Write(textEditor.Text);
             writer.Flush();
             writer.Close();
+            mLoadedFile = textEditor.Text;
+            UpdateStatusBar(false);
+
         }
 
         /// <summary>
@@ -1170,6 +1191,13 @@ namespace XMLpad
                     mFoldingManager = null;
                 }
             }
+        }
+
+        private void MainMenu_Edit_FindAndReplace(object sender, RoutedEventArgs e)
+        {
+            FindAndReplaceWindow findAndReplaceWindow = new FindAndReplaceWindow(textEditor, currentTheme);
+            findAndReplaceWindow.Topmost = true;
+            findAndReplaceWindow.Show();
         }
     }
 }

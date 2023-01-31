@@ -31,6 +31,7 @@
         <CommandBinding Command="ApplicationCommands.Delete" Executed="MainMenu_Delete"/>
         <CommandBinding Command="ApplicationCommands.SelectAll" Executed="MainMenu_SelectAll"/>
         <CommandBinding Command="ApplicationCommands.SelectAll" Executed="MainMenu_SelectAll"/>
+        <CommandBinding Command="ApplicationCommands.Find" Executed="MainMenu_Edit_FindAndReplace"/>
         <CommandBinding Command="EditingCommands.IncreaseFontSize" Executed="MainMenu_IncreaseIndent"/>
         <CommandBinding Command="EditingCommands.DecreaseFontSize" Executed="MainMenu_DecreaseIndent"/>
     </Window.CommandBindings>
@@ -113,6 +114,11 @@
                     <MenuItem Header="_Select All" Click="MainMenu_SelectAll" InputGestureText="Ctrl+A">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="A" Modifiers="Ctrl" Command="ApplicationCommands.SelectAll"/>
+                        </MenuItem.InputBindings>
+                    </MenuItem>
+                    <MenuItem Header="_Find (and Replace)" Click="MainMenu_Edit_FindAndReplace">
+                        <MenuItem.InputBindings>
+                            <KeyBinding Key="F" Modifiers="Ctrl" Command="ApplicationCommands.Find"/>
                         </MenuItem.InputBindings>
                     </MenuItem>
                     <Separator Style="{DynamicResource DarkModeStyleSeparator}"/>
