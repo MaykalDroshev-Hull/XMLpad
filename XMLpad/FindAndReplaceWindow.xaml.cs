@@ -100,10 +100,13 @@ namespace XMLpad
                 }
                 FindButton.Foreground = Brushes.White;
                 FindReplaceAllButton.Foreground = Brushes.White;
-                FindReplaceButton.Foreground = Brushes.White; 
+                FindReplaceButton.Foreground = Brushes.White;
                 FindButton.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
                 FindReplaceAllButton.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
                 FindReplaceButton.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
+                MatchCaseCheckBox.Foreground = Brushes.White;
+                MatchWholeWordCheckBox.Foreground = Brushes.White;
+                MatchRegexCheckBox.Foreground = Brushes.White;
             }
         }
 
