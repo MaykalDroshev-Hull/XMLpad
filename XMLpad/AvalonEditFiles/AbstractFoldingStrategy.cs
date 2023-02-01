@@ -32,8 +32,7 @@ namespace XMLpad
         /// </summary>
         public void UpdateFoldings(FoldingManager manager, TextDocument document)
         {
-            int firstErrorOffset;
-            IEnumerable<NewFolding> foldings = CreateNewFoldings(document, out firstErrorOffset);
+            IEnumerable<NewFolding> foldings = CreateNewFoldings(document, out int firstErrorOffset);
             manager.UpdateFoldings(foldings, firstErrorOffset);
         }
 

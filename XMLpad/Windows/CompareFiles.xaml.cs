@@ -54,7 +54,7 @@ namespace XMLpad
             if (mDlgOpen.ShowDialog() == true)
             {
                 List<string> filePaths = new List<string>(2);
-                CurrentFile currentFile = CurrentFile.getInstance();
+                CurrentFile currentFile = CurrentFile.GetInstance();
                 filePaths.Add(currentFile.FilePath);
                 filePaths.Add(mDlgOpen.FileName);
                 fileName1.Content = filePaths[0];

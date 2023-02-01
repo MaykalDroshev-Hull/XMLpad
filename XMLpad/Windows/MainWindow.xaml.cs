@@ -1,57 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Printing;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml;
-using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.Folding;
-using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using System.IO;
-using System.Diagnostics;
-using System.Windows.Automation;
-using ICSharpCode.AvalonEdit.Document;
-using System.Windows.Annotations;
-using Microsoft.VisualBasic.ApplicationServices;
-using ScintillaNET;
-using static ScintillaNET.Style;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.LinkLabel;
-using System.Reflection.Metadata;
-using System.ComponentModel.Design;
-using XMLpad.Models;
-using ICSharpCode.AvalonEdit.CodeCompletion;
-
-namespace XMLpad
+﻿namespace XMLpad
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using ICSharpCode.AvalonEdit.Folding;
+    using ICSharpCode.AvalonEdit.Highlighting;
+    using System.IO;
+    using System.Diagnostics;
+    using ICSharpCode.AvalonEdit.Document;
+    using static ScintillaNET.Style;
+    using XMLpad.Models;
+    using ICSharpCode.AvalonEdit.CodeCompletion;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : System.Windows.Window
+    public partial class MainWindow : Window
     {
+        #region memberVariables
         private string mFilename;
         private static bool isFullScreen = false;
-        Microsoft.Win32.OpenFileDialog mDlgOpen = new Microsoft.Win32.OpenFileDialog();
-        Microsoft.Win32.SaveFileDialog mDlgSave = new Microsoft.Win32.SaveFileDialog();
-        PrintDialog mDlgPrint;
-        CurrentFile mCurrentFile;
-        List<string> mCompletionStrings = new List<string>();
-        FoldingManager mFoldingManager = new FoldingManager(new TextDocument());
-        CompletionWindow? mCompletionWindow;
-        private static int mTabSpacesCount = 4; // TODO: Change to be dynamic
+        private readonly Microsoft.Win32.OpenFileDialog mDlgOpen = new();
+        private readonly Microsoft.Win32.SaveFileDialog mDlgSave = new();
+        private PrintDialog mDlgPrint;
+        private CurrentFile mCurrentFile;
+        private readonly List<string> mCompletionStrings = new();
+        private FoldingManager mFoldingManager = new(new TextDocument());
+        private CompletionWindow? mCompletionWindow;
+        private static readonly int mTabSpacesCount = 4; // TODO: Change to be dynamic
         private string mLoadedFile;
 
         private enum tabSelection
@@ -66,7 +47,7 @@ namespace XMLpad
             Light
         };
 
-        private enum Language
+        private enum HighlightLanguage
         {
             XmlDoc,
             CSharp,
@@ -86,30 +67,34 @@ namespace XMLpad
             MarkDown
         }
 
-        public static theme currentTheme = theme.Dark;
-        private static tabSelection currentTabSelection = tabSelection.Tabs;
+        private const theme darkTheme = theme.Dark;
+        public static theme currentTheme = darkTheme;
+        private static readonly tabSelection currentTabSelection = tabSelection.Tabs;
+        private readonly string tabCharacters = currentTabSelection == tabSelection.Spaces ? new string(' ', mTabSpacesCount) : "\t";
 
-        private string tabCharacters = currentTabSelection == tabSelection.Spaces ? new string(' ', mTabSpacesCount) : "\t";
+        #endregion
+
+        #region Utilities
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
         public MainWindow()
         {
-            Welcome_Window welcome_Window = new Welcome_Window();
+            Welcome_Window welcome_Window = new();
             if (welcome_Window.ShowDialog() == false)
             {
                 InitializeComponent();
                 GenerateInitializationText();
                 textEditor.Focus();
                 mFoldingManager = FoldingManager.Install(textEditor.TextArea);
-                textEditor.TextArea.TextEntering += textEditor_TextArea_TextEntering;
-                textEditor.TextArea.TextEntered += textEditor_TextArea_TextEntered;
+                textEditor.TextArea.TextEntering += TextEditor_TextArea_TextEntering;
+                textEditor.TextArea.TextEntered += TextEditor_TextArea_TextEntered;
                 GatherCompletionString();
             }
         }
 
         /// <summary>
-        ///
+        /// Gathers the completion string.
         /// </summary>
         private void GatherCompletionString()
         {
@@ -117,7 +102,6 @@ namespace XMLpad
 
             int currentIndex = 0;
             int startIndex = -1;
-            int endIndex = -1;
             while (currentIndex < textEditor.Document.TextLength)
             {
                 char currentChar = textEditor.Document.GetCharAt(currentIndex);
@@ -128,14 +112,13 @@ namespace XMLpad
                 }
                 else if (currentChar == '>')
                 {
-                    endIndex = currentIndex;
+                    int endIndex = currentIndex;
                     if (startIndex != -1 && endIndex != -1)
                     {
                         string word = textEditor.Document.GetText(startIndex + 1, endIndex - startIndex - 1).Replace("/", "");
                         if (!mCompletionStrings.Contains(word))
                             mCompletionStrings.Add(word);
                         startIndex = -1;
-                        endIndex = -1;
                     }
                 }
 
@@ -148,7 +131,7 @@ namespace XMLpad
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
-        void textEditor_TextArea_TextEntered(object sender, TextCompositionEventArgs e)
+        void TextEditor_TextArea_TextEntered(object sender, TextCompositionEventArgs e)
         {
             mCompletionWindow = new CompletionWindow(textEditor.TextArea);
 
@@ -172,7 +155,7 @@ namespace XMLpad
             else if (e.Text == ">")
             {
                 int currentPos = textEditor.CaretOffset;
-                StringBuilder result = new StringBuilder();
+                StringBuilder result = new();
                 while (currentPos > 0)
                 {
                     char currentChar = textEditor.Document.GetCharAt(currentPos - 1);
@@ -183,7 +166,9 @@ namespace XMLpad
                     result.Append(currentChar);
                     currentPos--;
                 }
-                string reversed = new string(result.ToString().Reverse().ToArray()).Substring(0, result.Length - 1);
+
+                // [.. means substring
+                string reversed = new string(result.ToString().Reverse().ToArray())[..(result.Length - 1)];
                 if (!mCompletionStrings.Contains(reversed))
                     mCompletionStrings.Add(reversed);
 
@@ -196,7 +181,7 @@ namespace XMLpad
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
-        void textEditor_TextArea_TextEntering(object sender, TextCompositionEventArgs e)
+        void TextEditor_TextArea_TextEntering(object sender, TextCompositionEventArgs e)
         {
             if (e.Text.Length > 0 && mCompletionWindow != null)
             {
@@ -217,18 +202,18 @@ namespace XMLpad
         {
             try
             {
-                mCurrentFile = CurrentFile.getInstance();
+                mCurrentFile = CurrentFile.GetInstance();
                 if (mCurrentFile.FileName == null)
                 {
-                    FileStream fileStream = new FileStream("C:/temp/tempfile.txt", FileMode.Open, FileAccess.Read);
-                    StreamReader reader = new StreamReader(fileStream);
+                    FileStream fileStream = new("C:/temp/tempfile.txt", FileMode.Open, FileAccess.Read);
+                    StreamReader reader = new(fileStream);
                     textEditor.Text = reader.ReadToEnd();
                     reader.Close();
                 }
                 else
                 {
-                    FileStream fileStream = new FileStream(mCurrentFile.FilePath, FileMode.Open, FileAccess.Read);
-                    StreamReader reader = new StreamReader(fileStream);
+                    FileStream fileStream = new(mCurrentFile.FilePath, FileMode.Open, FileAccess.Read);
+                    StreamReader reader = new(fileStream);
                     textEditor.Text = reader.ReadToEnd();
                     reader.Close();
                     UpdateTitle();
@@ -243,9 +228,6 @@ namespace XMLpad
             mLoadedFile = textEditor.Text;
 
             UpdateStatusBar(pAppend: false);
-            // TODO: check if a file is saved
-            // Then load the file
-            // Else create NewFile.xml and opn it here
         }
 
         private void UpdateTitle()
@@ -258,14 +240,14 @@ namespace XMLpad
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
-        public void textEditor_TextChanged(object sender, KeyEventArgs e) => UpdateStatusBar(pAppend: false);
+        public void TextEditor_TextChanged(object sender, KeyEventArgs e) => UpdateStatusBar(pAppend: false);
 
         /// <summary>
         /// Handles the PreviewMouseDoubleClick event of the textEditor control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
-        private void textEditor_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) => UpdateStatusBar(pAppend: false);
+        private void TextEditor_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) => UpdateStatusBar(pAppend: false);
 
         /// <summary>
         /// Handles the NewFile event of the MainMenu_File control.
@@ -280,19 +262,18 @@ namespace XMLpad
         /// <param name="text">The text.</param>
         private void CheckIfCurrentFileIsSaved(string text)
         {
-            if (true/* TODO: text != textFile.text*/)
-            {
-                SaveCurrentFile(text);
-            }
+            SaveCurrentFile();
         }
+        #endregion
 
+        #region File
         /// <summary>
         /// Saves the current file.
         /// </summary>
         /// <param name="text">The text.</param>
-        private void SaveCurrentFile(string text)
+        private void SaveCurrentFile()
         {
-            StreamWriter writer = new StreamWriter(mCurrentFile.FilePath);
+            StreamWriter writer = new(mCurrentFile.FilePath);
             writer.Write(textEditor.Text);
             writer.Flush();
             writer.Close();
@@ -309,9 +290,11 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_File_CompareFileWithAnother(object sender, RoutedEventArgs e)
         {
-            SaveCurrentFile(textEditor.Text);
-            CompareFiles compareFiles = new CompareFiles(currentTheme);
-            compareFiles.Owner = this;
+            SaveCurrentFile();
+            CompareFiles compareFiles = new(currentTheme)
+            {
+                Owner = this
+            };
             compareFiles.Show();
         }
 
@@ -328,7 +311,7 @@ namespace XMLpad
                 LineCharacterPosition.Content = $"Line: {textEditor.TextArea.Caret.Line} Column: {textEditor.TextArea.Caret.Column} Chars: {textEditor.Text.ToCharArray().Length} ";
 
             // Update the text folding as well
-            XmlFoldingStrategy mFoldingStrategy = new XmlFoldingStrategy();
+            XmlFoldingStrategy mFoldingStrategy = new();
             mFoldingStrategy.UpdateFoldings(mFoldingManager, textEditor.Document);
             // Add the * as we have modified the file
             if (mLoadedFile != textEditor.Text)
@@ -353,7 +336,7 @@ namespace XMLpad
         {
             if (mDlgOpen.ShowDialog() == true)
             {
-                StreamReader reader = new StreamReader(mDlgOpen.FileName);
+                StreamReader reader = new(mDlgOpen.FileName);
                 mFilename = mDlgOpen.SafeFileName;
                 textEditor.Text = reader.ReadToEnd();
                 reader.Close();
@@ -403,8 +386,8 @@ namespace XMLpad
         /// </summary>
         private void SaveFile()
         {
-            FileStream fileStream = new FileStream(mCurrentFile.FilePath, FileMode.Create, FileAccess.Write);
-            StreamWriter writer = new StreamWriter(fileStream);
+            FileStream fileStream = new(mCurrentFile.FilePath, FileMode.Create, FileAccess.Write);
+            StreamWriter writer = new(fileStream);
             writer.Write(textEditor.Text);
             writer.Flush();
             writer.Close();
@@ -470,7 +453,7 @@ namespace XMLpad
             {
                 fileStream = new FileStream("C:/temp/tempfile.txt", FileMode.Create, FileAccess.Write);
             }
-            StreamWriter writer = new StreamWriter(fileStream);
+            StreamWriter writer = new(fileStream);
             writer.Write(textEditor.Text);
             writer.Flush();
             writer.Close();
@@ -495,7 +478,9 @@ namespace XMLpad
         {
             SaveTempFile();
         }
+        #endregion
 
+        #region Edit
         private void MainMenu_Undo(object sender, RoutedEventArgs e) => textEditor.Undo();
 
         private void MainMenu_Redo(object sender, RoutedEventArgs e) => textEditor.Redo();
@@ -522,22 +507,6 @@ namespace XMLpad
             textEditor.SelectedText += DateTime.Now.ToLongDateString();
         }
 
-        private void MainMenu_Insert_DateTimeCustomized(object sender, RoutedEventArgs e)
-        {
-            // todo insert the loaded custom date time format if created otherwise call MainMenu_Insert_CustomizeFormat after a dialog that it is not set
-        }
-
-        private void MainMenu_Insert_CustomizeFormat(object sender, RoutedEventArgs e)
-        {
-            // Todo: Create a window for customizing date time format
-        }
-
-        private IEnumerable<string> GetSelectedLines()
-        {
-            string selectedText = textEditor.SelectedText;
-            return selectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-        }
-
         /// <summary>
         /// Handles the IncreaseIndent event of the MainMenu control.
         /// </summary>
@@ -545,18 +514,35 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_IncreaseIndent(object sender, RoutedEventArgs e)
         {
-            // TODO: Test
             var selectedText = textEditor.SelectedText;
             var indentedText = selectedText.Replace("\n", "\n" + tabCharacters);
             textEditor.Text.Replace(textEditor.SelectedText, indentedText);
         }
 
+        /// <summary>
+        /// Handles the CurrentFilePath event of the MainMenu_Copy control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Copy_CurrentFilePath(object sender, RoutedEventArgs e)
         {
+            Clipboard.SetText(mCurrentFile.FilePath);
+            UpdateStatusBar(true, "File path copied to clipboard");
+            System.Media.SystemSounds.Asterisk.Play();
         }
+
+        /// <summary>
+        /// Handles the CurrentFileName event of the MainMenu_Copy control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Copy_CurrentFileName(object sender, RoutedEventArgs e)
         {
+            Clipboard.SetText(mCurrentFile.FilePath);
+            UpdateStatusBar(true, "File name copied to clipboard");
+            System.Media.SystemSounds.Asterisk.Play();
         }
+
         /// <summary>
         /// Handles the DecreaseIndent event of the MainMenu control.
         /// </summary>
@@ -568,6 +554,21 @@ namespace XMLpad
             var indentedText = selectedText.Replace("\n" + tabCharacters, "\n");
             textEditor.Text.Replace(textEditor.SelectedText, indentedText);
         }
+
+        /// <summary>
+        /// Handles the FindAndReplace event of the MainMenu_Edit control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void MainMenu_Edit_FindAndReplace(object sender, RoutedEventArgs e)
+        {
+            FindAndReplaceWindow findAndReplaceWindow = new(textEditor, currentTheme)
+            {
+                Topmost = true
+            };
+            findAndReplaceWindow.Show();
+        }
+        #endregion
 
         #region ConvertCase
 
@@ -611,14 +612,15 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_ConvertCase_RandomCase(object sender, RoutedEventArgs e)
         {
-            Random randomizer = new Random();
+            Random randomizer = new();
             IEnumerable<char> final =
                 textEditor.SelectedText.Select(x => randomizer.Next() % 2 == 0 ?
                 (char.IsUpper(x) ? x.ToString().ToLower().First() : x.ToString().ToUpper().First()) : x);
-            string randomUpperLower = new string(final.ToArray());
+            string randomUpperLower = new(final.ToArray());
             textEditor.SelectedText = randomUpperLower;
         }
         #endregion
+
         #region LineOperations
 
         /// <summary>
@@ -655,8 +657,8 @@ namespace XMLpad
         private void MainMenu_LineOperations_RemoveDuplicateLines(object sender, RoutedEventArgs e)
         {
             string[] lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            HashSet<string> uniqueLines = new HashSet<string>();
-            StringBuilder result = new StringBuilder();
+            HashSet<string> uniqueLines = new();
+            StringBuilder result = new();
 
             foreach (string line in lines)
             {
@@ -686,7 +688,7 @@ namespace XMLpad
         private void MainMenu_LineOperations_RemoveConsecutiveDuplicateLines(object sender, RoutedEventArgs e)
         {
             string[] lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            StringBuilder output = new StringBuilder();
+            StringBuilder output = new();
             string previousLine = "";
             foreach (string line in lines)
             {
@@ -889,10 +891,7 @@ namespace XMLpad
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void MainMenu_Edit_BlankOperations_TabToSpace(object sender, RoutedEventArgs e)
-        {
-            textEditor.Text.Replace("\t", new string(' ', mTabSpacesCount));
-        }
+        private void MainMenu_Edit_BlankOperations_TabToSpace(object sender, RoutedEventArgs e) => textEditor.Text.Replace("\t", new string(' ', mTabSpacesCount));
 
         /// <summary>
         /// Handles the SpaceToTabLeading event of the MainMenu_Edit_BlankOperations control.
@@ -901,7 +900,7 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_SpaceToTabLeading(object sender, RoutedEventArgs e)
         {
-            StringBuilder result = new StringBuilder();
+            StringBuilder result = new();
             int spaces = 0;
             foreach (char c in textEditor.Text)
             {
@@ -961,16 +960,6 @@ namespace XMLpad
         }
         #endregion
 
-        /// <summary>
-        /// Handles the SetAsReadOnly event of the MainMenu_Edit control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void MainMenu_Edit_SetAsReadOnly(object sender, RoutedEventArgs e)
-        {
-            textEditor.IsReadOnly = !textEditor.IsReadOnly;
-        }
-
         #region View
 
         /// <summary>
@@ -993,6 +982,73 @@ namespace XMLpad
                 MenuItem_FullScreen.Header = "Toggle Full Screen Mode";
             }
             isFullScreen = !isFullScreen;
+        }
+
+        dynamic? foldingStrategy;
+        IHighlightingDefinition? highlightingDefinition;
+
+        /// <summary>
+        /// Handles the Click event of the Language control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void Language_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not MenuItem menuItem)
+                return;
+            HighlightLanguage language;
+            if (menuItem.Header.ToString() == "C#")
+            {
+                language = HighlightLanguage.CSharp;
+            }
+            else if (menuItem.Header.ToString() == "C++")
+            {
+                language = HighlightLanguage.Cpp;
+
+            }
+            else
+            {
+                language = (HighlightLanguage)Enum.Parse(typeof(HighlightLanguage), menuItem.Header.ToString());
+            }
+            switch (language)
+            {
+                case HighlightLanguage.XML:
+                case HighlightLanguage.HTML:
+                    foldingStrategy = new XmlFoldingStrategy();
+                    textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
+                    highlightingDefinition = HighlightingManager.Instance.GetDefinition("XML");
+                    break;
+                case HighlightLanguage.CSharp:
+                case HighlightLanguage.Cpp:
+                case HighlightLanguage.PHP:
+                case HighlightLanguage.Java:
+                    textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.CSharp.CSharpIndentationStrategy(textEditor.Options);
+                    foldingStrategy = new BraceFoldingStrategy();
+                    highlightingDefinition = HighlightingManager.Instance.GetDefinition("C#");
+                    break;
+                default:
+                    textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
+                    foldingStrategy = null;
+                    highlightingDefinition = null;
+                    break;
+            }
+
+            textEditor.SyntaxHighlighting = highlightingDefinition;
+
+
+            if (foldingStrategy != null)
+            {
+                mFoldingManager ??= FoldingManager.Install(textEditor.TextArea);
+                foldingStrategy.UpdateFoldings(mFoldingManager, textEditor.Document);
+            }
+            else
+            {
+                if (mFoldingManager != null)
+                {
+                    FoldingManager.Uninstall(mFoldingManager);
+                    mFoldingManager = null;
+                }
+            }
         }
         #region ShowSymbols
 
@@ -1029,7 +1085,18 @@ namespace XMLpad
             textEditor.Options.ShowEndOfLine = textEditor.Options.ShowSpaces;
         }
         #endregion
+
+        /// <summary>
+        /// Handles the SetAsReadOnly event of the MainMenu_Edit control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void MainMenu_Edit_SetAsReadOnly(object sender, RoutedEventArgs e)
+        {
+            textEditor.IsReadOnly = !textEditor.IsReadOnly;
+        }
         #endregion
+
         #region Zoom
 
         /// <summary>
@@ -1064,6 +1131,7 @@ namespace XMLpad
             textEditor.FontSize = Default;
         }
         #endregion
+
         #region Settings/Help
 
         /// <summary>
@@ -1124,80 +1192,9 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Help_ViewManual(object sender, RoutedEventArgs e)
         {
-            ManualWindow manualWindow = new ManualWindow();
+            ManualWindow manualWindow = new();
             manualWindow.Show();
         }
         #endregion
-
-        dynamic? foldingStrategy;
-        IHighlightingDefinition? highlightingDefinition;
-
-        private void Language_Click(object sender, RoutedEventArgs e)
-        {
-            var menuItem = sender as MenuItem;
-            if (menuItem == null)
-                return;
-            Language language;
-            if (menuItem.Header.ToString() == "C#")
-            {
-                language = Language.CSharp;
-            }
-            else if (menuItem.Header.ToString() == "C++")
-            {
-                language = Language.Cpp;
-
-            }
-            else
-            {
-                language = (Language)Enum.Parse(typeof(Language), menuItem.Header.ToString());
-            }
-            switch (language)
-            {
-                case Language.XML:
-                case Language.HTML:
-                    foldingStrategy = new XmlFoldingStrategy();
-                    textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
-                    highlightingDefinition = HighlightingManager.Instance.GetDefinition("XML");
-                    break;
-                case Language.CSharp:
-                case Language.Cpp:
-                case Language.PHP:
-                case Language.Java:
-                    textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.CSharp.CSharpIndentationStrategy(textEditor.Options);
-                    foldingStrategy = new BraceFoldingStrategy();
-                    highlightingDefinition = HighlightingManager.Instance.GetDefinition("C#");
-                    break;
-                default:
-                    textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
-                    foldingStrategy = null;
-                    highlightingDefinition = null;
-                    break;
-            }
-
-            textEditor.SyntaxHighlighting = highlightingDefinition;
-
-
-            if (foldingStrategy != null)
-            {
-                if (mFoldingManager == null)
-                    mFoldingManager = FoldingManager.Install(textEditor.TextArea);
-                foldingStrategy.UpdateFoldings(mFoldingManager, textEditor.Document);
-            }
-            else
-            {
-                if (mFoldingManager != null)
-                {
-                    FoldingManager.Uninstall(mFoldingManager);
-                    mFoldingManager = null;
-                }
-            }
-        }
-
-        private void MainMenu_Edit_FindAndReplace(object sender, RoutedEventArgs e)
-        {
-            FindAndReplaceWindow findAndReplaceWindow = new FindAndReplaceWindow(textEditor, currentTheme);
-            findAndReplaceWindow.Topmost = true;
-            findAndReplaceWindow.Show();
-        }
     }
 }

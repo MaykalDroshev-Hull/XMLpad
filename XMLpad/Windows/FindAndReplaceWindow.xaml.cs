@@ -1,25 +1,14 @@
-﻿using ICSharpCode.AvalonEdit.Document;
-using ICSharpCode.AvalonEdit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
-using System.Media;
-using System.Text.RegularExpressions;
-using static XMLpad.MainWindow;
-
-namespace XMLpad
+﻿namespace XMLpad
 {
+    using ICSharpCode.AvalonEdit;
+    using System;
+    using System.Collections.Generic;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media;
+    using System.Media;
+    using System.Text.RegularExpressions;
+
     /// <summary>
     /// Interaction logic for FindAndReplaceWindow.xaml
     /// </summary>
@@ -42,10 +31,10 @@ namespace XMLpad
         public bool MatchWholeWord { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether [match regex].
+        /// Gets or sets a value indicating whether [match reg-ex].
         /// </summary>
         /// <value>
-        ///   <c>true</c> if [match regex]; otherwise, <c>false</c>.
+        ///   <c>true</c> if [match reg-ex]; otherwise, <c>false</c>.
         /// </value>
         public bool MatchRegex { get; set; }
 
@@ -239,7 +228,6 @@ namespace XMLpad
             int count = 0;
             bool matchCase = MatchCaseCheckBox.IsChecked ?? false;
             bool matchWholeWord = MatchWholeWordCheckBox.IsChecked ?? false;
-            bool matchRegex = MatchRegexCheckBox.IsChecked ?? false;
 
             while (true)
             {

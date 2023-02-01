@@ -52,9 +52,9 @@ namespace XMLpad
         /// </summary>
         public IEnumerable<NewFolding> CreateNewFoldings(ITextSource document)
         {
-            List<NewFolding> newFoldings = new List<NewFolding>();
+            List<NewFolding> newFoldings = new();
 
-            Stack<int> startOffsets = new Stack<int>();
+            Stack<int> startOffsets = new();
             int lastNewLineOffset = 0;
             char openingBrace = this.OpeningBrace;
             char closingBrace = this.ClosingBrace;

@@ -1,26 +1,13 @@
-﻿using ICSharpCode.AvalonEdit;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms.VisualStyles;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using System.Xml.Linq;
-using XMLpad.Models;
-
-namespace XMLpad
+﻿namespace XMLpad
 {
+    using System;
+    using System.IO;
+    using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using System.Windows.Threading;
+    using XMLpad.Models;
+
     /// <summary>
     /// Interaction logic for Welcome_Window.xaml
     /// </summary>
@@ -29,7 +16,7 @@ namespace XMLpad
         /// <summary>
         /// The timer
         /// </summary>
-        readonly DispatcherTimer timer = new DispatcherTimer();
+        readonly DispatcherTimer timer = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Welcome_Window"/> class.
@@ -49,11 +36,11 @@ namespace XMLpad
         {
             try
             {
-                FileStream fileStream = new FileStream("C:/temp/XMLpadRecentFiles.txt", FileMode.Open, FileAccess.Read);
-                StreamReader reader = new StreamReader(fileStream);
+                FileStream fileStream = new("C:/temp/XMLpadRecentFiles.txt", FileMode.Open, FileAccess.Read);
+                StreamReader reader = new(fileStream);
                 while (reader.Peek() >= 0)
                 {
-                    string entry = reader.ReadLine();
+                    string? entry = reader.ReadLine();
                     if (entry != string.Empty)
                         recentFilesListBox.Items.Add(entry);
                 }
@@ -73,18 +60,7 @@ namespace XMLpad
             media.Play();
         }
 
-        /// <summary>
-        /// Handles the tick event of the timer control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void timer_tick(object sender, EventArgs e)
-        {
-            timer.Stop();
-            media.Visibility = Visibility.Hidden;
-            welcomeScreenControlsCanvas.Visibility = Visibility.Visible;
 
-        }
 
         /// <summary>
         /// Handles the Click event of the CloseButton control.
@@ -93,15 +69,7 @@ namespace XMLpad
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void CloseButton_Click(object sender, RoutedEventArgs e) => Environment.Exit(0);
 
-        /// <summary>
-        /// Loadings this instance.
-        /// </summary>
-        void Loading()
-        {
-            timer.Tick += timer_tick;
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Start();
-        }
+
 
         /// <summary>
         /// Invoked when an unhandled <see cref="E:System.Windows.UIElement.MouseLeftButtonDown" /> routed event is raised on this element. Implement this method to add class handling for this event.
@@ -112,7 +80,7 @@ namespace XMLpad
             base.OnMouseLeftButtonDown(e);
 
             // Begin dragging the window
-            this.DragMove();
+            DragMove();
         }
 
         /// <summary>
@@ -120,29 +88,30 @@ namespace XMLpad
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void createNewButon_Click(object sender, RoutedEventArgs e)
+        private void CreateNewButon_Click(object sender, RoutedEventArgs e)
         {
             // Create a save file dialog
-            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new()
+            {
+                // Set the filter for the file extension
 
-            // Set the filter for the file extension
+                Filter = "XML Files (*.xml)|*.xml|All files (*.*)|*.*",
 
-           saveFileDialog.Filter = "XML Files (*.xml)|*.xml|All files (*.*)|*.*";
+                // Set the default file extension
+                DefaultExt = ".xml",
 
-            // Set the default file extension
-            saveFileDialog.DefaultExt = ".xml";
+                FileName = fileNameTextBox.Text,
 
-            saveFileDialog.FileName = fileNameTextBox.Text;
-
-            // Set the initial directory
-            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                // Set the initial directory
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
 
             // Show the dialog
             if (saveFileDialog.ShowDialog() == true)
             {
                 // Create the new file
-                FileStream fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write);
-                StreamWriter writer = new StreamWriter(fileStream);
+                FileStream fileStream = new(saveFileDialog.FileName, FileMode.Create, FileAccess.Write);
+                StreamWriter writer = new(fileStream);
                 writer.Flush();
                 writer.Close();
 
@@ -163,44 +132,99 @@ namespace XMLpad
         {
             if (e.Key == Key.Return)
             {
-                createNewButon_Click(sender, e);
+                CreateNewButon_Click(sender, e);
             }
         }
 
-        private void AddFileToRecentList(string pFileName)
+
+        /// <summary>
+        /// AddFileToRecentList method adds the file to the list of recent files
+        /// </summary>
+        /// <param name="pFileName">Name of the p file.</param>
+        private static void AddFileToRecentList(string pFileName)
         {
-            // Add the file to the list of files
+            // Declare recent files path
             string recentFilesPath = "C:/temp/XMLpadRecentFiles.txt";
-            using (FileStream fileStream = new FileStream(recentFilesPath, FileMode.Append, FileAccess.Write))
-            using (StreamWriter writer = new StreamWriter(fileStream))
-            {
-                writer.WriteLine(pFileName);
-            }
+
+            // Append the file name to the recent files text file
+            using FileStream fileStream = new(recentFilesPath, FileMode.Append, FileAccess.Write);
+            using StreamWriter writer = new(fileStream);
+            writer.WriteLine(pFileName);
         }
 
-        private void SetFileName(string pFileName)
+        /// <summary>
+        /// Sets the current file name and file path.
+        /// </summary>
+        /// <param name="pFileName">Name of the p file.</param>
+        private static void SetFileName(string pFileName)
         {
-            CurrentFile currentFile = CurrentFile.getInstance();
+            // Get the instance of CurrentFile class
+            CurrentFile currentFile = CurrentFile.GetInstance();
+            // Set the file name
             currentFile.FileName = System.IO.Path.GetFileName(pFileName);
+            // Set the file path
             currentFile.FilePath = pFileName;
         }
 
+        /// <summary>
+        /// Цhanges the background color of CloseButton.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void CloseButton_MouseEnter(object sender, MouseEventArgs e)
         {
+            // Define the hex color code for white
             string hex = "#FFFFFF";
+
+            // Convert the hex color code to System.Drawing.Color
             System.Drawing.Color _color = System.Drawing.ColorTranslator.FromHtml(hex);
+
+            // Convert the System.Drawing.Color to System.Windows.Media.Color
             System.Windows.Media.Color newColor = System.Windows.Media.Color.FromArgb(_color.A, _color.R, _color.G, _color.B);
+
+            // Set the background color of CloseButton to newColor
             CloseButton.Background = new SolidColorBrush(newColor);
         }
 
-        private void recentFilesListBox_MouseUp(object sender, MouseButtonEventArgs e)
+        /// <summary>
+        /// Event handler for recentFilesListBox MouseUp event
+        /// Selects a file from the recentFilesListBox and sets the file name
+        /// Closes the application if a file is selected
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
+        private void RecentFilesListBox_MouseUp(object sender, MouseButtonEventArgs e)
         {
             int index = recentFilesListBox.SelectedIndex;
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
                 SetFileName(recentFilesListBox.SelectedItem.ToString());
-                this.Close();
+                Close();
             }
         }
+        #region Obsolete
+        /// <summary>
+        /// Handles the tick event of the timer control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void Timer_tick(object sender, EventArgs e)
+        {
+            timer.Stop();
+            media.Visibility = Visibility.Hidden;
+            welcomeScreenControlsCanvas.Visibility = Visibility.Visible;
+
+        }
+
+        /// <summary>
+        /// Loadings this instance.
+        /// </summary>
+        private void Loading()
+        {
+            timer.Tick += Timer_tick;
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
+        }
+        #endregion
     }
 }

@@ -237,9 +237,9 @@
                 FontFamily="Consolas"
                 SyntaxHighlighting="XML"
                 FontSize="10pt"
-                PreviewMouseUp="textEditor_PreviewMouseDoubleClick"
-                PreviewKeyDown="textEditor_TextChanged"
-                PreviewMouseDoubleClick="textEditor_PreviewMouseDoubleClick"
+                PreviewMouseUp="TextEditor_PreviewMouseDoubleClick"
+                PreviewKeyDown="TextEditor_TextChanged"
+                PreviewMouseDoubleClick="TextEditor_PreviewMouseDoubleClick"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
         </DockPanel>
