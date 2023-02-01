@@ -16,6 +16,7 @@
     using static ScintillaNET.Style;
     using XMLpad.Models;
     using ICSharpCode.AvalonEdit.CodeCompletion;
+    using static System.Net.WebRequestMethods;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -254,15 +255,18 @@
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void MainMenu_File_NewFile(object sender, RoutedEventArgs e) => CheckIfCurrentFileIsSaved(textEditor.Text);
-
-        /// <summary>
-        /// Checks if current file is saved.
-        /// </summary>
-        /// <param name="text">The text.</param>
-        private void CheckIfCurrentFileIsSaved(string text)
+        private void MainMenu_File_NewFile(object sender, RoutedEventArgs e)
         {
             SaveCurrentFile();
+            Welcome_Window welcome_Window = new Welcome_Window();
+            welcome_Window.CreateNewButon_Click(sender, e);
+
+            // Open the file
+            StreamReader reader = new(mCurrentFile.FilePath);
+            mFilename = mCurrentFile.FileName;
+            textEditor.Text = reader.ReadToEnd();
+            reader.Close();
+            UpdateTitle();
         }
         #endregion
 
@@ -374,7 +378,17 @@
         /// <param name="pCopy">if set to <c>true</c> [p copy].</param>
         private void SaveDialogFile(bool pCopy)
         {
-            mDlgSave.FileName += pCopy ? "- Copy" : "";
+            mDlgSave.FileName = string.Empty;
+            mDlgSave.FileName += mCurrentFile.FileName;
+
+            mDlgSave.FileName += pCopy ? " - Copy" : "";
+            // Set the filter for the file extension
+
+            mDlgSave.Filter = "XML Files (*.xml)|*.xml|All files (*.*)|*.*";
+
+            // Set the default file extension
+            mDlgSave.DefaultExt = ".xml";
+
             if (mDlgSave.ShowDialog() == true)
             {
                 SaveFile();

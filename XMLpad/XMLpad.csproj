@@ -9,16 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Assets\Images\**" />
-    <EmbeddedResource Remove="Assets\Images\**" />
-    <None Remove="Assets\Images\**" />
-    <Page Remove="Assets\Images\**" />
+    <Compile Remove="Windows\Assets\Images\**" />
+    <EmbeddedResource Remove="Windows\Assets\Images\**" />
+    <None Remove="Windows\Assets\Images\**" />
+    <Page Remove="Windows\Assets\Images\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Assets\noun-cross-1776298.png" />
-    <None Remove="Assets\noun-plus-1807535.png" />
-    <None Remove="Assets\XMLpad-logos.jpeg" />
+    <None Remove="Windows\Assets\noun-cross-1776298.png" />
+    <None Remove="Windows\Assets\noun-plus-1807535.png" />
+    <None Remove="Windows\Assets\XMLpad-logos.jpeg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,9 +35,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\noun-cross-1776298.png" />
-    <Resource Include="Assets\noun-plus-1807535.png" />
-    <Resource Include="Assets\XMLpad-logos.jpeg" />
-    <Resource Include="Assets\XMLpad-logos_transparent.png" />
+    <Resource Include="Windows\Assets\noun-cross-1776298.png" />
+    <Resource Include="Windows\Assets\noun-plus-1807535.png" />
+    <Resource Include="Windows\Assets\XMLpad-logos.jpeg" />
+    <Resource Include="Windows\Assets\XMLpad-logos_transparent.png" />
   </ItemGroup>
 </Project>
