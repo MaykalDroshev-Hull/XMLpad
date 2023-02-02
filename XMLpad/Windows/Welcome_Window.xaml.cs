@@ -1,6 +1,7 @@
 ﻿namespace XMLpad
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Windows;
     using System.Windows.Input;
@@ -189,7 +190,7 @@
         /// <summary>
         /// Event handler for recentFilesListBox MouseUp event
         /// Selects a file from the recentFilesListBox and sets the file name
-        /// Closes the application if a file is selected
+        /// Closes the window if a file is selected
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
@@ -199,9 +200,59 @@
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
                 SetFileName(recentFilesListBox.SelectedItem.ToString());
+                SetFileNameOnTopOfTheList(recentFilesListBox.SelectedItem.ToString());
                 Close();
             }
         }
+
+        /// <summary>
+        /// Sets the file name on top of the list.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        private void SetFileNameOnTopOfTheList(string? fileName)
+        {
+            // Read the text file into a list
+            List<string> fileList = ReadFileList("C:/temp/XMLpadRecentFiles.txt");
+
+            string selectedFile = fileName;
+
+            // Remove the selected file from the list
+            fileList.Remove(selectedFile);
+
+            // Add the selected file to the top of the list
+            fileList.Insert(0, selectedFile+"\r\n");
+
+            // Write the updated list to the text file
+            WriteFileList("C:/temp/XMLpadRecentFiles.txt", fileList);
+        }
+
+        static List<string> ReadFileList(string fileName)
+        {
+            List<string> fileList = new List<string>();
+
+            using (StreamReader reader = new StreamReader(fileName))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    fileList.Add(line);
+                }
+            }
+
+            return fileList;
+        }
+
+        static void WriteFileList(string fileName, List<string> fileList)
+        {
+            using (StreamWriter writer = new StreamWriter(fileName))
+            {
+                foreach (string file in fileList)
+                {
+                    writer.WriteLine(file);
+                }
+            }
+        }
+
         #region Obsolete
         /// <summary>
         /// Handles the tick event of the timer control.
