@@ -226,6 +226,11 @@
             WriteFileList("C:/temp/XMLpadRecentFiles.txt", fileList);
         }
 
+        /// <summary>
+        /// Reads the file list.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns></returns>
         static List<string> ReadFileList(string fileName)
         {
             List<string> fileList = new List<string>();
@@ -242,6 +247,11 @@
             return fileList;
         }
 
+        /// <summary>
+        /// Writes the file list.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="fileList">The file list.</param>
         static void WriteFileList(string fileName, List<string> fileList)
         {
             using (StreamWriter writer = new StreamWriter(fileName))
