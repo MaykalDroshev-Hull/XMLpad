@@ -337,8 +337,7 @@
             try
             {
                 // Update the tree as well
-                Thread t = new Thread(new ThreadStart(LoadXml));
-                t.Start();
+                LoadXml();
             }
             catch
             {
