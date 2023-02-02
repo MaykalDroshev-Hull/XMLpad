@@ -17,6 +17,9 @@
     using XMLpad.Models;
     using ICSharpCode.AvalonEdit.CodeCompletion;
     using static System.Net.WebRequestMethods;
+    using ICSharpCode.AvalonEdit.Editing;
+    using ICSharpCode.AvalonEdit;
+    using static XMLpad.RoutedCommands;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -73,6 +76,9 @@
         private static readonly tabSelection currentTabSelection = tabSelection.Tabs;
         private readonly string tabCharacters = currentTabSelection == tabSelection.Spaces ? new string(' ', mTabSpacesCount) : "\t";
 
+        public IncreaseIndentCommand IncreaseIndent { get; set; }
+
+
         #endregion
 
         #region Utilities
@@ -91,6 +97,11 @@
                 textEditor.TextArea.TextEntering += TextEditor_TextArea_TextEntering;
                 textEditor.TextArea.TextEntered += TextEditor_TextArea_TextEntered;
                 GatherCompletionString();
+
+                IncreaseIndent = new IncreaseIndentCommand();
+                CommandBinding binding = new CommandBinding(IncreaseIndent);
+                binding.Executed += MainMenu_IncreaseIndent;
+                CommandBindings.Add(binding);
             }
         }
 
@@ -509,7 +520,21 @@
         }
 
         private void MainMenu_Paste(object sender, RoutedEventArgs e) => textEditor.Paste();
-        private void MainMenu_Delete(object sender, RoutedEventArgs e) => textEditor.Delete();
+        private void MainMenu_Delete(object sender, RoutedEventArgs e)
+        {
+            int start = textEditor.SelectionStart;
+            int length = textEditor.SelectionLength;
+
+            if (length > 0)
+            {
+                textEditor.Document.Remove(start, length);
+            }
+            else
+            {
+                textEditor.Document.Remove(start, 1);
+            }
+        }
+
         private void MainMenu_SelectAll(object sender, RoutedEventArgs e) => textEditor.SelectAll();
         private void MainMenu_Insert_DateTimeShort(object sender, RoutedEventArgs e)
         {
@@ -519,18 +544,6 @@
         private void MainMenu_Insert_DateTimeLong(object sender, RoutedEventArgs e)
         {
             textEditor.SelectedText += DateTime.Now.ToLongDateString();
-        }
-
-        /// <summary>
-        /// Handles the IncreaseIndent event of the MainMenu control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void MainMenu_IncreaseIndent(object sender, RoutedEventArgs e)
-        {
-            var selectedText = textEditor.SelectedText;
-            var indentedText = selectedText.Replace("\n", "\n" + tabCharacters);
-            textEditor.Text.Replace(textEditor.SelectedText, indentedText);
         }
 
         /// <summary>
@@ -552,9 +565,29 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Copy_CurrentFileName(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(mCurrentFile.FilePath);
+            Clipboard.SetText(mCurrentFile.FileName);
             UpdateStatusBar(true, "File name copied to clipboard");
             System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        /// <summary>
+        /// Handles the IncreaseIndent event of the MainMenu control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        public void MainMenu_IncreaseIndent(object sender, RoutedEventArgs e)
+        {
+            // Get the selected text from the text editor
+            string selectedText = textEditor.SelectedText;
+
+            // Split the selected text into separate lines based on new line character
+            string[] selectedLines = selectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+
+            // Add a tab character to the beginning of each line
+            string newSelectedText = string.Join(Environment.NewLine, selectedLines.Select(line => tabCharacters + line));
+
+            // Replace the selected text with the indented text
+            textEditor.SelectedText = newSelectedText;
         }
 
         /// <summary>
@@ -564,9 +597,38 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_DecreaseIndent(object sender, RoutedEventArgs e)
         {
-            var selectedText = textEditor.SelectedText;
-            var indentedText = selectedText.Replace("\n" + tabCharacters, "\n");
-            textEditor.Text.Replace(textEditor.SelectedText, indentedText);
+            // Get the selected text or the text on the current line
+            string selectedText = textEditor.SelectedText;
+            if (string.IsNullOrEmpty(selectedText))
+            {
+                // If there's no selected text, get the text on the current line
+                selectedText = textEditor.Document.GetText(textEditor.Document.GetLineByNumber(textEditor.TextArea.Caret.Line));
+            }
+
+            // Split the selected text into lines
+            string[] lines = selectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+
+            // Prepare a StringBuilder to store the unindented text
+            StringBuilder unindentedTextBuilder = new StringBuilder();
+
+            // For each line, remove the tab characters if the line starts with them
+            foreach (string line in lines)
+            {
+                if (line.StartsWith(tabCharacters))
+                {
+                    unindentedTextBuilder.AppendLine(line.Substring(tabCharacters.Length));
+                }
+            }
+
+            // If there's unindented text, replace the selected text with it
+            if (unindentedTextBuilder != null)
+            {
+                string unindentedText = unindentedTextBuilder.ToString();
+
+                int selectionStart = textEditor.SelectionStart;
+                int selectionLength = textEditor.SelectionLength;
+                textEditor.Document.Replace(selectionStart, selectionLength, unindentedText);
+            }
         }
 
         /// <summary>
@@ -654,7 +716,7 @@
             var currentLine = textEditor.Document.GetLineByOffset(textEditor.CaretOffset);
             var lineText = textEditor.Document.GetText(currentLine);
             var insertionOffset = currentLine.EndOffset;
-            textEditor.Document.Insert(insertionOffset, lineText + Environment.NewLine);
+            textEditor.Document.Insert(insertionOffset,Environment.NewLine + lineText );
             textEditor.CaretOffset = insertionOffset;
         }
 
