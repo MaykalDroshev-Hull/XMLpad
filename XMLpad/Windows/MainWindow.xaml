@@ -228,7 +228,12 @@
                 <Label  x:Name="LineCharacterPosition" Content="Line: 0 Column: 0" Foreground="White"/>
             </StatusBar>
 
-            <avalonEdit:TextEditor
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <avalonEdit:TextEditor
                 x:Name="textEditor"
                 xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
                 ShowLineNumbers="True"
@@ -241,7 +246,19 @@
                 PreviewKeyDown="TextEditor_TextChanged"
                 PreviewMouseDoubleClick="TextEditor_PreviewMouseDoubleClick"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                    Grid.Column="0"/>
+                <TreeView Grid.Column="1" x:Name="ElementTree" Background="#1F1F1F" Foreground="White">
+                    <TreeView.Resources>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="Foreground" Value="White"/>
+                        </Style>
+                    </TreeView.Resources>
+                </TreeView>
+
+            </Grid>
+
+            
         </DockPanel>
     </Grid>
 </Window>

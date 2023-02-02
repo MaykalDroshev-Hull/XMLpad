@@ -17,6 +17,10 @@
     using XMLpad.Models;
     using ICSharpCode.AvalonEdit.CodeCompletion;
     using static System.Net.WebRequestMethods;
+    using System.Collections;
+    using System.Xml.Linq;
+    using System.Threading.Tasks;
+    using System.Threading;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -329,8 +333,77 @@
             {
                 Title = Title.Replace("*", string.Empty);
             }
+
+            try
+            {
+                // Update the tree as well
+                Thread t = new Thread(new ThreadStart(LoadXml));
+                t.Start();
+            }
+            catch
+            {
+                ElementTree.ItemsSource = new List<TreeViewItem> { new TreeViewItem { Header = "Invalid XML" } };
+            }
         }
 
+        bool rootCreated;
+
+        private void LoadXml()
+        {
+            XDocument xDoc = XDocument.Parse(textEditor.Text);
+
+            rootCreated = false;
+
+            ElementTree.ItemsSource = LoadNodes(xDoc.Root);
+        }
+
+        private List<TreeViewItem> LoadNodes(XElement node)
+        {
+            List<TreeViewItem> items = new List<TreeViewItem>();
+
+            if (!rootCreated)
+            {
+                rootCreated = true;
+                TreeViewItem rootItem = new TreeViewItem
+                {
+                    Header = node.Name,
+                    ItemsSource = LoadNodes(node),
+                    IsExpanded = true
+                };
+                items.Add(rootItem);
+                return items;
+            }
+
+
+
+            foreach (XElement childNode in node.Elements())
+            {
+                XElement currentChildNode = childNode;
+
+                TreeViewItem item = new TreeViewItem
+                {
+                    Header = currentChildNode.Name,
+                    ItemsSource = LoadNodes(currentChildNode),
+                    IsExpanded = true
+                };
+
+                if (item.ItemsSource == null || item.Items.Count == 0)
+                {
+                    item.ItemsSource = new List<TreeViewItem>
+                {
+                    new TreeViewItem
+                    {
+                        Header = "\""+currentChildNode.Value+"\"",
+                        IsExpanded = true,
+                        Foreground = Brushes.Purple
+                    }
+                };
+                }
+
+                items.Add(item);
+            }
+            return items;
+        }
         /// <summary>
         /// Handles the OpenFile event of the MainMenu_File control.
         /// </summary>
