@@ -200,6 +200,13 @@
                 {
                     mCompletionWindow = null;
                 };
+                mCompletionWindow.CompletionList.SelectionChanged += (sender, e) => {
+                    ICompletionData selectedData = mCompletionWindow.CompletionList.SelectedItem;
+                    if (selectedData != null)
+                    {
+                        mOpenedStrings.Remove(((MyCompletionData)selectedData).Text);
+                    }
+                };
             }
         }
 
