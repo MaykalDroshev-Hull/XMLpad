@@ -31,6 +31,7 @@
     <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="jacobslusser.ScintillaNET.Signed" Version="3.6.3" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.7.1" />
     <PackageReference Include="ShowMeTheXAML.AvalonEdit" Version="2.0.0" />
   </ItemGroup>
 

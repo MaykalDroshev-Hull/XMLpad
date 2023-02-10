@@ -21,6 +21,7 @@
     using System.Xml.Linq;
     using System.Threading.Tasks;
     using System.Threading;
+    using System.Windows.Documents;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -1323,5 +1324,71 @@
             manualWindow.Show();
         }
         #endregion
+
+        private void TreeSearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Get the search text from the TextBox
+            var searchText = TreeSearchTextBox.Text;
+
+            // Clear any previous highlights
+            ClearHighlights();
+
+            // If the search text is not empty, search the TreeView and highlight the results
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                SearchAndHighlight(ElementTree.Items, searchText);
+            }
+        }
+
+        private void ClearHighlights()
+        {
+            foreach (TreeViewItem item in ElementTree.Items)
+            {
+                item.Background = SystemColors.WindowBrush;
+                ClearHighlights(item);
+            }
+        }
+
+        private void ClearHighlights(TreeViewItem item)
+        {
+            foreach (TreeViewItem child in item.Items)
+            {
+                child.Background = SystemColors.WindowBrush;
+                ClearHighlights(child);
+            }
+        }
+
+        private void SearchAndHighlight(ItemCollection items, string searchText)
+        {
+            foreach (var item in items)
+            {
+                var treeViewItem = item as TreeViewItem;
+                if (treeViewItem == null)
+                {
+                    continue;
+                }
+
+                // Check if the current item matches the search text
+                var textBlock = treeViewItem.Header as TextBlock;
+                if (textBlock != null && textBlock.Text.Contains(searchText))
+                {
+                    var text = textBlock.Text;
+                    var index = text.IndexOf(searchText, StringComparison.OrdinalIgnoreCase);
+                    if (index >= 0)
+                    {
+                        var run = new Run(text.Substring(index, searchText.Length));
+                        run.Background = Brushes.Yellow;
+                        var newText = new TextBlock();
+                        newText.Inlines.Add(new Run(text.Substring(0, index)));
+                        newText.Inlines.Add(run);
+                        newText.Inlines.Add(new Run(text.Substring(index + searchText.Length)));
+                        treeViewItem.Header = newText;
+                    }
+                }
+
+                // Recursively search the children
+                SearchAndHighlight(treeViewItem.Items, searchText);
+            }
+        }
     }
 }
