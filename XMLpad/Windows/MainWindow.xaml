@@ -248,13 +248,8 @@
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                     Grid.Column="0"/>
-                <TreeView Grid.Column="1" x:Name="ElementTree" Background="#1F1F1F" Foreground="White">
-                    <TreeView.Resources>
-                        <Style TargetType="{x:Type TreeViewItem}">
-                            <Setter Property="Foreground" Value="White"/>
-                        </Style>
-                    </TreeView.Resources>
-                </TreeView>
+                <TreeView Grid.Column="1" x:Name="ElementTree" Background="#1F1F1F"/>
+
 
             </Grid>
 

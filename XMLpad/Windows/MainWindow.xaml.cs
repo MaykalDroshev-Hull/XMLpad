@@ -35,6 +35,7 @@
         private PrintDialog mDlgPrint;
         private CurrentFile mCurrentFile;
         private readonly List<string> mCompletionStrings = new();
+        private readonly List<string> mOpenedStrings = new();
         private FoldingManager mFoldingManager = new(new TextDocument());
         private CompletionWindow? mCompletionWindow;
         private static readonly int mTabSpacesCount = 4; // TODO: Change to be dynamic
@@ -174,9 +175,31 @@
 
                 // [.. means substring
                 string reversed = new string(result.ToString().Reverse().ToArray())[..(result.Length - 1)];
+                if (!reversed.Contains('/'))
+                {
+                    mOpenedStrings.Add(reversed.Replace("/", "").Replace("\\", ""));
+                }
+                reversed = reversed.Replace("/","").Replace("\\","");
                 if (!mCompletionStrings.Contains(reversed))
                     mCompletionStrings.Add(reversed);
 
+            }
+            else if(e.Text == "/")
+            {
+                // Open code completion after the user has pressed dot:
+                IList<ICompletionData> mData = mCompletionWindow.CompletionList.CompletionData;
+                foreach (string entry in mOpenedStrings)
+                {
+                    mData.Add(new MyCompletionData(entry));
+                }
+                if (mData.Count != 0)
+                {
+                    mCompletionWindow.Show();
+                }
+                mCompletionWindow.Closed += delegate
+                {
+                    mCompletionWindow = null;
+                };
             }
         }
 
@@ -341,7 +364,7 @@
             }
             catch
             {
-                ElementTree.ItemsSource = new List<TreeViewItem> { new TreeViewItem { Header = "Invalid XML" } };
+                ElementTree.ItemsSource = new List<TreeViewItem> { new TreeViewItem { Header = "Invalid XML", Foreground = currentTheme == theme.Light? Brushes.Black:Brushes.White} };
             }
         }
 
@@ -356,6 +379,11 @@
             ElementTree.ItemsSource = LoadNodes(xDoc.Root);
         }
 
+        /// <summary>
+        /// Loads the nodes into the node tree.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns></returns>
         private List<TreeViewItem> LoadNodes(XElement node)
         {
             List<TreeViewItem> items = new List<TreeViewItem>();
@@ -367,7 +395,8 @@
                 {
                     Header = node.Name,
                     ItemsSource = LoadNodes(node),
-                    IsExpanded = true
+                    IsExpanded = true,
+                    Foreground = currentTheme == theme.Light ? Brushes.Black : Brushes.White
                 };
                 items.Add(rootItem);
                 return items;
@@ -383,7 +412,9 @@
                 {
                     Header = currentChildNode.Name,
                     ItemsSource = LoadNodes(currentChildNode),
-                    IsExpanded = true
+                    IsExpanded = true,
+                    Foreground = currentTheme == theme.Light ? Brushes.Black : Brushes.White
+
                 };
 
                 if (item.ItemsSource == null || item.Items.Count == 0)
@@ -1247,6 +1278,8 @@
                 mainWindowStatusBar.Style = App.Current.Resources["LightModeStyleStatusBar"] as System.Windows.Style;
                 LineCharacterPosition.Foreground = Brushes.Black;
                 currentTheme = theme.Light;
+
+                ElementTree.Background = Brushes.White;
             }
             else
             {
@@ -1269,6 +1302,7 @@
                 currentTheme = theme.Dark;
             }
 
+            UpdateStatusBar(pAppend: true, pValue: $"Theme changed!");
         }
 
         /// <summary>

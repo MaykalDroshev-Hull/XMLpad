@@ -224,41 +224,42 @@
         {
             string findText = FindTextBox.Text;
             string replaceText = ReplaceTextBox.Text;
-            int start = 0;
-            int count = 0;
+            //int start = 0;
+            //int count = 0;
             bool matchCase = MatchCaseCheckBox.IsChecked ?? false;
-            bool matchWholeWord = MatchWholeWordCheckBox.IsChecked ?? false;
+            //bool matchWholeWord = MatchWholeWordCheckBox.IsChecked ?? false;
 
-            while (true)
-            {
-                start = _textEditor.Text.IndexOf(findText, start,
-                    matchCase ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
-                if (start == -1)
-                {
-                    break;
-                }
+            //while (true)
+            //{
+            //    start = _textEditor.Text.IndexOf(findText, start,
+            //        matchCase ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
+            //    if (start == -1)
+            //    {
+            //        break;
+            //    }
 
-                if (matchWholeWord)
-                {
-                    // Check if the word is surrounded by whitespace or start/end of line
-                    if ((start > 0 && !char.IsWhiteSpace(_textEditor.Text[start - 1])) ||
-                        (start + findText.Length < _textEditor.Text.Length && !char.IsWhiteSpace(_textEditor.Text[start + findText.Length])))
-                    {
-                        start++;
-                        continue;
-                    }
-                }
+            //    if (matchWholeWord)
+            //    {
+            //        // Check if the word is surrounded by whitespace or start/end of line
+            //        if ((start > 0 && !char.IsWhiteSpace(_textEditor.Text[start - 1])) ||
+            //            (start + findText.Length < _textEditor.Text.Length && !char.IsWhiteSpace(_textEditor.Text[start + findText.Length])))
+            //        {
+            //            start++;
+            //            continue;
+            //        }
+            //    }
 
-                _textEditor.SelectedText = replaceText;
-                start += replaceText.Length;
-                count++;
-            }
+            //    _textEditor.SelectedText = replaceText;
+            //    start += replaceText.Length;
+            //    count++;
+            //}
 
-            if (count == 0)
-            {
-                SystemSounds.Exclamation.Play();
-                MessageBox.Show("No matches until the end of the file found.", "Find and Replace", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            //if (count == 0)
+            //{
+            //    SystemSounds.Exclamation.Play();
+            //    MessageBox.Show("No matches until the end of the file found.", "Find and Replace", MessageBoxButton.OK, MessageBoxImage.Information);
+            //}
+            _textEditor.Text = _textEditor.Text.Replace(findText, replaceText, matchCase ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
         }
 
     }
