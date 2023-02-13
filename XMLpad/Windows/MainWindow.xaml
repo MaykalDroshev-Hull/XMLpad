@@ -197,6 +197,7 @@
                         <MenuItem Header="_Zoom out" InputGestureText="Ctrl+Num-" Click="MainMenu_View_ZoomOut"/>
                         <MenuItem Header="_Restore default zoom" InputGestureText="Ctrl+Num/" Click="MainMenu_View_ZoomDefault"/>
                     </MenuItem>
+                    <MenuItem Header="Show / Hide Line Numbers" Click="MainMenu_View_ShowLineNumbers"/>
                 </MenuItem>
 
                 <MenuItem Header="Settings" >

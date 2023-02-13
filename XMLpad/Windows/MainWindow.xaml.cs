@@ -1088,6 +1088,16 @@
         #region View
 
         /// <summary>
+        /// Changes to show/ hide line numbers.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void MainMenu_View_ShowLineNumbers(object sender, RoutedEventArgs e)
+        {
+            textEditor.ShowLineNumbers = !textEditor.ShowLineNumbers;
+        }
+
+        /// <summary>
         /// Handles the ToggleFullScreen event of the MainMenu_View control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
