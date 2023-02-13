@@ -9,7 +9,7 @@
         ResizeMode="NoResize"
         Title="Welcome_Window" Height="450" Width="420"
         BorderBrush="White"
-        BorderThickness="1"
+        BorderThickness="0"
         >
     <Grid>
         <Canvas x:Name="welcomeScreenControlsCanvas" Visibility="Visible" Background="#1F1F1F">

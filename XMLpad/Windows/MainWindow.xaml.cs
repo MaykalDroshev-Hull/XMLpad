@@ -180,12 +180,12 @@
                 {
                     mOpenedStrings.Add(reversed.Replace("/", "").Replace("\\", ""));
                 }
-                reversed = reversed.Replace("/","").Replace("\\","");
+                reversed = reversed.Replace("/", "").Replace("\\", "");
                 if (!mCompletionStrings.Contains(reversed))
                     mCompletionStrings.Add(reversed);
 
             }
-            else if(e.Text == "/")
+            else if (e.Text == "/")
             {
                 // Open code completion after the user has pressed dot:
                 IList<ICompletionData> mData = mCompletionWindow.CompletionList.CompletionData;
@@ -201,7 +201,8 @@
                 {
                     mCompletionWindow = null;
                 };
-                mCompletionWindow.CompletionList.SelectionChanged += (sender, e) => {
+                mCompletionWindow.CompletionList.SelectionChanged += (sender, e) =>
+                {
                     ICompletionData selectedData = mCompletionWindow.CompletionList.SelectedItem;
                     if (selectedData != null)
                     {
@@ -372,7 +373,7 @@
             }
             catch
             {
-                ElementTree.ItemsSource = new List<TreeViewItem> { new TreeViewItem { Header = "Invalid XML", Foreground = currentTheme == theme.Light? Brushes.Black:Brushes.White} };
+                ElementTree.ItemsSource = new List<TreeViewItem> { new TreeViewItem { Header = "Invalid XML", Foreground = currentTheme == theme.Light ? Brushes.Black : Brushes.White } };
             }
         }
 
@@ -559,8 +560,7 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_File_Exit(object sender, RoutedEventArgs e)
         {
-            SaveTempFile();
-            Environment.Exit(0);
+            Window_Closing(sender, null);
         }
 
         /// <summary>
@@ -601,7 +601,19 @@
         /// <param name="e">The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            // TODO: add a small window to ask to save the file if there are differences
+
+            if (Title.Contains('*'))
+            {
+                MessageBoxResult savefileYesNo = System.Windows.MessageBox.Show("Would you like to save the changes before you exit?", "Save File?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (savefileYesNo == MessageBoxResult.Yes)
+                {
+                    SaveCurrentFile();
+                }
+            }
             SaveTempFile();
+
+            Environment.Exit(0);
         }
         #endregion
 

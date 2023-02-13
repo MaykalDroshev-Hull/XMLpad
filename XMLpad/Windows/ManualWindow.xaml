@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ManualWindow" Height="450" Width="800" Style="{DynamicResource DarkModeStyleWindow}"
         BorderBrush="White"
-        BorderThickness="1pt"
+        BorderThickness="0pt"
         WindowStyle="None">
     <Grid>
         <Grid.RowDefinitions>
