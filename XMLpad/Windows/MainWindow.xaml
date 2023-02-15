@@ -3,8 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:XMLpad"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Closing="Window_Closing"
         Style="{DynamicResource DarkModeStyleWindow}"
@@ -27,7 +25,6 @@
         <CommandBinding Command="ApplicationCommands.Redo" Executed="MainMenu_Redo"/>
         <CommandBinding Command="ApplicationCommands.Cut" Executed="MainMenu_Cut"/>
         <CommandBinding Command="ApplicationCommands.Copy" Executed="MainMenu_Copy"/>
-        <CommandBinding Command="ApplicationCommands.Replace" Executed="MainMenu_DuplicateLine"/>
         <CommandBinding Command="ApplicationCommands.Paste" Executed="MainMenu_Paste"/>
         <CommandBinding Command="ApplicationCommands.Delete" Executed="MainMenu_Delete"/>
         <CommandBinding Command="ApplicationCommands.SelectAll" Executed="MainMenu_SelectAll"/>
@@ -57,11 +54,7 @@
                             <KeyBinding Key="S" Modifiers="Ctrl" Command="ApplicationCommands.Save"/>
                         </MenuItem.InputBindings>
                     </MenuItem>
-                    <MenuItem Header="_Save As" InputGestureText="Ctrl+Shift+S" Click="MainMenu_File_SaveAs">
-                        <MenuItem.InputBindings>
-                            <KeyBinding Key="S" Modifiers="Ctrl+Shift" Command="ApplicationCommands.SaveAs"/>
-                        </MenuItem.InputBindings>
-                    </MenuItem>
+                    <MenuItem Header="_Save As" Click="MainMenu_File_SaveAs"/>
                     <MenuItem Header="_Save A Copy As" Click="MainMenu_File_SaveACopyAs"/>
                     <MenuItem Header="_Print" InputGestureText="Ctrl+P" Click="MainMenu_File_Print">
                         <MenuItem.InputBindings>
@@ -69,7 +62,7 @@
                         </MenuItem.InputBindings>
                     </MenuItem>
                     <MenuItem Header="_Compare File with Another" Click="MainMenu_File_CompareFileWithAnother"/>
-                    <Separator  Style="{DynamicResource DarkModeStyleSeparator}"/>
+                    <Separator Style="{DynamicResource DarkModeStyleSeparator}"/>
                     <MenuItem Header="_Exit" InputGestureText="Alt+F4" Click="MainMenu_File_Exit">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="F4" Modifiers="Alt" Command="ApplicationCommands.Close"/>
@@ -97,17 +90,14 @@
                             <KeyBinding Key="C" Modifiers="Ctrl" Command="ApplicationCommands.Copy"/>
                         </MenuItem.InputBindings>
                     </MenuItem>
-                    <MenuItem Header="_Duplicate Line" Click="MainMenu_DuplicateLine" InputGestureText="Ctrl+D">
-                        <MenuItem.InputBindings>
-                            <KeyBinding Key="D" Modifiers="Ctrl" Command="ApplicationCommands.Replace"/>
-                        </MenuItem.InputBindings>
+                    <MenuItem Header="_Duplicate Line" Click="MainMenu_DuplicateLine">
                     </MenuItem>
                     <MenuItem Header="_Paste" Click="MainMenu_Paste" InputGestureText="Ctrl+V">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="V" Modifiers="Ctrl" Command="ApplicationCommands.Paste"/>
                         </MenuItem.InputBindings>
                     </MenuItem>
-                    <MenuItem Header="_Delete" Click="MainMenu_Delete" InputGestureText="DEL">
+                    <MenuItem Header="_Delete" Click="MainMenu_Delete" InputGestureText="DEL/Ctrl+D">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="Delete" Command="ApplicationCommands.Delete"/>
                         </MenuItem.InputBindings>
@@ -131,19 +121,9 @@
                         <MenuItem Header="_Copy Current File Path" Click="MainMenu_Copy_CurrentFilePath"/>
                         <MenuItem Header="_Copy Current File Name" Click="MainMenu_Copy_CurrentFileName"/>
                     </MenuItem>
-
                     <MenuItem Header="_Indent">
-                        <MenuItem Header="_Increase Indent (+)" InputGestureText="Ctrl+Plus" Click="MainMenu_IncreaseIndent">
-                            <MenuItem.InputBindings>
-                                <KeyBinding Key="Add" Modifiers="Ctrl" Command="EditingCommands.IncreaseFontSize"/>
-                            </MenuItem.InputBindings>
-                        </MenuItem>
-                        <MenuItem Header="_Decrease Indent (-)" InputGestureText="Ctrl+Shift+Minus" Click="MainMenu_DecreaseIndent">
-                            <MenuItem.InputBindings>
-                                <!-- TODO: Change when crete custom commands-->
-                                <KeyBinding Key="OemMinus" Modifiers="Ctrl+Shift" Command="EditingCommands.DecreaseFontSize"/>
-                            </MenuItem.InputBindings>
-                        </MenuItem>
+                        <MenuItem Header="_Increase Indent (+)" Click="MainMenu_IncreaseIndent"/>
+                        <MenuItem Header="_Decrease Indent (-)" Click="MainMenu_DecreaseIndent"/>
                     </MenuItem>
                     <MenuItem Header="_Convert Case">
                         <MenuItem Header="_All Uppercase" Click="MainMenu_ConvertCase_AllUppercase" InputGestureText="Ctrl+Shift+U">
@@ -160,18 +140,17 @@
                         <MenuItem Header="_Random Case" Click="MainMenu_ConvertCase_RandomCase"/>
                     </MenuItem>
                     <MenuItem Header="_Line Operations" >
-                        <MenuItem Header="_Duplicate Line" InputGestureText="Ctrl+D"   Click="MainMenu_LineOperations_DuplicateLine"/>
-                        <MenuItem Header="_Remove Duplicate Lines"   Click="MainMenu_LineOperations_RemoveDuplicateLines"/>
-                        <MenuItem Header="_Remove Consecutive Duplicate Lines"   Click="MainMenu_LineOperations_RemoveConsecutiveDuplicateLines"/>
-                        <MenuItem Header="_Move Up The Current Line" InputGestureText="Ctrl+Shift+Up"   Click="MainMenu_LineOperations_MoveUpCurrentLine"/>
-                        <MenuItem Header="_Move Down The Current Line" InputGestureText="Ctrl+Shift+Down"   Click="MainMenu_LineOperations_MoveDownCurrentLine"/>
-                        <MenuItem Header="_Remove Empty Lines"   Click="MainMenu_LineOperations_RemoveEmptyLines"/>
-                        <MenuItem Header="_Insert Blank Line Above Current" InputGestureText="Ctrl+Alt+Enter"   Click="MainMenu_LineOperations_InsertBlankLineAboveCurrent"/>
-                        <MenuItem Header="_Insert Blank Line Below Current" InputGestureText="Ctrl+Alt+Shift+Enter"   Click="MainMenu_LineOperations_InsertBlankLineBelowCurrent"/>
-
+                        <MenuItem Header="_Duplicate Line" Click="MainMenu_LineOperations_DuplicateLine"/>
+                        <MenuItem Header="_Remove Duplicate Lines" Click="MainMenu_LineOperations_RemoveDuplicateLines"/>
+                        <MenuItem Header="_Remove Consecutive Duplicate Lines" Click="MainMenu_LineOperations_RemoveConsecutiveDuplicateLines"/>
+                        <MenuItem Header="_Move Up The Current Line" Click="MainMenu_LineOperations_MoveUpCurrentLine"/>
+                        <MenuItem Header="_Move Down The Current Line" Click="MainMenu_LineOperations_MoveDownCurrentLine"/>
+                        <MenuItem Header="_Remove Empty Lines" Click="MainMenu_LineOperations_RemoveEmptyLines"/>
+                        <MenuItem Header="_Insert Blank Line Above Current" Click="MainMenu_LineOperations_InsertBlankLineAboveCurrent"/>
+                        <MenuItem Header="_Insert Blank Line Below Current" Click="MainMenu_LineOperations_InsertBlankLineBelowCurrent"/>
                         <MenuItem Header="_Comment/Uncomment" >
-                            <MenuItem Header="_Comment" InputGestureText="Ctrl+K+C" Click="MainMenu_Comment"/>
-                            <MenuItem Header="_Uncomment" InputGestureText="Ctrl+K+Y" Click="MainMenu_Uncomment"/>
+                            <MenuItem Header="_Comment" Click="MainMenu_Comment"/>
+                            <MenuItem Header="_Uncomment" Click="MainMenu_Uncomment"/>
                         </MenuItem>
                         <MenuItem Header="_Blank Operations" >
                             <MenuItem Header="_Trim Trailing Space" Click="MainMenu_Edit_BlankOperations_TrimTrailingSpace"/>
@@ -186,7 +165,7 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_View" >
-                    <MenuItem x:Name="MenuItem_FullScreen"  Header="_Toggle Full Screen Mode" InputGestureText="F11" Click="MainMenu_View_ToggleFullScreen"/>
+                    <MenuItem x:Name="MenuItem_FullScreen" Header="_Toggle Full Screen Mode" InputGestureText="F11" Click="MainMenu_View_ToggleFullScreen"/>
                     <MenuItem Header="_Show Symbol" >
                         <MenuItem Header="_Show spaces and Tabs" Click="MainMenu_View_ShowSymbol_ShowSpacesAndTabs"/>
                         <MenuItem Header="_Show new lines" Click="MainMenu_View_ShowSymbol_ShowNewLines"/>
@@ -199,7 +178,6 @@
                     </MenuItem>
                     <MenuItem Header="Show / Hide Line Numbers" Click="MainMenu_View_ShowLineNumbers"/>
                 </MenuItem>
-
                 <MenuItem Header="Settings" >
                     <MenuItem Header="Change Theme" Click="MainMenu_Settings_EnvironmentPreferences"/>
                     <MenuItem Header="Syntax Highlighting">
@@ -225,11 +203,9 @@
                     <MenuItem Header="View Manual" Click="MainMenu_Help_ViewManual"/>
                 </MenuItem>
             </Menu>
-
-            <StatusBar x:Name="mainWindowStatusBar"  DockPanel.Dock="Bottom" Style="{DynamicResource DarkModeStyleStatusBar}" >
-                <Label  x:Name="LineCharacterPosition" Content="Line: 0 Column: 0" Foreground="White"/>
+            <StatusBar x:Name="mainWindowStatusBar" DockPanel.Dock="Bottom" Style="{DynamicResource DarkModeStyleStatusBar}" >
+                <Label x:Name="LineCharacterPosition" Content="Line: 0 Column: 0" Foreground="White"/>
             </StatusBar>
-
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
@@ -250,7 +226,6 @@
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                     Grid.Column="0"/>
-
                 <Grid Grid.Column="1" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height ="1*"/>
@@ -281,13 +256,8 @@
                         </TextBox.Style>
                     </TextBox>
                     <TreeView Grid.Row="1" x:Name="ElementTree" Background="#1F1F1F" />
-
                 </Grid>
-
-
             </Grid>
-
-
         </DockPanel>
     </Grid>
 </Window>
