@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         Closing="Window_Closing"
         Style="{DynamicResource DarkModeStyleWindow}"
         Title="XMLpad" Icon="Assets/XMLpad-logos_transparent.png" Height="900" Width="1600">
@@ -14,6 +15,23 @@
             </Border>
         </ControlTemplate>
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="S"
+              Modifiers="Ctrl+Shift"
+              Command="ApplicationCommands.SaveAs" />
+        <KeyBinding Key="F"
+                    Modifiers="Ctrl+Shift"
+                    Command="ApplicationCommands.Properties"/>
+        <KeyBinding Key="Add"
+                    Modifiers="Ctrl"
+                    Command="NavigationCommands.IncreaseZoom"/>
+        <KeyBinding Key="Subtract"
+                    Modifiers="Ctrl"
+                    Command="NavigationCommands.DecreaseZoom"/>
+        <KeyBinding Key="Divide"
+                    Modifiers="Ctrl"
+                    Command="NavigationCommands.Zoom"/>
+    </Window.InputBindings>
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.New" Executed="MainMenu_File_NewFile"/>
         <CommandBinding Command="ApplicationCommands.Open" Executed="MainMenu_File_OpenFile"/>
@@ -32,6 +50,10 @@
         <CommandBinding Command="ApplicationCommands.Find" Executed="MainMenu_Edit_FindAndReplace"/>
         <CommandBinding Command="EditingCommands.IncreaseFontSize" Executed="MainMenu_IncreaseIndent"/>
         <CommandBinding Command="EditingCommands.DecreaseFontSize" Executed="MainMenu_DecreaseIndent"/>
+        <CommandBinding Command="NavigationCommands.IncreaseZoom" Executed="MainMenu_View_ZoomIn"/>
+        <CommandBinding Command="NavigationCommands.Zoom" Executed="MainMenu_View_ZoomDefault"/>
+        <CommandBinding Command="NavigationCommands.DecreaseZoom" Executed="MainMenu_View_ZoomOut"/>
+        <CommandBinding Command="ApplicationCommands.Properties" Executed="MainMenu_View_ToggleFullScreen"/>
     </Window.CommandBindings>
     <Grid>
         <DockPanel>
@@ -161,22 +183,24 @@
                             <MenuItem Header="_Space To TAB(Trailing)" Click="MainMenu_Edit_BlankOperations_SpaceToTabTrailing"/>
                             <MenuItem Header="_Space To TAB(All)" Click="MainMenu_Edit_BlankOperations_SpaceToTabAll"/>
                         </MenuItem>
-                        <MenuItem Header="_Set As Read-Only" Click="MainMenu_Edit_SetAsReadOnly"/>
+                        <MenuItem x:Name="readOnlyMenuItem"  Header="_Set As Read-Only" Click="MainMenu_Edit_SetAsReadOnly" IsCheckable="True"/>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_View" >
-                    <MenuItem x:Name="MenuItem_FullScreen" Header="_Toggle Full Screen Mode" InputGestureText="F11" Click="MainMenu_View_ToggleFullScreen"/>
+                    <MenuItem x:Name="menuItem_FullScreen" Header="_Toggle Full Screen Mode" InputGestureText="Ctrl+Shift+F" Click="MainMenu_View_ToggleFullScreen">
+                    </MenuItem>
                     <MenuItem Header="_Show Symbol" >
-                        <MenuItem Header="_Show spaces and Tabs" Click="MainMenu_View_ShowSymbol_ShowSpacesAndTabs"/>
-                        <MenuItem Header="_Show new lines" Click="MainMenu_View_ShowSymbol_ShowNewLines"/>
-                        <MenuItem Header="_Show all characters" Click="MainMenu_View_ShowSymbol_ShowAllCharacters"/>
+                        <MenuItem x:Name="menuItem_showSpacesTabs" Header="_Show spaces and Tabs" Click="MainMenu_View_ShowSymbol_ShowSpacesAndTabs" IsCheckable="True"/>
+                        <MenuItem x:Name="menuItem_showNewLines" Header="_Show new lines" Click="MainMenu_View_ShowSymbol_ShowNewLines" IsCheckable="True"/>
+                        <MenuItem x:Name="menuItem_showAllCharacters" Header="_Show all characters" Click="MainMenu_View_ShowSymbol_ShowAllCharacters"/>
                     </MenuItem>
                     <MenuItem Header="_Zoom" >
                         <MenuItem Header="_Zoom in" Click="MainMenu_View_ZoomIn" InputGestureText="Ctrl+Num+"/>
                         <MenuItem Header="_Zoom out" InputGestureText="Ctrl+Num-" Click="MainMenu_View_ZoomOut"/>
                         <MenuItem Header="_Restore default zoom" InputGestureText="Ctrl+Num/" Click="MainMenu_View_ZoomDefault"/>
                     </MenuItem>
-                    <MenuItem Header="Show / Hide Line Numbers" Click="MainMenu_View_ShowLineNumbers"/>
+                    <MenuItem x:Name="mainMenu_showLineNumbers" Header="Show Line Numbers" Click="MainMenu_View_ShowLineNumbers" IsCheckable="True" IsChecked="True"/>
+                    <MenuItem x:Name="mainMenu_showXMLTree" Header="Show XML Tree" Click="MainMenu_View_ShowXMLTree" IsCheckable="True" IsChecked="True"/>
                 </MenuItem>
                 <MenuItem Header="Settings" >
                     <MenuItem Header="Change Theme" Click="MainMenu_Settings_EnvironmentPreferences"/>
@@ -226,11 +250,16 @@
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                     Grid.Column="0"/>
-                <Grid Grid.Column="1" >
+                <Grid Grid.Column="1" Visibility="Visible" x:Name="XMLNodeTree" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height ="1*"/>
                         <RowDefinition Height ="29*"/>
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="refreshXmlTreeButton" Content="Refresh" Grid.Column="1" Style="{DynamicResource DarkModeStyleButton}" Click="refreshXmlTreeButton_Click"/>
                     <TextBox FontSize="13" Foreground="White" x:Name="TreeSearchTextBox" TextChanged="TreeSearchTextBox_TextChanged">
                         <TextBox.Style>
                             <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
@@ -255,7 +284,7 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-                    <TreeView Grid.Row="1" x:Name="ElementTree" Background="#1F1F1F" />
+                    <TreeView Grid.Row="1" x:Name="ElementTree" Background="#1F1F1F" Grid.ColumnSpan="2"/>
                 </Grid>
             </Grid>
         </DockPanel>
