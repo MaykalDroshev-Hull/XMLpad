@@ -8,7 +8,7 @@
         Closing="Window_Closing"
         WindowStyle="None"
         Style="{DynamicResource DarkModeStyleWindow}"
-        Icon="Assets/XMLpad-logos_transparent.png" Height="900" Width="1600">
+        Icon="/Windows/Assets/XMLpad-logos_transparent.png" Height="900" Width="1600">
     <Window.Resources>
         <ControlTemplate x:Key="MenuTemplate1" TargetType="{x:Type Menu}">
             <Border x:Name="SubMenuBorder" Background="{DynamicResource Menu.Static.Background}" BorderThickness="0" BorderBrush="{DynamicResource Menu.Static.Border}" Padding="2">
@@ -109,8 +109,7 @@
             <RowDefinition Height="30px"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0"
-              PreviewMouseDown="Window_MouseDown">
+        <Grid Grid.Row="0">
             <Border
                 x:Name="TitleBar"
                 Height="30"
@@ -124,7 +123,8 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Orientation="Horizontal"
+                    <StackPanel PreviewMouseDown="Window_MouseDown"
+                                Orientation="Horizontal"
                             VerticalAlignment="Center"
                             Margin="10,0,0,0">
                         <Image Source="/Windows/Assets/XMLpad-logos_transparent.png" Height="20" Width="20"/>

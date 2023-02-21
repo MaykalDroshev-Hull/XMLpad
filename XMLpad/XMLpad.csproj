@@ -6,6 +6,8 @@
 	  <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <PackageIcon>XMLpad-logos_transparent.png</PackageIcon>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <AnalysisLevel>6.0</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,5 +41,20 @@
     <Resource Include="Windows\Assets\noun-plus-1807535.png" />
     <Resource Include="Windows\Assets\XMLpad-logos.jpeg" />
     <Resource Include="Windows\Assets\XMLpad-logos_transparent.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>
