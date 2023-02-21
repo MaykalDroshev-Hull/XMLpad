@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
+	  <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <PackageIcon>XMLpad-logos_transparent.png</PackageIcon>
   </PropertyGroup>
@@ -32,7 +32,6 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="jacobslusser.ScintillaNET.Signed" Version="3.6.3" />
     <PackageReference Include="MaterialDesignThemes" Version="4.7.1" />
-    <PackageReference Include="ShowMeTheXAML.AvalonEdit" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,14 +6,63 @@
         mc:Ignorable="d"
         xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         Closing="Window_Closing"
+        WindowStyle="None"
         Style="{DynamicResource DarkModeStyleWindow}"
-        Title="XMLpad" Icon="Assets/XMLpad-logos_transparent.png" Height="900" Width="1600">
+        Icon="Assets/XMLpad-logos_transparent.png" Height="900" Width="1600">
     <Window.Resources>
         <ControlTemplate x:Key="MenuTemplate1" TargetType="{x:Type Menu}">
             <Border x:Name="SubMenuBorder" Background="{DynamicResource Menu.Static.Background}" BorderThickness="0" BorderBrush="{DynamicResource Menu.Static.Border}" Padding="2">
                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
             </Border>
         </ControlTemplate>
+        <SolidColorBrush x:Key="ListBorder" Color="#828790"/>
+        <Style x:Key="TreeViewStyle1" TargetType="{x:Type TreeView}">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ListBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TreeView}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ScrollViewer x:Name="_tv_scrollviewer_" Background="{TemplateBinding Background}" CanContentScroll="false" Focusable="false" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                                <ItemsPresenter/>
+                                <ScrollViewer.Resources>
+                                    <Style TargetType="ScrollBar">
+                                        <Setter Property="Background" Value="#1F1F1F" />
+                                    </Style>
+                                </ScrollViewer.Resources>
+                            </ScrollViewer>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
+                                <Setter Property="CanContentScroll" TargetName="_tv_scrollviewer_" Value="true"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="S"
@@ -56,7 +105,67 @@
         <CommandBinding Command="ApplicationCommands.Properties" Executed="MainMenu_View_ToggleFullScreen"/>
     </Window.CommandBindings>
     <Grid>
-        <DockPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Border Height="30"
+                Background="#1d1d1d"
+                BorderBrush="#444"
+                BorderThickness="0,0,0,1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Margin="10,0,0,0">
+                        <Image Source="/Windows/Assets/XMLpad-logos_transparent.png" Height="20" Width="20"/>
+                        <TextBlock Text="My Window"
+                                   x:Name="Title"
+                               Foreground="White"
+                                   VerticalAlignment="Center"
+                               Margin="10,0,0,0"
+                               FontSize="14"
+                               />
+                    </StackPanel>
+                    <Button Grid.Column="1"
+                        Content="_"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Margin="15,0,0,0"
+                        Padding="5"
+                        Click="MinimiseButton_Click"
+                            FontSize="14"/>
+                    <Button Grid.Column="2"
+                        Content="□"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Margin="15,0,0,0"
+                        Padding="5"
+                        Click="MaximiseButton_Click"
+                            FontSize="14"/>
+                    <Button Grid.Column="3"
+                        Content="X"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Margin="15,0,0,0"
+                        Padding="5"
+                        Click="CloseButton_Click"
+                            FontSize="14"/>
+                </Grid>
+            </Border>
+            <!-- Add the rest of your window content here -->
+        </Grid>
+
+        <DockPanel Grid.Row="1">
             <Menu Template="{DynamicResource MenuTemplate1}" DockPanel.Dock="Top" x:Name="menu">
                 <MenuItem Header="_File">
                     <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MainMenu_File_NewFile">
@@ -91,7 +200,7 @@
                         </MenuItem.InputBindings>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Edit">
+                <MenuItem Header="_Edit">
                     <MenuItem Header="_Undo" InputGestureText="Ctrl+Z" Click="MainMenu_Undo">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="Z" Modifiers="Ctrl" Command="ApplicationCommands.Undo"/>
@@ -202,29 +311,29 @@
                     <MenuItem x:Name="mainMenu_showLineNumbers" Header="Show Line Numbers" Click="MainMenu_View_ShowLineNumbers" IsCheckable="True" IsChecked="True"/>
                     <MenuItem x:Name="mainMenu_showXMLTree" Header="Show XML Tree" Click="MainMenu_View_ShowXMLTree" IsCheckable="True" IsChecked="True"/>
                 </MenuItem>
-                <MenuItem Header="Settings" >
-                    <MenuItem Header="Change Theme" Click="MainMenu_Settings_EnvironmentPreferences"/>
-                    <MenuItem Header="Syntax Highlighting">
-                        <MenuItem Header="XML" Click="Language_Click"/>
-                        <MenuItem Header="XmlDoc" Click="Language_Click"/>
-                        <MenuItem Header="C#" Click="Language_Click"/>
-                        <MenuItem Header="JavaScript" Click="Language_Click"/>
-                        <MenuItem Header="HTML" Click="Language_Click"/>
-                        <MenuItem Header="Boo" Click="Language_Click"/>
-                        <MenuItem Header="Coco" Click="Language_Click"/>
-                        <MenuItem Header="CSS" Click="Language_Click"/>
-                        <MenuItem Header="C++" Click="Language_Click"/>
-                        <MenuItem Header="Java" Click="Language_Click"/>
-                        <MenuItem Header="Patch" Click="Language_Click"/>
-                        <MenuItem Header="PowerShell" Click="Language_Click"/>
-                        <MenuItem Header="PHP" Click="Language_Click"/>
-                        <MenuItem Header="TeX" Click="Language_Click"/>
-                        <MenuItem Header="VBNET" Click="Language_Click"/>
-                        <MenuItem Header="MarkDown" Click="Language_Click"/>
+                <MenuItem Header="_Settings" >
+                    <MenuItem Header="_Change Theme" Click="MainMenu_Settings_EnvironmentPreferences"/>
+                    <MenuItem Header="_Syntax Highlighting">
+                        <MenuItem Header="_XML" Click="Language_Click"/>
+                        <MenuItem Header="_XmlDoc" Click="Language_Click"/>
+                        <MenuItem Header="_C#" Click="Language_Click"/>
+                        <MenuItem Header="_JavaScript" Click="Language_Click"/>
+                        <MenuItem Header="_HTML" Click="Language_Click"/>
+                        <MenuItem Header="_Boo" Click="Language_Click"/>
+                        <MenuItem Header="_Coco" Click="Language_Click"/>
+                        <MenuItem Header="_CSS" Click="Language_Click"/>
+                        <MenuItem Header="_C++" Click="Language_Click"/>
+                        <MenuItem Header="_Java" Click="Language_Click"/>
+                        <MenuItem Header="_Patch" Click="Language_Click"/>
+                        <MenuItem Header="_PowerShell" Click="Language_Click"/>
+                        <MenuItem Header="_PHP" Click="Language_Click"/>
+                        <MenuItem Header="_TeX" Click="Language_Click"/>
+                        <MenuItem Header="_VBNET" Click="Language_Click"/>
+                        <MenuItem Header="_MarkDown" Click="Language_Click"/>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Help" >
-                    <MenuItem Header="View Manual" Click="MainMenu_Help_ViewManual"/>
+                <MenuItem Header="_Help" >
+                    <MenuItem Header="_View Manual" Click="MainMenu_Help_ViewManual"/>
                 </MenuItem>
             </Menu>
             <StatusBar x:Name="mainWindowStatusBar" DockPanel.Dock="Bottom" Style="{DynamicResource DarkModeStyleStatusBar}" >
@@ -250,7 +359,7 @@
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                     Grid.Column="0"/>
-                <Grid Grid.Column="1" Visibility="Visible" x:Name="XMLNodeTree" >
+                <Grid Grid.Column="1" Visibility="Visible" x:Name="XMLNodeTree">
                     <Grid.RowDefinitions>
                         <RowDefinition Height ="1*"/>
                         <RowDefinition Height ="29*"/>
@@ -284,7 +393,7 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-                    <TreeView Grid.Row="1" x:Name="ElementTree" Background="#1F1F1F" Grid.ColumnSpan="2"/>
+                    <TreeView Style="{DynamicResource TreeViewStyle1}" Grid.Row="1" x:Name="ElementTree" Background="#1F1F1F" Grid.ColumnSpan="2"/>
                 </Grid>
             </Grid>
         </DockPanel>

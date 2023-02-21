@@ -22,6 +22,7 @@
     using System.Threading.Tasks;
     using System.Threading;
     using System.Windows.Documents;
+    using ICSharpCode.AvalonEdit;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -41,7 +42,7 @@
         private CompletionWindow? mCompletionWindow;
         private static readonly int mTabSpacesCount = 4; // TODO: Change to be dynamic
         private string mLoadedFile;
-
+        public TextEditor testTextEditor;
         private enum tabSelection
         {
             Tabs,
@@ -99,6 +100,33 @@
                 GatherCompletionString();
             }
         }
+
+        public MainWindow(bool test)
+        {
+        }
+
+        /// <summary>
+        /// Minimizes the window
+        /// </summary>
+        /// <param name="sender">The source of the events.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void MinimiseButton_Click(object sender, RoutedEventArgs e)
+        => WindowState = WindowState.Minimized;
+
+        /// <summary>
+        /// Maximises or restores the window
+        /// </summary>
+        /// <param name="sender">The source of the events.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void MaximiseButton_Click(object sender, RoutedEventArgs e) =>
+            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+
+        /// <summary>
+        /// Closes the window.
+        /// </summary>
+        /// <param name="sender">The source of the events.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void CloseButton_Click(object sender, RoutedEventArgs e) => Close();
 
         /// <summary>
         /// Gathers the completion string.
@@ -268,7 +296,7 @@
 
         private void UpdateTitle()
         {
-            Title = mCurrentFile.FileName + " - XMLpad";
+            Title.Text = mCurrentFile.FileName + " - XMLpad";
         }
 
         /// <summary>
@@ -361,28 +389,36 @@
             // Add the * as we have modified the file
             if (mLoadedFile != textEditor.Text)
             {
-                if (!Title.StartsWith("*"))
+                if (!Title.Text.StartsWith("*"))
                 {
-                    Title = '*' + Title;
+                    Title.Text = '*' + Title.Text;
                 }
             }
             else
             {
-                Title = Title.Replace("*", string.Empty);
+                Title.Text = Title.Text.Replace("*", string.Empty);
             }
         }
 
-        //TODO: call that somewhere
+        /// <summary>
+        /// This method attempts to load an XML file and update a tree view
+        /// </summary>
         private void TryLoadXML()
         {
             try
             {
-                // Update the tree as well
+                // Call the LoadXml method to update the tree view with the new XML data
                 LoadXml();
             }
             catch
             {
-                ElementTree.ItemsSource = new List<TreeViewItem> { new TreeViewItem { Header = "Invalid XML", Foreground = currentTheme == theme.Light ? Brushes.Black : Brushes.White } };
+                // If an error occurs while loading the XML, display an error message in the tree view
+                ElementTree.ItemsSource = new List<TreeViewItem> {
+            new TreeViewItem {
+                Header = "Invalid XML",
+                Foreground = currentTheme == theme.Light ? Brushes.Black : Brushes.White
+            }
+        };
             }
         }
 
@@ -612,7 +648,7 @@
         {
             // TODO: add a small window to ask to save the file if there are differences
 
-            if (Title.Contains('*'))
+            if (Title.Text.Contains('*'))
             {
                 MessageBoxResult savefileYesNo = System.Windows.MessageBox.Show("Would you like to save the changes before you exit?", "Save File?", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (savefileYesNo == MessageBoxResult.Yes)
@@ -658,12 +694,34 @@
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void MainMenu_IncreaseIndent(object sender, RoutedEventArgs e)
+        public void MainMenu_IncreaseIndent(object sender, RoutedEventArgs e)
         {
+
+            // Here we mark the whole line and indent it
+            int length = textEditor.SelectionLength;
+            int start = textEditor.SelectionStart;
+
+            if (length == 0)
+            {
+                start = textEditor.Document.GetLineByOffset(textEditor.CaretOffset).Offset;
+                int end = textEditor.Document.GetLineByOffset(textEditor.CaretOffset).EndOffset;
+                length = end - start;
+                textEditor.Select(start, length);
+            }
             string selectedText = textEditor.SelectedText;
-            string indentedText = selectedText.Replace("\n", "\n" + tabCharacters);
-            textEditor.Text.Replace(textEditor.SelectedText, indentedText);
+            if (selectedText.Contains("\n"))
+            {
+                selectedText.Replace("\n", $"\n{tabCharacters}");
+            }
+            else
+            {
+                selectedText = tabCharacters + selectedText;
+            }
+
+            textEditor.Document.Replace(start, length, selectedText);
         }
+
+
 
         /// <summary>
         /// Handles the CurrentFilePath event of the MainMenu_Copy control.
@@ -1139,11 +1197,13 @@
             {
                 XMLNodeTree.Visibility = Visibility.Collapsed;
                 mainMenu_showXMLTree.IsChecked = false;
+                Grid.SetColumnSpan(textEditor, 2);
             }
             else
             {
                 XMLNodeTree.Visibility = Visibility.Visible;
                 mainMenu_showXMLTree.IsChecked = true;
+                Grid.SetColumnSpan(textEditor, 1);
             }
         }
 
@@ -1356,7 +1416,12 @@
                 LineCharacterPosition.Foreground = Brushes.Black;
                 currentTheme = theme.Light;
 
-                ElementTree.Background = Brushes.White;
+                ElementTree.Background = Brushes.Gray;
+                refreshXmlTreeButton.Background = Brushes.Gray;
+                refreshXmlTreeButton.Foreground = Brushes.Black;
+                refreshXmlTreeButton_Click(sender, e);
+                TreeSearchTextBox.Background = Brushes.Gray;
+                TreeSearchTextBox.Foreground = Brushes.Black;
             }
             else
             {
@@ -1377,6 +1442,13 @@
                 mainWindowStatusBar.Style = App.Current.Resources["DarkModeStyleStatusBar"] as System.Windows.Style;
                 LineCharacterPosition.Foreground = Brushes.White;
                 currentTheme = theme.Dark;
+
+                ElementTree.Background = App.Current.Resources["grayBrush"] as SolidColorBrush;
+                refreshXmlTreeButton.Background = App.Current.Resources["grayBrush"] as SolidColorBrush;
+                refreshXmlTreeButton.Foreground = Brushes.White;
+                refreshXmlTreeButton_Click(sender, e);
+                TreeSearchTextBox.Background = App.Current.Resources["grayBrush"] as SolidColorBrush;
+                TreeSearchTextBox.Foreground = Brushes.White;
             }
 
             UpdateStatusBar(pAppend: true, pValue: $"Theme changed!");
