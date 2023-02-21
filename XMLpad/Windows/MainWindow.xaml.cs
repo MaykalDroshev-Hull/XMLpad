@@ -106,6 +106,19 @@
         }
 
         /// <summary>
+        /// Handles the MouseDown event of the Window control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        /// <summary>
         /// Minimizes the window
         /// </summary>
         /// <param name="sender">The source of the events.</param>
@@ -1422,6 +1435,14 @@
                 refreshXmlTreeButton_Click(sender, e);
                 TreeSearchTextBox.Background = Brushes.Gray;
                 TreeSearchTextBox.Foreground = Brushes.Black;
+
+                // title bar
+                TitleBar.Background = Brushes.White;
+                Title.Foreground = Brushes.Black;
+                MinimiseButton.Foreground = Brushes.Black;
+                MaximiseButton.Foreground = Brushes.Black;
+                CloseWindowButton.Foreground = Brushes.Black;
+
             }
             else
             {
@@ -1449,6 +1470,13 @@
                 refreshXmlTreeButton_Click(sender, e);
                 TreeSearchTextBox.Background = App.Current.Resources["grayBrush"] as SolidColorBrush;
                 TreeSearchTextBox.Foreground = Brushes.White;
+
+                // title bar
+                TitleBar.Background = App.Current.Resources["grayBrush"] as SolidColorBrush;
+                Title.Foreground = Brushes.White;
+                MinimiseButton.Foreground = Brushes.White;
+                MaximiseButton.Foreground = Brushes.White;
+                CloseWindowButton.Foreground = Brushes.White;
             }
 
             UpdateStatusBar(pAppend: true, pValue: $"Theme changed!");

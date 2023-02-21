@@ -109,8 +109,11 @@
             <RowDefinition Height="30px"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Border Height="30"
+        <Grid Grid.Row="0"
+              PreviewMouseDown="Window_MouseDown">
+            <Border
+                x:Name="TitleBar"
+                Height="30"
                 Background="#1d1d1d"
                 BorderBrush="#444"
                 BorderThickness="0,0,0,1">
@@ -133,7 +136,9 @@
                                FontSize="14"
                                />
                     </StackPanel>
-                    <Button Grid.Column="1"
+                    <Button
+                        x:Name="MinimiseButton"
+                        Grid.Column="1"
                         Content="_"
                         Background="Transparent"
                         BorderBrush="Transparent"
@@ -142,7 +147,9 @@
                         Padding="5"
                         Click="MinimiseButton_Click"
                             FontSize="14"/>
-                    <Button Grid.Column="2"
+                    <Button
+                        x:Name="MaximiseButton"
+                        Grid.Column="2"
                         Content="□"
                         Background="Transparent"
                         BorderBrush="Transparent"
@@ -151,7 +158,9 @@
                         Padding="5"
                         Click="MaximiseButton_Click"
                             FontSize="14"/>
-                    <Button Grid.Column="3"
+                    <Button
+                        x:Name="CloseWindowButton"
+                        Grid.Column="3"
                         Content="X"
                         Background="Transparent"
                         BorderBrush="Transparent"
