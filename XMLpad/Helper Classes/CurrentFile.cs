@@ -1,4 +1,4 @@
-﻿namespace XMLpad.Models
+﻿namespace XMLpad
 {
     /// <summary>
     /// Class to store information about the current file.

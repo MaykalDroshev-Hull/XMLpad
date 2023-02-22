@@ -1,5 +1,6 @@
 ﻿namespace XMLpad
 {
+    using ICSharpCode.AvalonEdit;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -38,10 +39,9 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_ConvertCase_InvertCase(object sender, RoutedEventArgs e)
         {
-            textEditor.SelectedText = new string(
-                textEditor.SelectedText.Select(c => char.IsLetter(c) ? (char.IsUpper(c) ?
-                    char.ToLower(c) : char.ToUpper(c)) : c).ToArray());
+            textEditor.SelectedText = InvertCase(textEditor.SelectedText);
         }
+
         // https://stackoverflow.com/questions/43969153/converting-random-letters-within-a-string-to-upper-lower-case
         /// <summary>
         /// Handles the RandomCase event of the MainMenu_ConvertCase control.
@@ -50,12 +50,7 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_ConvertCase_RandomCase(object sender, RoutedEventArgs e)
         {
-            Random randomizer = new();
-            IEnumerable<char> final =
-                textEditor.SelectedText.Select(x => randomizer.Next() % 2 == 0 ?
-                (char.IsUpper(x) ? x.ToString().ToLower().First() : x.ToString().ToUpper().First()) : x);
-            string randomUpperLower = new(final.ToArray());
-            textEditor.SelectedText = randomUpperLower;
+            textEditor.SelectedText = RandomiseCase(textEditor.SelectedText);
         }
     }
 }

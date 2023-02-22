@@ -38,59 +38,22 @@
 
         /// <summary>
         /// Handles the RemoveDuplicateLines event of the MainMenu_LineOperations control.
-        /// This method first splits the input string into an array of lines using the
-        /// Environment.NewLine separator. It then uses a HashSet to keep track of unique
-        /// lines, and iterates through the array of lines. If a line is not already in the
-        /// HashSet, it is added, and appended to the result StringBuilder. The final result
-        /// is returned as a string.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_RemoveDuplicateLines(object sender, RoutedEventArgs e)
         {
-            string[] lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            HashSet<string> uniqueLines = new();
-            StringBuilder result = new();
-
-            foreach (string line in lines)
-            {
-                if (uniqueLines.Add(line))
-                {
-                    result.AppendLine(line);
-                }
-            }
-
-            textEditor.Text = result.ToString();
+            textEditor.Text = RemoveDuplicateLinesFromString(textEditor.Text);
         }
 
         /// <summary>
         /// Handles the RemoveConsecutiveDuplicateLines event of the MainMenu_LineOperations control.
-        /// This method first splits the input string into an array of strings, where each element in
-        /// the array represents a line of the input. Then, it iterates through the array of lines,
-        /// comparing each line with the previous line. If a line is different from the previous line,
-        /// it is added to the output string, otherwise it is skipped. Finally, it returns the output
-        /// string containing only the non-consecutive duplicate lines.
-        ///
-        /// It's important to note that this method does not compare lines case-sensitive.
-        /// If you want case-sensitive comparison, you can replace the equality operator
-        /// with string.Compare(line, previousLine) != 0
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_RemoveConsecutiveDuplicateLines(object sender, RoutedEventArgs e)
         {
-            string[] lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            StringBuilder output = new();
-            string previousLine = "";
-            foreach (string line in lines)
-            {
-                if (line != previousLine)
-                {
-                    output.AppendLine(line);
-                    previousLine = line;
-                }
-            }
-            textEditor.Text = output.ToString();
+            textEditor.Text = RemoveConsecutiveDuplicateLinesFromString(textEditor.Text);
         }
 
         /// <summary>
@@ -178,8 +141,7 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_LineOperations_RemoveEmptyLines(object sender, RoutedEventArgs e)
         {
-            string[] nonEmptyLines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            textEditor.Text = string.Join(Environment.NewLine, nonEmptyLines);
+            textEditor.Text = RemoveEmtyLinesFromString(textEditor.Text);
         }
 
         /// <summary>

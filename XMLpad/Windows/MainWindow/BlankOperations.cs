@@ -17,12 +17,7 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_TrimTrailingSpace(object sender, RoutedEventArgs e)
         {
-            string[] lines = textEditor.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            for (int i = 0; i < lines.Length; i++)
-            {
-                lines[i] = lines[i].TrimEnd();
-            }
-            textEditor.Text = string.Join(Environment.NewLine, lines);
+            textEditor.Text = TrimTrailingSpacesFromString(textEditor.Text);
         }
 
         /// <summary>
@@ -32,7 +27,7 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_TrimLeadingSpace(object sender, RoutedEventArgs e)
         {
-            textEditor.Text = string.Join("\n", textEditor.Text.Split('\n').Select(x => x.TrimStart()));
+            textEditor.Text = RemoveLeadingSpacesFromString(textEditor.Text);
         }
 
         /// <summary>
@@ -51,7 +46,10 @@
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void MainMenu_Edit_BlankOperations_TabToSpace(object sender, RoutedEventArgs e) => textEditor.Text = textEditor.Text.Replace("\t", new string(' ', mTabSpacesCount));
+        private void MainMenu_Edit_BlankOperations_TabToSpace(object sender, RoutedEventArgs e)
+        {
+            textEditor.Text = ConvertTabsToSpaces(textEditor.Text);
+        }
 
         /// <summary>
         /// Handles the SpaceToTabLeading event of the MainMenu_Edit_BlankOperations control.
@@ -60,30 +58,7 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_SpaceToTabLeading(object sender, RoutedEventArgs e)
         {
-            StringBuilder result = new();
-            int spaces = 0;
-            foreach (char c in textEditor.Text)
-            {
-                if (c == ' ')
-                {
-                    spaces++;
-                    if (spaces == mTabSpacesCount)
-                    {
-                        result.Append('\t');
-                        spaces = 0;
-                    }
-                }
-                else
-                {
-                    if (spaces > 0)
-                    {
-                        result.Append(new string(' ', spaces));
-                        spaces = 0;
-                    }
-                    result.Append(c);
-                }
-            }
-            textEditor.Text = result.ToString();
+            textEditor.Text = ConvertSpacesToTabsLeading(textEditor.Text);
         }
 
         /// <summary>
@@ -93,15 +68,7 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_SpaceToTabTrailing(object sender, RoutedEventArgs e)
         {
-            string[] lines = textEditor.Text.Split('\n');
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                int spacesCount = line.Length - line.TrimEnd().Length;
-                int tabCount = spacesCount / mTabSpacesCount;
-                lines[i] = line.TrimEnd() + new string('\t', tabCount);
-            }
-            textEditor.Text = string.Join("\n", lines);
+            textEditor.Text = ConvertSpacesToTabsTrailing(textEditor.Text);
         }
 
         /// <summary>
@@ -111,12 +78,7 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Edit_BlankOperations_SpaceToTabAll(object sender, RoutedEventArgs e)
         {
-            string[] lines = textEditor.Text.Split('\n');
-            for (int i = 0; i < lines.Length; i++)
-            {
-                lines[i] = lines[i].Replace(new string(' ', mTabSpacesCount), "\t");
-            }
-            textEditor.Text = string.Join("\n", lines);
+            textEditor.Text = ConvertSpacesToTabs(textEditor.Text);
         }
     }
 }

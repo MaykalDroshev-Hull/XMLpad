@@ -5,7 +5,6 @@
     using ICSharpCode.AvalonEdit.Folding;
     using ICSharpCode.AvalonEdit;
     using System.Collections.Generic;
-    using XMLpad.Models;
     using System.Windows;
     using System.Windows.Controls;
 

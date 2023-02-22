@@ -16,13 +16,12 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Collections.Generic;
-using ICSharpCode.AvalonEdit.Document;
-using ICSharpCode.AvalonEdit.Folding;
-
 namespace XMLpad
 {
+    using System.Collections.Generic;
+    using ICSharpCode.AvalonEdit.Document;
+    using ICSharpCode.AvalonEdit.Folding;
+
     /// <summary>
     /// Allows producing foldings from a document based on braces.
     /// </summary>
@@ -54,35 +53,45 @@ namespace XMLpad
         {
             List<NewFolding> newFoldings = new();
 
-            Stack<int> startOffsets = new();
-            int lastNewLineOffset = 0;
-            char openingBrace = this.OpeningBrace;
-            char closingBrace = this.ClosingBrace;
-            for (int i = 0; i < document.TextLength; i++)
+            Stack<int> startOffsets = new();  // initialize a stack to keep track of start offsets
+            int lastNewLineOffset = 0;  // initialize the last new line offset to 0
+            char openingBrace = this.OpeningBrace;  // get the opening brace character from the current object
+            char closingBrace = this.ClosingBrace;  // get the closing brace character from the current object
+
+            for (int i = 0; i < document.TextLength; i++)  // loop through each character in the document
             {
-                char c = document.GetCharAt(i);
-                if (c == openingBrace)
+                char c = document.GetCharAt(i);  // get the character at the current position
+
+                if (c == openingBrace)  // if the character is the opening brace
                 {
-                    startOffsets.Push(i);
+                    startOffsets.Push(i);  // push the current index onto the stack
                 }
-                else if (c == closingBrace && startOffsets.Count > 0)
+                else if (c == closingBrace && startOffsets.Count > 0)  // if the character is the closing brace and there are items in the stack
                 {
-                    int startOffset = startOffsets.Pop();
-                    // don't fold if opening and closing brace are on the same line
-                    if (startOffset < lastNewLineOffset)
+                    int startOffset = startOffsets.Pop();  // pop the last index from the stack
+                                                           // don't fold if opening and closing brace are on the same line
+                    if (startOffset < lastNewLineOffset)  // if the start offset is before the last new line offset
                     {
-                        newFoldings.Add(new NewFolding(startOffset, i + 1));
+                        newFoldings.Add(new NewFolding(startOffset, i + 1));  // add a new folding object to the list with the start and end offsets
                     }
                 }
-                else if (c == '\n' || c == '\r')
+                else if (c == '\n' || c == '\r')  // if the character is a new line character
                 {
-                    lastNewLineOffset = i + 1;
+                    lastNewLineOffset = i + 1;  // set the last new line offset to the current index plus one
                 }
             }
-            newFoldings.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));
-            return newFoldings;
+
+            newFoldings.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));  // sort the list of foldings by start offset
+            return newFoldings;  // return the list of foldings
+
         }
 
+        /// <summary>
+        /// Create <see cref="NewFolding" />s for the specified document.
+        /// </summary>
+        /// <param name="document"></param>
+        /// <param name="firstErrorOffset"></param>
+        /// <returns></returns>
         public override IEnumerable<NewFolding> CreateNewFoldings(TextDocument document, out int firstErrorOffset)
         {
             firstErrorOffset = -1;
