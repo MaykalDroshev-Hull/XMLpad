@@ -172,7 +172,7 @@
         private void HighlightItem(TreeViewItem element)
         {
             // Set the background color of the XElement to yellow to highlight it
-            element.Background = Brushes.Azure;
+            element.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3FAAA5"));
         }
 
 
