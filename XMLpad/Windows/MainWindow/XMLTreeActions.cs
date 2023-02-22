@@ -5,6 +5,9 @@
     using System.Windows.Documents;
     using System.Windows.Media;
     using System.Windows;
+    using System.Collections.Generic;
+    using System.Collections;
+    using System.Xml.Linq;
 
     /// <summary>
     /// The XML tree generation logic for MainWindow.xaml
@@ -13,6 +16,102 @@
     /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class MainWindow : Window
     {
+
+        /// <summary>
+        /// This method attempts to load an XML file and update a tree view
+        /// </summary>
+        private void TryLoadXML()
+        {
+            try
+            {
+                // Call the LoadXml method to update the tree view with the new XML data
+                LoadXml();
+            }
+            catch
+            {
+                // If an error occurs while loading the XML, display an error message in the tree view
+                ElementTree.ItemsSource = new List<TreeViewItem> {
+            new TreeViewItem {
+                Header = "Invalid XML",
+                Foreground = currentTheme == theme.Light ? Brushes.Black : Brushes.White
+            }
+        };
+            }
+        }
+
+        /// <summary>
+        /// A flag, indicating if the root has already been created.
+        /// </summary>
+        bool rootCreated;
+
+        /// <summary>
+        /// Loads the XML tree view control.
+        /// </summary>
+        private void LoadXml()
+        {
+            XDocument xDoc = XDocument.Parse(textEditor.Text);
+
+            rootCreated = false;
+
+            ElementTree.ItemsSource = LoadNodes(xDoc.Root);
+        }
+
+        /// <summary>
+        /// Loads the nodes into the node tree.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns></returns>
+        private List<TreeViewItem> LoadNodes(XElement node)
+        {
+            List<TreeViewItem> items = new List<TreeViewItem>();
+
+            if (!rootCreated)
+            {
+                rootCreated = true;
+                TreeViewItem rootItem = new TreeViewItem
+                {
+                    Header = node.Name,
+                    ItemsSource = LoadNodes(node),
+                    IsExpanded = true,
+                    Foreground = currentTheme == theme.Light ? Brushes.Black : Brushes.White
+                };
+                items.Add(rootItem);
+                return items;
+            }
+
+
+
+            foreach (XElement childNode in node.Elements())
+            {
+                XElement currentChildNode = childNode;
+
+                TreeViewItem item = new TreeViewItem
+                {
+                    Header = currentChildNode.Name,
+                    ItemsSource = LoadNodes(currentChildNode),
+                    IsExpanded = true,
+                    Foreground = currentTheme == theme.Light ? Brushes.Black : Brushes.White
+
+                };
+
+                if (item.ItemsSource == null || item.Items.Count == 0)
+                {
+                    item.ItemsSource = new List<TreeViewItem>
+                {
+                    new TreeViewItem
+                    {
+                        Header = "\""+currentChildNode.Value+"\"",
+                        IsExpanded = true,
+                        Foreground = Brushes.Purple
+                    }
+                };
+                }
+
+                items.Add(item);
+            }
+            return items;
+        }
+
         private void TreeSearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             // Get the search text from the TextBox
@@ -28,75 +127,54 @@
             }
         }
 
-        /// <summary>
-        /// Clears the highlights.
-        /// </summary>
         private void ClearHighlights()
         {
             foreach (TreeViewItem item in ElementTree.Items)
             {
-                item.Background = currentTheme == theme.Light ? Brushes.White : Application.Current.Resources["grayBrush"] as SolidColorBrush;
-                ClearHighlights(item);
+                ClearHighlightsRecursive(item);
             }
         }
 
-        /// <summary>
-        /// Clears the highlights.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        private void ClearHighlights(TreeViewItem item)
+        private void ClearHighlightsRecursive(TreeViewItem item)
         {
-            foreach (TreeViewItem child in item.Items)
+            if (item == null)
             {
-                child.Background = currentTheme == theme.Light ? Brushes.White : Application.Current.Resources["grayBrush"] as SolidColorBrush;
-                ClearHighlights(child);
+                return;
+            }
+
+            item.Background = App.Current.Resources["grayBrush"] as SolidColorBrush;
+
+            foreach (TreeViewItem childItem in item.Items)
+            {
+                ClearHighlightsRecursive(childItem);
             }
         }
 
-        /// <summary>
-        /// Searches and highlights.
-        /// </summary>
-        /// <param name="items">The items.</param>
-        /// <param name="searchText">The search text.</param>
-        private void SearchAndHighlight(ItemCollection items, string searchText)
+        private void SearchAndHighlight(IEnumerable items, string searchText)
         {
-            foreach (object? item in items)
+            XDocument xDoc = XDocument.Parse(textEditor.Text);
+
+            if (xDoc == null) { return; }
+
+            foreach (TreeViewItem item in items)
             {
-                TreeViewItem? treeViewItem = item as TreeViewItem;
-                if (treeViewItem == null)
-                {
-                    continue;
+
+                    if (item.Header.ToString().ToLower().Contains(searchText.ToLower()))
+                    {
+                        HighlightItem(item);
+                    }
+
+                    SearchAndHighlight(item.Items, searchText);
                 }
 
-                // Check if the current item matches the search text
-                string text = treeViewItem.Header.ToString();
-                if (text != null && text.Contains(searchText, StringComparison.OrdinalIgnoreCase))
-                {
-                    HighlightText((TextBlock)treeViewItem.Header, searchText);
-                }
-                // Recursively search the children
-                SearchAndHighlight(treeViewItem.Items, searchText);
-            }
         }
 
-        /// <summary>
-        /// Highlights the text.
-        /// </summary>
-        /// <param name="textBlock">The text block.</param>
-        /// <param name="searchText">The search text.</param>
-        private void HighlightText(TextBlock textBlock, string searchText)
+        private void HighlightItem(TreeViewItem element)
         {
-            string text = textBlock.Text;
-            int index = text.IndexOf(searchText, StringComparison.OrdinalIgnoreCase);
-
-            if (index >= 0)
-            {
-                textBlock.Text = text.Remove(index, searchText.Length).Insert(index, searchText);
-                TextRange range = new TextRange(textBlock.ContentStart.GetPositionAtOffset(index, LogicalDirection.Forward),
-                                          textBlock.ContentStart.GetPositionAtOffset(index + searchText.Length, LogicalDirection.Backward));
-                range.ApplyPropertyValue(TextBlock.BackgroundProperty, Brushes.Yellow);
-            }
+            // Set the background color of the XElement to yellow to highlight it
+            element.Background = Brushes.Azure;
         }
+
 
         /// <summary>
         /// Handles the Click event of the refreshXmlTreeButton control.

@@ -3,7 +3,8 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:XMLpad"
             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             StartupUri="MainWindow/MainWindow.xaml">
+             StartupUri="windows\mainwindow\mainwindow.xaml
+">
     <Application.Resources>
 
         <Style x:Key="DarkModeStyleWindow" TargetType="{x:Type Window}">
