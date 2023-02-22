@@ -8,6 +8,7 @@
     using System.Collections.Generic;
     using System.Collections;
     using System.Xml.Linq;
+    using System.Windows.Input;
 
     /// <summary>
     /// The XML tree generation logic for MainWindow.xaml
@@ -203,5 +204,23 @@
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void refreshXmlTreeButton_Click(object sender, RoutedEventArgs e) => TryLoadXML();
+
+
+        private void ElementTree_SelectedItemChanged(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // Get the selected item from the TreeView
+            TreeViewItem selectedItem = (TreeViewItem)ElementTree.SelectedItem;
+
+            // Get the header of the selected item
+            string? header = selectedItem.Header.ToString();
+
+            // Set the focus on the textEditor
+            textEditor.Focus();
+
+            int index = textEditor.Text.IndexOf(header.Trim('"'));
+
+            textEditor.CaretOffset = index;
+            Console.WriteLine();
+        }
     }
 }

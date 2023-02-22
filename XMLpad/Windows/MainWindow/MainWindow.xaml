@@ -333,7 +333,7 @@
                     </Grid.ColumnDefinitions>
                     <Button x:Name="refreshXmlTreeButton" Content="Refresh" Grid.Column="1" Style="{DynamicResource DarkModeStyleButton}" Click="refreshXmlTreeButton_Click"/>
                     <TextBox FontSize="13" Foreground="White" Background="#1f1f1f" x:Name="TreeSearchTextBox" TextChanged="TreeSearchTextBox_TextChanged"/>
-                    <TreeView ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{DynamicResource TreeViewStyle1}" Grid.Row="1" x:Name="ElementTree" Background="#1F1F1F" Grid.ColumnSpan="2"/>
+                    <TreeView ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{DynamicResource TreeViewStyle1}" Grid.Row="1" x:Name="ElementTree" Background="#1F1F1F" Grid.ColumnSpan="2" MouseDown="ElementTree_SelectedItemChanged"/>
                 </Grid>
             </Grid>
         </DockPanel>
