@@ -2,6 +2,8 @@
 {
     using System.Windows.Media;
     using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
 
     /// <summary>
     /// Settings and help logic for MainWindow.xaml
@@ -39,13 +41,14 @@
                 currentTheme = theme.Light;
 
                 // XML Tree view
-                ElementTree.Background = Brushes.Gray;
-                refreshXmlTreeButton.Background = Brushes.Gray;
+
+                ElementTree.Background = Brushes.White;
+                refreshXmlTreeButton.Background = Brushes.White;
                 refreshXmlTreeButton.Foreground = Brushes.Black;
                 refreshXmlTreeButton_Click(sender, e);
-                TreeSearchTextBox.Background = Brushes.Gray;
+                TreeSearchTextBox.Background = Brushes.White;
                 TreeSearchTextBox.Foreground = Brushes.Black;
-
+                
                 // Title bar
                 TitleBar.Background = Brushes.White;
                 Title.Foreground = Brushes.Black;

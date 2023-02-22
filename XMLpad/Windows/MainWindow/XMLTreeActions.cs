@@ -112,6 +112,11 @@
             return items;
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the TreeSearchTextBox control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="TextChangedEventArgs"/> instance containing the event data.</param>
         private void TreeSearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             // Get the search text from the TextBox
@@ -127,6 +132,9 @@
             }
         }
 
+        /// <summary>
+        /// Clears the highlights.
+        /// </summary>
         private void ClearHighlights()
         {
             foreach (TreeViewItem item in ElementTree.Items)
@@ -135,6 +143,10 @@
             }
         }
 
+        /// <summary>
+        /// Clears the highlights recursive.
+        /// </summary>
+        /// <param name="item">The item.</param>
         private void ClearHighlightsRecursive(TreeViewItem item)
         {
             if (item == null)
@@ -142,7 +154,7 @@
                 return;
             }
 
-            item.Background = App.Current.Resources["grayBrush"] as SolidColorBrush;
+            item.Background = currentTheme == theme.Dark? App.Current.Resources["grayBrush"] as SolidColorBrush:Brushes.White;
 
             foreach (TreeViewItem childItem in item.Items)
             {
@@ -150,6 +162,11 @@
             }
         }
 
+        /// <summary>
+        /// Searches the and highlight.
+        /// </summary>
+        /// <param name="items">The items.</param>
+        /// <param name="searchText">The search text.</param>
         private void SearchAndHighlight(IEnumerable items, string searchText)
         {
             XDocument xDoc = XDocument.Parse(textEditor.Text);
@@ -169,6 +186,10 @@
 
         }
 
+        /// <summary>
+        /// Highlights the item.
+        /// </summary>
+        /// <param name="element">The element.</param>
         private void HighlightItem(TreeViewItem element)
         {
             // Set the background color of the XElement to yellow to highlight it

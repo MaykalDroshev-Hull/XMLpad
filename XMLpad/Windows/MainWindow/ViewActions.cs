@@ -60,7 +60,7 @@
             }
             else
             {
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.WindowStyle = WindowStyle.None;
                 this.WindowState = WindowState.Normal;
                 menuItem_FullScreen.Header = "Toggle Full Screen Mode";
             }
