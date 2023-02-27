@@ -86,32 +86,19 @@
         {
             if (sender is not MenuItem menuItem)
                 return;
-            HighlightLanguage language;
-            if (menuItem.Header.ToString() == "C#")
-            {
-                language = HighlightLanguage.CSharp;
-            }
-            else if (menuItem.Header.ToString() == "C++")
-            {
-                language = HighlightLanguage.Cpp;
 
-            }
-            else
+            switch (menuItem.Header)
             {
-                language = (HighlightLanguage)Enum.Parse(typeof(HighlightLanguage), menuItem.Header.ToString());
-            }
-            switch (language)
-            {
-                case HighlightLanguage.XML:
-                case HighlightLanguage.HTML:
+                case "_XML":
+                case "_HTML":
                     foldingStrategy = new XmlFoldingStrategy();
                     textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
                     highlightingDefinition = HighlightingManager.Instance.GetDefinition("XML");
                     break;
-                case HighlightLanguage.CSharp:
-                case HighlightLanguage.Cpp:
-                case HighlightLanguage.PHP:
-                case HighlightLanguage.Java:
+                case "_C#":
+                case "_C++":
+                case "_PHP":
+                case "_Java":
                     textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.CSharp.CSharpIndentationStrategy(textEditor.Options);
                     foldingStrategy = new BraceFoldingStrategy();
                     highlightingDefinition = HighlightingManager.Instance.GetDefinition("C#");

@@ -328,12 +328,14 @@
                         <RowDefinition Height ="29*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="refreshXmlTreeButton" Content="Refresh" Grid.Column="1" Style="{DynamicResource DarkModeStyleButton}" Click="refreshXmlTreeButton_Click"/>
+                    <Button x:Name="refreshXmlTreeButton" Content="Refresh" Grid.Column="2" Style="{DynamicResource DarkModeStyleButton}" Click="refreshXmlTreeButton_Click"/>
+                    <Button x:Name="searchButton" Content="Search In File" Grid.Row="0" Grid.Column="1" Click="SearchButton_Click" Style="{DynamicResource DarkModeStyleButton}"/>
                     <TextBox FontSize="13" Foreground="White" Background="#1f1f1f" x:Name="TreeSearchTextBox" TextChanged="TreeSearchTextBox_TextChanged"/>
-                    <TreeView ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{DynamicResource TreeViewStyle1}" Grid.Row="1" x:Name="ElementTree" Background="#1F1F1F" Grid.ColumnSpan="2" MouseDown="ElementTree_SelectedItemChanged"/>
+                    <TreeView MouseDoubleClick="SearchButton_Click" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{DynamicResource TreeViewStyle1}" Grid.Row="1" x:Name="ElementTree" Background="#1F1F1F" Grid.ColumnSpan="3"/>
                 </Grid>
             </Grid>
         </DockPanel>

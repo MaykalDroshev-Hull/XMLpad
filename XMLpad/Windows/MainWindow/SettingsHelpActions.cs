@@ -48,7 +48,9 @@
                 refreshXmlTreeButton_Click(sender, e);
                 TreeSearchTextBox.Background = Brushes.White;
                 TreeSearchTextBox.Foreground = Brushes.Black;
-                
+                searchButton.Background = Brushes.White;
+                searchButton.Foreground = Brushes.Black;
+
                 // Title bar
                 TitleBar.Background = Brushes.White;
                 Title.Foreground = Brushes.Black;
@@ -84,6 +86,8 @@
                 refreshXmlTreeButton_Click(sender, e);
                 TreeSearchTextBox.Background = App.Current.Resources["grayBrush"] as SolidColorBrush;
                 TreeSearchTextBox.Foreground = Brushes.White;
+                searchButton.Background = App.Current.Resources["grayBrush"] as SolidColorBrush;
+                searchButton.Foreground = Brushes.White;
 
                 // title bar
                 TitleBar.Background = App.Current.Resources["grayBrush"] as SolidColorBrush;

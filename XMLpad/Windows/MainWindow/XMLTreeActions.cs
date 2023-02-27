@@ -9,6 +9,12 @@
     using System.Collections;
     using System.Xml.Linq;
     using System.Windows.Input;
+    using System.Diagnostics;
+    using System.Windows.Media.Animation;
+    using ICSharpCode.AvalonEdit;
+    using ICSharpCode.AvalonEdit.Rendering;
+    using ICSharpCode.AvalonEdit.Document;
+    using System.Media;
 
     /// <summary>
     /// The XML tree generation logic for MainWindow.xaml
@@ -205,22 +211,31 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void refreshXmlTreeButton_Click(object sender, RoutedEventArgs e) => TryLoadXML();
 
-
-        private void ElementTree_SelectedItemChanged(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             // Get the selected item from the TreeView
             TreeViewItem selectedItem = (TreeViewItem)ElementTree.SelectedItem;
 
+            if (selectedItem == null)
+            {
+                SystemSounds.Exclamation.Play();
+                return;
+            }
             // Get the header of the selected item
-            string? header = selectedItem.Header.ToString();
+            string? header = selectedItem.Header.ToString().Trim('"');
 
             // Set the focus on the textEditor
             textEditor.Focus();
 
-            int index = textEditor.Text.IndexOf(header.Trim('"'));
+            int index = textEditor.Text.IndexOf(header);
 
-            textEditor.CaretOffset = index;
-            Console.WriteLine();
+            if (index >= 0)
+            {
+                // Select the matching text in the text editor
+                textEditor.Select(index, header.Length);
+                int line = textEditor.Document.GetLineByOffset(index).LineNumber;
+                textEditor.ScrollToLine(line);
+            }
         }
     }
 }
