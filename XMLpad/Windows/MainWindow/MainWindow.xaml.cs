@@ -24,6 +24,7 @@
                 textEditor.TextArea.TextEntered += TextEditor_TextArea_TextEntered;
                 GatherCompletionString();
                 defaultFontSize = textEditor.FontSize;
+                // add current line background
                 var backgroundRenderer = new HighlightCurrentLineBackgroundRenderer(textEditor);
                 textEditor.TextArea.TextView.BackgroundRenderers.Add(backgroundRenderer);
             }
