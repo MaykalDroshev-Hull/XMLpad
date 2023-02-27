@@ -4,6 +4,7 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
+    using System.IO;
 
     /// <summary>
     /// Settings and help logic for MainWindow.xaml
@@ -19,7 +20,12 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenu_Settings_EnvironmentPreferences(object sender, RoutedEventArgs e)
         {
-            if (currentTheme == theme.Dark)
+            SwitchTheme(sender, e);
+        }
+
+        private void SwitchTheme(object sender, RoutedEventArgs e)
+        {
+            if (currentTheme == theme.Dark || (sender.Equals("firstBoot") && currentTheme == theme.Light))
             {
                 // Switch to Light Theme -> General controls
                 textEditor.Foreground = Brushes.Black;
@@ -38,7 +44,6 @@
                 App.Current.Resources["MenuItem.Highlight.Disabled.Border"] = new SolidColorBrush(Colors.Black);
                 mainWindowStatusBar.Style = App.Current.Resources["LightModeStyleStatusBar"] as System.Windows.Style;
                 LineCharacterPosition.Foreground = Brushes.Black;
-                currentTheme = theme.Light;
 
                 // XML Tree view
 
@@ -58,6 +63,7 @@
                 MaximiseButton.Foreground = Brushes.Black;
                 CloseWindowButton.Foreground = Brushes.Black;
 
+                currentTheme = theme.Light;
             }
             else
             {
@@ -77,7 +83,6 @@
                 App.Current.Resources["MenuItem.Highlight.Disabled.Border"] = new SolidColorBrush(Colors.Transparent);
                 mainWindowStatusBar.Style = App.Current.Resources["DarkModeStyleStatusBar"] as System.Windows.Style;
                 LineCharacterPosition.Foreground = Brushes.White;
-                currentTheme = theme.Dark;
 
                 // XML tree view
                 ElementTree.Background = App.Current.Resources["grayBrush"] as SolidColorBrush;
@@ -95,9 +100,43 @@
                 MinimiseButton.Foreground = Brushes.White;
                 MaximiseButton.Foreground = Brushes.White;
                 CloseWindowButton.Foreground = Brushes.White;
+
+                currentTheme = theme.Dark;
             }
 
+            var backgroundRenderer = new HighlightCurrentLineBackgroundRenderer(textEditor, currentTheme);
+            textEditor.TextArea.TextView.BackgroundRenderers.Add(backgroundRenderer);
+
             UpdateStatusBar(pAppend: true, pValue: $"Theme changed!");
+        }
+
+        /// <summary>
+        /// Extracts the theme.
+        /// </summary>
+        /// <returns></returns>
+        private theme ExtractTheme()
+        {
+            string preferencesFile = @"C:/temp/XMLPadPreferences.txt";
+
+            if (File.Exists(preferencesFile))
+            {
+                string preferences = File.ReadAllText(preferencesFile);
+
+                if (preferences.ToLower().Contains("light"))
+                    return theme.Light;
+            }
+
+            return theme.Dark;
+        }
+
+        /// <summary>
+        /// Sets the theme when the program is initialised.
+        /// Object(string) firstBoot is passed as part of verification
+        /// </summary>
+        private void SetThemeFirstTime()
+        {
+            if (currentTheme == theme.Light)
+                SwitchTheme("firstBoot", null);
         }
 
         /// <summary>

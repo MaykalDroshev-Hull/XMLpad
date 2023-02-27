@@ -17,7 +17,7 @@
             <Label x:Name="createNewLabel" Content="Create New File" Canvas.Top="45" Canvas.Left="20" Foreground="White" FontSize="20"/>
             <Label x:Name="nameLabel" Content="XMLPad" Foreground="White" FontSize="25" Width="140" HorizontalContentAlignment="Center"/>
             <TextBox x:Name="fileNameTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Width="257" Background="#383838" Foreground="White" Canvas.Top="80" Canvas.Left="25" PreviewKeyDown="MyTextBox_PreviewKeyDown"/>
-            <Label x:Name="openReacentLabel" Content="Or Open Recent" Canvas.Top="100" Canvas.Left="20" Foreground="White" FontSize="20"/>
+            <Label x:Name="openRecentLabel" Content="Or Open Recent" Canvas.Top="100" Canvas.Left="20" Foreground="White" FontSize="20"/>
             <ListBox  Background="#1F1F1F" Foreground="White" x:Name="recentFilesListBox" Canvas.Top="150" Canvas.Left="18" FontSize="15" Width="387" Height="275" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Center" MouseUp="RecentFilesListBox_MouseUp" />
             <Button x:Name="createNewButon" Background="#3D3D3D" Content="Create" Canvas.Left="306" Canvas.Top="75" Cursor="Hand" Width="94" Height="26" BorderThickness="0" Foreground="White" Click="CreateNewButon_Click" BorderBrush="White" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Button.Resources>

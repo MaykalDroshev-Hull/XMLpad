@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Net;
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Media;
@@ -21,12 +22,29 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Welcome_Window"/> class.
         /// </summary>
-        public Welcome_Window()
+        public Welcome_Window(MainWindow.theme currentTheme)
         {
             InitializeComponent();
             //media.Source = new Uri(Environment.CurrentDirectory + @"\Loading_Screen.gif");
             //Loading();
             FillRecentOpenDocument();
+            if(currentTheme == MainWindow.theme.Light)
+            {
+                welcomeScreenControlsCanvas.Background = Brushes.White;
+                CloseButton.Foreground = Brushes.Black;
+                CloseButton.Background = Brushes.White;
+                createNewLabel.Foreground = Brushes.Black;
+                nameLabel.Foreground = Brushes.Black;
+                fileNameTextBox.Background = Brushes.White;
+                fileNameTextBox.Foreground = Brushes.Black;
+                openRecentLabel.Foreground = Brushes.Black;
+                recentFilesListBox.Foreground = Brushes.Black;
+                recentFilesListBox.Background = Brushes.White;
+                createNewButon.Background = Brushes.LightGray;
+                createNewButon.Foreground = Brushes.Black;
+                this.BorderThickness = new Thickness(1);
+                this.BorderBrush = Brushes.Black;
+            }
         }
 
         /// <summary>

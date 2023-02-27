@@ -1,7 +1,12 @@
 ﻿namespace XMLpad
 {
+    using System;
     using System.Windows;
+    using ICSharpCode.AvalonEdit;
+    using System.Windows.Media;
     using ICSharpCode.AvalonEdit.Folding;
+    using ICSharpCode.AvalonEdit.Highlighting;
+    using System.IO;
 
     /// <summary>
     /// Definition logic for MainWindow.xaml
@@ -13,19 +18,22 @@
         /// </summary>
         public MainWindow()
         {
-            Welcome_Window welcome_Window = new();
+            currentTheme = ExtractTheme();
+            Welcome_Window welcome_Window = new(currentTheme);
             if (welcome_Window.ShowDialog() == false)
             {
                 InitializeComponent();
                 GenerateInitializationText();
+                SetThemeFirstTime();
                 textEditor.Focus();
                 mFoldingManager = FoldingManager.Install(textEditor.TextArea);
                 textEditor.TextArea.TextEntering += TextEditor_TextArea_TextEntering;
                 textEditor.TextArea.TextEntered += TextEditor_TextArea_TextEntered;
                 GatherCompletionString();
                 defaultFontSize = textEditor.FontSize;
-                // add current line background
-                var backgroundRenderer = new HighlightCurrentLineBackgroundRenderer(textEditor);
+
+                // add current line highlight
+                var backgroundRenderer = new HighlightCurrentLineBackgroundRenderer(textEditor, currentTheme);
                 textEditor.TextArea.TextView.BackgroundRenderers.Add(backgroundRenderer);
             }
         }

@@ -25,7 +25,7 @@ namespace XMLpad
         private void MainMenu_File_NewFile(object sender, RoutedEventArgs e)
         {
             SaveCurrentFile();
-            Welcome_Window welcome_Window = new Welcome_Window();
+            Welcome_Window welcome_Window = new Welcome_Window(currentTheme);
             welcome_Window.CreateNewButon_Click(sender, e);
 
             // Open the file
@@ -225,20 +225,20 @@ namespace XMLpad
         /// <summary>
         /// Saves the temporary file.
         /// </summary>
-        private void SaveTempFile()
+        private void SavePreferenceFile()
         {
             FileStream fileStream;
             try
             {
-                fileStream = new FileStream("C:/temp/tempfile.txt", FileMode.Truncate, FileAccess.Write);
+                fileStream = new FileStream("C:/temp/XMLPadPreferences.txt", FileMode.Truncate, FileAccess.Write);
 
             }
             catch (FileNotFoundException)
             {
-                fileStream = new FileStream("C:/temp/tempfile.txt", FileMode.Create, FileAccess.Write);
+                fileStream = new FileStream("C:/temp/XMLPadPreferences.txt", FileMode.Create, FileAccess.Write);
             }
             StreamWriter writer = new(fileStream);
-            writer.Write(textEditor.Text);
+            writer.Write(currentTheme);
             writer.Flush();
             writer.Close();
         }
@@ -270,7 +270,7 @@ namespace XMLpad
                     SaveCurrentFile();
                 }
             }
-            SaveTempFile();
+            SavePreferenceFile();
 
             Environment.Exit(0);
         }
