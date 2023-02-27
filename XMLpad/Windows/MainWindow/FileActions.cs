@@ -223,7 +223,7 @@ namespace XMLpad
         }
 
         /// <summary>
-        /// Saves the temporary file.
+        /// Saves the temporary file that contains the preferences for the current theme.
         /// </summary>
         private void SavePreferenceFile()
         {

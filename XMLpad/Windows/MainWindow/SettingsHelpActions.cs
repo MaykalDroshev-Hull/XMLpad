@@ -130,7 +130,7 @@
         }
 
         /// <summary>
-        /// Sets the theme when the program is initialised.
+        /// Sets the theme when the program is initialized.
         /// Object(string) firstBoot is passed as part of verification
         /// </summary>
         private void SetThemeFirstTime()
