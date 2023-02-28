@@ -100,7 +100,38 @@ namespace XMLpad
             {
                 Title.Text = Title.Text.Replace("*", string.Empty);
             }
+
+
+            // Checks the brightness and switches the theme if the brightness is too low or too high
+            //double brightenss = GetBrightnessLevel();
+            //if(brightenss > 80) {
+            //    currentTheme = theme.Light;
+            //    SwitchTheme("firstBoot", null);
+            //}
+            //else if (brightenss < 40)
+            //{
+            //    currentTheme = theme.Dark;
+            //    SwitchTheme("firstBoot", null);
+            //}
         }
+
+        /// <summary>
+        /// Gets the brightness level.
+        /// </summary>
+        /// <returns></returns>
+        //private double GetBrightnessLevel()
+        //{
+        //    var lightSensor = LightSensor.GetDefault();
+        //    if (lightSensor != null)
+        //    {
+        //        var reading = lightSensor.GetCurrentReading();
+        //        if (reading != null)
+        //        {
+        //            return reading.IlluminanceInLux;
+        //        }
+        //    }
+        //    return 0;
+        //}
 
         /// <summary>
         /// Handles the OpenFile event of the MainMenu_File control.

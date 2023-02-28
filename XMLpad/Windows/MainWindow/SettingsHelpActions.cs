@@ -62,8 +62,10 @@
                 MinimiseButton.Foreground = Brushes.Black;
                 MaximiseButton.Foreground = Brushes.Black;
                 CloseWindowButton.Foreground = Brushes.Black;
-
+                rightClickMenu.Background = Brushes.White;
+                rightClickMenu.Foreground = Brushes.Black;
                 currentTheme = theme.Light;
+                TryLoadXML();
             }
             else
             {
@@ -100,8 +102,10 @@
                 MinimiseButton.Foreground = Brushes.White;
                 MaximiseButton.Foreground = Brushes.White;
                 CloseWindowButton.Foreground = Brushes.White;
-
+                rightClickMenu.Background = Application.Current.Resources["LightGrayBrush"] as SolidColorBrush;
+                rightClickMenu.Foreground = Brushes.White;
                 currentTheme = theme.Dark;
+                TryLoadXML();
             }
 
             var backgroundRenderer = new HighlightCurrentLineBackgroundRenderer(textEditor, currentTheme);

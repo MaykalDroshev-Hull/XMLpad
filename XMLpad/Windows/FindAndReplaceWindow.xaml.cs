@@ -87,6 +87,7 @@
                 {
                     label.Foreground = Brushes.White;
                 }
+
                 FindButton.Foreground = Brushes.White;
                 FindReplaceAllButton.Foreground = Brushes.White;
                 FindReplaceButton.Foreground = Brushes.White;
@@ -96,6 +97,10 @@
                 MatchCaseCheckBox.Foreground = Brushes.White;
                 MatchWholeWordCheckBox.Foreground = Brushes.White;
                 MatchRegexCheckBox.Foreground = Brushes.White;
+
+                TitleBar.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
+                Title.Foreground = Brushes.White;
+                CloseWindowButton.Foreground = Brushes.White;
             }
         }
 
@@ -262,5 +267,14 @@
             _textEditor.Text = _textEditor.Text.Replace(findText, replaceText, matchCase ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
         }
 
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void StackPanel_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
     }
 }

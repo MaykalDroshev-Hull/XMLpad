@@ -57,6 +57,7 @@
         </Style>
         
         <SolidColorBrush x:Key="grayBrush" Color="#1F1F1F" />
+        <SolidColorBrush x:Key="LightGrayBrush" Color="#3d3d3d" />
         <SolidColorBrush x:Key="blueTagBrush" Color="#4F98BB" />
         <SolidColorBrush x:Key="darkPink" Color="#8A0B65" />
         <SolidColorBrush x:Key="lightBlue" Color="#FF26A0DA" />

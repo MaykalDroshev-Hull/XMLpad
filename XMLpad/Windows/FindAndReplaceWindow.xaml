@@ -6,9 +6,14 @@
         mc:Ignorable="d"
         x:Name="findAndReplaceWindow"
         ResizeMode="CanResizeWithGrip"
-        Title="Find and Replace" Height="230" Width="300" MinWidth="300" MaxWidth="600" MinHeight="230" MaxHeight="230">
+        WindowStyle="None"
+        Title="Find and Replace"
+        Height="230" Width="300"
+        MinWidth="300" MaxWidth="600"
+        MinHeight="230" MaxHeight="230">
     <Grid x:Name="FindAndReplaceGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -19,21 +24,68 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Content="Find what:" Margin="10"/>
-        <TextBox x:Name="FindTextBox" Margin="10" Grid.Column="1"/>
+        <Grid Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30px"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" >
+                <Border
+                x:Name="TitleBar"
+                Height="30"
+                Background="White">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel PreviewMouseDown="StackPanel_PreviewMouseDown"
+                                Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Margin="10,0,0,0">
+                            <Image Source="/Windows/Assets/XMLpad-logos_transparent.png" Height="20" Width="20"/>
+                            <TextBlock Text="Find And Replace"
+                                   x:Name="Title"
+                               Foreground="Black"
+                                   VerticalAlignment="Center"
+                               Margin="10,0,0,0"
+                               FontSize="14"
+                               />
+                        </StackPanel>
+                        <Button
+                        x:Name="CloseWindowButton"
+                        Grid.Column="3"
+                        Content="X"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Foreground="Black"
+                        Margin="15,0,0,0"
+                        Padding="5"
+                        Click="CloseWindowButton_Click"
+                            FontSize="14"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
 
-        <Label Grid.Row="2" Content="Replace with:" Margin="10"/>
-        <TextBox Grid.Row="2" x:Name="ReplaceTextBox" Margin="10" Grid.Column="1"/>
+        <Label Grid.Row="1" Content="Find what:" Margin="10"/>
+        <TextBox x:Name="FindTextBox" Margin="10" Grid.Column="1" Grid.Row="1"/>
 
-        <Button x:Name="FindButton" Content="Find"  VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="20,10" Click="FindButton_Click"/>
-        <Button x:Name="FindReplaceButton" Content="Find and Replace" Grid.Row="3" Grid.Column="1" Margin="20,10" VerticalAlignment="Center" Visibility="Hidden" Click="FindReplaceButton_Click"/>
+        <Label Grid.Row="3" Content="Replace with:" Margin="10"/>
+        <TextBox Grid.Row="3" x:Name="ReplaceTextBox" Margin="10" Grid.Column="1"/>
 
-        <StackPanel Grid.Row="1" Margin="10,0,0,0">
+        <Button x:Name="FindButton" Content="Find"  VerticalAlignment="Top" Grid.Row="2" Grid.Column="1" Margin="20,10" Click="FindButton_Click"/>
+        <Button x:Name="FindReplaceButton" Content="Find and Replace" Grid.Row="4" Grid.Column="1" Margin="20,10" VerticalAlignment="Center" Visibility="Hidden" Click="FindReplaceButton_Click"/>
+
+        <StackPanel Grid.Row="2" Margin="10,0,0,0">
             <CheckBox x:Name="MatchCaseCheckBox" Content="Match case" />
             <CheckBox x:Name="MatchWholeWordCheckBox" Content="Match whole word" />
             <CheckBox x:Name="MatchRegexCheckBox" Content="Match regex" />
         </StackPanel>
-        <Button x:Name="FindReplaceAllButton" Content="Replace All" Grid.Row="3" Grid.Column="0" Margin="15,0" VerticalAlignment="Center" Visibility="Hidden" Click="ReplaceAllButton_Click"/>
+        <Button x:Name="FindReplaceAllButton" Content="Replace All" Grid.Row="4" Grid.Column="0" Margin="15,0" VerticalAlignment="Center" Visibility="Hidden" Click="ReplaceAllButton_Click"/>
     </Grid>
 </Window>
 

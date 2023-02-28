@@ -109,7 +109,7 @@
                     {
                         Header = "\""+currentChildNode.Value+"\"",
                         IsExpanded = true,
-                        Foreground = Brushes.Purple
+                        Foreground = Application.Current.Resources["blueTagBrush"] as SolidColorBrush
                     }
                 };
                 }

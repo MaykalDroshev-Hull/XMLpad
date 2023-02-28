@@ -132,6 +132,9 @@
             <Menu Template="{DynamicResource MenuTemplate1}" DockPanel.Dock="Top" x:Name="menu">
                 <MenuItem Header="_File">
                     <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MainMenu_File_NewFile">
+                        <MenuItem.Icon>
+                            <Image Source="C:\Users\mdros\source\repos\XMLpad\XMLpad\Windows\Assets\light_add_new_file.png" />
+                        </MenuItem.Icon>
                         <MenuItem.InputBindings>
                             <KeyBinding Key="N" Modifiers="Ctrl" Command="ApplicationCommands.New"/>
                         </MenuItem.InputBindings>
@@ -321,7 +324,26 @@
                 PreviewMouseDoubleClick="TextEditor_PreviewMouseDoubleClick"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                    Grid.Column="0"/>
+                    Grid.Column="0">
+                    <avalonEdit:TextEditor.ContextMenu>
+                        <ContextMenu x:Name="rightClickMenu">
+                            <MenuItem Command="ApplicationCommands.Cut" Style="{DynamicResource MenuItemStyle1}"/>
+                            <MenuItem Command="ApplicationCommands.Copy" Style="{DynamicResource MenuItemStyle1}"/>
+                            <MenuItem Command="ApplicationCommands.Paste" Style="{DynamicResource MenuItemStyle1}"/>
+                            <Separator />
+                            <MenuItem Command="ApplicationCommands.SelectAll" Style="{DynamicResource MenuItemStyle1}"/>
+                            <Separator/>
+                            <MenuItem Command="ApplicationCommands.New" Style="{DynamicResource MenuItemStyle1}" Icon="{}">
+                            </MenuItem>
+                            <MenuItem Command="ApplicationCommands.Open" Style="{DynamicResource MenuItemStyle1}"/>
+                            <MenuItem Command="ApplicationCommands.Save" Style="{DynamicResource MenuItemStyle1}"/>
+                            <MenuItem Command="ApplicationCommands.SaveAs" Style="{DynamicResource MenuItemStyle1}"/>
+                            <MenuItem Command="ApplicationCommands.Print" Style="{DynamicResource MenuItemStyle1}"/>
+                            <MenuItem Command="ApplicationCommands.Close" Style="{DynamicResource MenuItemStyle1}"/>
+                            <MenuItem Command="ApplicationCommands.Undo" Style="{DynamicResource MenuItemStyle1}"/>
+                        </ContextMenu>
+                    </avalonEdit:TextEditor.ContextMenu>
+                </avalonEdit:TextEditor>
                 <Grid Grid.Column="1" Visibility="Visible" x:Name="XMLNodeTree">
                     <Grid.RowDefinitions>
                         <RowDefinition Height ="1*"/>
