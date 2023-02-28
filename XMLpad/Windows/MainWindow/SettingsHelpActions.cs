@@ -7,12 +7,10 @@
     using System.IO;
     using System.Collections.Generic;
     using System.Linq;
-    using static System.Windows.Forms.VisualStyles.VisualStyleElement;
     using System.Windows.Media.Imaging;
     using System;
     using Window = System.Windows.Window;
     using System.Threading.Tasks;
-    using System.Threading;
 
     /// <summary>
     /// Settings and help logic for MainWindow.xaml
@@ -220,26 +218,6 @@
 
             await loadingPopup.HideAsync().ConfigureAwait(false);
         }
-
-
-        public async Task<string> DummyMethod() {
-            return "";
-        }
-
-        public static IEnumerable<T> FindLogicalChildren<T>(DependencyObject obj) where T : DependencyObject
-        {
-            if (obj != null)
-            {
-                if (obj is T)
-                    yield return obj as T;
-
-                foreach (DependencyObject child in LogicalTreeHelper.GetChildren(obj).OfType<DependencyObject>())
-                    foreach (T c in FindLogicalChildren<T>(child))
-                        yield return c;
-            }
-        }
-
-
 
         /// <summary>
         /// Extracts the theme.
