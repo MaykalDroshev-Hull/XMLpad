@@ -8,7 +8,7 @@
         Closing="Window_Closing"
         WindowStyle="None"
         Style="{DynamicResource DarkModeStyleWindow}"
-        Icon="/Windows/Assets/XMLpad-logos_transparent.png" Height="900" Width="1600">
+        Icon="/Windows/Assets/XMLpad-logos_transparent.png" Height="900" Width="1600" x:Name="MainWindowWindow">
     <Window.Resources>
         <ControlTemplate x:Key="MenuTemplate1" TargetType="{x:Type Menu}">
             <Border x:Name="SubMenuBorder" Background="{DynamicResource Menu.Static.Background}" BorderThickness="0" BorderBrush="{DynamicResource Menu.Static.Border}" Padding="2">
@@ -133,37 +133,65 @@
                 <MenuItem Header="_File">
                     <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MainMenu_File_NewFile">
                         <MenuItem.Icon>
-                            <Image Source="C:\Users\mdros\source\repos\XMLpad\XMLpad\Windows\Assets\light_add_new_file.png" />
+                            <Image x:Name="icon_addNew" Source="/Windows/Assets/darkMode/add_new.png" />
                         </MenuItem.Icon>
                         <MenuItem.InputBindings>
                             <KeyBinding Key="N" Modifiers="Ctrl" Command="ApplicationCommands.New"/>
                         </MenuItem.InputBindings>
                     </MenuItem>
-                    <MenuItem Header="_Clear" Click="MainMenu_File_Clear"/>
+                    <MenuItem Header="_Clear" Click="MainMenu_File_Clear">
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_clear" Source="/Windows/Assets/darkMode/clear.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="_Open" InputGestureText="Ctrl+O" Click="MainMenu_File_OpenFile">
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_open" Source="/Windows/Assets/darkMode/open.png" />
+                        </MenuItem.Icon>
                         <MenuItem.InputBindings>
                             <KeyBinding Key="O" Modifiers="Ctrl" Command="ApplicationCommands.Open"/>
                         </MenuItem.InputBindings>
                     </MenuItem>
-                    <MenuItem Header="_Open Containing Folder" Click="MainMenu_File_OpenContainingFolder"/>
+                    <MenuItem Header="_Open Containing Folder" Click="MainMenu_File_OpenContainingFolder">
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_openFolder" Source="/Windows/Assets/darkMode/openFolder.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="_Save" InputGestureText="Ctrl+S" Click="MainMenu_File_Save">
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_save" Source="/Windows/Assets/darkMode/save.png"/>
+                        </MenuItem.Icon>
                         <MenuItem.InputBindings>
                             <KeyBinding Key="S" Modifiers="Ctrl" Command="ApplicationCommands.Save"/>
                         </MenuItem.InputBindings>
                     </MenuItem>
-                    <MenuItem Header="_Save As" Click="MainMenu_File_SaveAs"/>
+                    <MenuItem Header="_Save As" Click="MainMenu_File_SaveAs">
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_saveAs" Source="/Windows/Assets/darkMode/saveAs.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="_Save A Copy As" Click="MainMenu_File_SaveACopyAs"/>
                     <MenuItem Header="_Print" InputGestureText="Ctrl+P" Click="MainMenu_File_Print">
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_print" Source="/Windows/Assets/darkMode/print.png"/>
+                        </MenuItem.Icon>
                         <MenuItem.InputBindings>
                             <KeyBinding Key="P" Modifiers="Ctrl" Command="ApplicationCommands.Print"/>
                         </MenuItem.InputBindings>
                     </MenuItem>
-                    <MenuItem Header="_Compare File with Another" Click="MainMenu_File_CompareFileWithAnother"/>
+                    <MenuItem Header="_Compare File with Another" Click="MainMenu_File_CompareFileWithAnother">
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_difference" Source="/Windows/Assets/darkMode/difference.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <Separator Style="{DynamicResource DarkModeStyleSeparator}"/>
                     <MenuItem Header="_Exit" InputGestureText="Alt+F4" Click="MainMenu_File_Exit">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="F4" Modifiers="Alt" Command="ApplicationCommands.Close"/>
                         </MenuItem.InputBindings>
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_exit" Source="/Windows/Assets/darkMode/exit.png"/>
+                        </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Edit">
@@ -171,78 +199,164 @@
                         <MenuItem.InputBindings>
                             <KeyBinding Key="Z" Modifiers="Ctrl" Command="ApplicationCommands.Undo"/>
                         </MenuItem.InputBindings>
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_undo" Source="/Windows/Assets/darkMode/undo.png"/>
+                        </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="_Redo" InputGestureText="Ctrl+Y" Click="MainMenu_Redo">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="Y" Modifiers="Ctrl" Command="ApplicationCommands.Redo"/>
                         </MenuItem.InputBindings>
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_redo" Source="/Windows/Assets/darkMode/redo.png"/>
+                        </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="_Cut" InputGestureText="Ctrl+X" Click="MainMenu_Cut">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="X" Modifiers="Ctrl" Command="ApplicationCommands.Cut"/>
                         </MenuItem.InputBindings>
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_cut" Source="/Windows/Assets/darkMode/cut.png"/>
+                        </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="_Copy" InputGestureText="Ctrl+C" Click="MainMenu_Copy">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="C" Modifiers="Ctrl" Command="ApplicationCommands.Copy"/>
                         </MenuItem.InputBindings>
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_copyContent" Source="/Windows/Assets/darkMode/copyContent.png"/>
+                        </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="_Duplicate Line" Click="MainMenu_DuplicateLine">
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_duplicateLine" Source="/Windows/Assets/darkMode/duplicateLine.png"/>
+                        </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="_Paste" Click="MainMenu_Paste" InputGestureText="Ctrl+V">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="V" Modifiers="Ctrl" Command="ApplicationCommands.Paste"/>
                         </MenuItem.InputBindings>
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_paste" Source="/Windows/Assets/darkMode/paste.png"/>
+                        </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="_Delete" Click="MainMenu_Delete" InputGestureText="DEL/Ctrl+D">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="Delete" Command="ApplicationCommands.Delete"/>
                         </MenuItem.InputBindings>
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_backspace" Source="/Windows/Assets/darkMode/backspace.png"/>
+                        </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="_Select All" Click="MainMenu_SelectAll" InputGestureText="Ctrl+A">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="A" Modifiers="Ctrl" Command="ApplicationCommands.SelectAll"/>
                         </MenuItem.InputBindings>
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_selectAll" Source="/Windows/Assets/darkMode/selectAll.png"/>
+                        </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="_Find (and Replace)" Click="MainMenu_Edit_FindAndReplace">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="F" Modifiers="Ctrl" Command="ApplicationCommands.Find"/>
                         </MenuItem.InputBindings>
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_findReplace" Source="/Windows/Assets/darkMode/findReplace.png"/>
+                        </MenuItem.Icon>
                     </MenuItem>
                     <Separator Style="{DynamicResource DarkModeStyleSeparator}"/>
                     <MenuItem Header="_Insert">
-                        <MenuItem Header="_Date Time (Short)" Click="MainMenu_Insert_DateTimeShort"/>
-                        <MenuItem Header="_Date Time (Long)" Click="MainMenu_Insert_DateTimeLong"/>
+                        <MenuItem Header="_Date Time (Short)" Click="MainMenu_Insert_DateTimeShort">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_dateTimeShort" Source="/Windows/Assets/darkMode/dateTimeShort.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Date Time (Long)" Click="MainMenu_Insert_DateTimeLong">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_dateTimeLong" Source="/Windows/Assets/darkMode/dateTimeLong.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_Copy">
-                        <MenuItem Header="_Copy Current File Path" Click="MainMenu_Copy_CurrentFilePath"/>
-                        <MenuItem Header="_Copy Current File Name" Click="MainMenu_Copy_CurrentFileName"/>
+                        <MenuItem Header="_Copy Current File Path" Click="MainMenu_Copy_CurrentFilePath">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_path" Source="/Windows/Assets/darkMode/path.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Copy Current File Name" Click="MainMenu_Copy_CurrentFileName">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_copyName" Source="/Windows/Assets/darkMode/copyName.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_Indent">
-                        <MenuItem Header="_Increase Indent (+)" Click="MainMenu_IncreaseIndent"/>
-                        <MenuItem Header="_Decrease Indent (-)" Click="MainMenu_DecreaseIndent"/>
+                        <MenuItem Header="_Increase Indent (+)" Click="MainMenu_IncreaseIndent">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_add_new" Source="/Windows/Assets/darkMode/add_new.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Decrease Indent (-)" Click="MainMenu_DecreaseIndent">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_minus" Source="/Windows/Assets/darkMode/minus.png" />
+
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_Convert Case">
                         <MenuItem Header="_All Uppercase" Click="MainMenu_ConvertCase_AllUppercase" InputGestureText="Ctrl+Shift+U">
                             <MenuItem.InputBindings>
                                 <KeyBinding Key="U" Modifiers="Ctrl+Shift"/>
-                            </MenuItem.InputBindings> >
+                            </MenuItem.InputBindings>
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_allUpper" Source="/Windows/Assets/darkMode/allUpper.png"/>
+                            </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Header="_All Lowercase" Click="MainMenu_ConvertCase_AllLowercase" InputGestureText="Ctrl+U">
                             <MenuItem.InputBindings>
                                 <KeyBinding Key="U" Modifiers="Ctrl"/>
                             </MenuItem.InputBindings>
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_lowercase" Source="/Windows/Assets/darkMode/lowercase.png"/>
+                            </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="_Invert Case" Click="MainMenu_ConvertCase_InvertCase"/>
-                        <MenuItem Header="_Random Case" Click="MainMenu_ConvertCase_RandomCase"/>
+                        <MenuItem Header="_Invert Case" Click="MainMenu_ConvertCase_InvertCase">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_swap" Source="/Windows/Assets/darkMode/swap.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Random Case" Click="MainMenu_ConvertCase_RandomCase">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_random" Source="/Windows/Assets/darkMode/random.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_Line Operations" >
-                        <MenuItem Header="_Duplicate Line" Click="MainMenu_LineOperations_DuplicateLine"/>
-                        <MenuItem Header="_Remove Duplicate Lines" Click="MainMenu_LineOperations_RemoveDuplicateLines"/>
+                        <MenuItem Header="_Duplicate Line" Click="MainMenu_LineOperations_DuplicateLine">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_duplicateLine_1" Source="/Windows/Assets/darkMode/duplicateLine.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Remove Duplicate Lines" Click="MainMenu_LineOperations_RemoveDuplicateLines">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_removeDuplicateLines" Source="/Windows/Assets/darkMode/removeDuplicateLines.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem Header="_Remove Consecutive Duplicate Lines" Click="MainMenu_LineOperations_RemoveConsecutiveDuplicateLines"/>
-                        <MenuItem Header="_Move Up The Current Line" Click="MainMenu_LineOperations_MoveUpCurrentLine"/>
-                        <MenuItem Header="_Move Down The Current Line" Click="MainMenu_LineOperations_MoveDownCurrentLine"/>
-                        <MenuItem Header="_Remove Empty Lines" Click="MainMenu_LineOperations_RemoveEmptyLines"/>
+                        <MenuItem Header="_Move Up The Current Line" Click="MainMenu_LineOperations_MoveUpCurrentLine">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_moveUp" Source="/Windows/Assets/darkMode/moveUp.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Move Down The Current Line" Click="MainMenu_LineOperations_MoveDownCurrentLine">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_moveDown" Source="/Windows/Assets/darkMode/moveDown.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Remove Empty Lines" Click="MainMenu_LineOperations_RemoveEmptyLines">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_clear_1" Source="/Windows/Assets/darkMode/clear.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem Header="_Insert Blank Line Above Current" Click="MainMenu_LineOperations_InsertBlankLineAboveCurrent"/>
                         <MenuItem Header="_Insert Blank Line Below Current" Click="MainMenu_LineOperations_InsertBlankLineBelowCurrent"/>
                         <MenuItem Header="_Comment/Uncomment" >
@@ -258,11 +372,18 @@
                             <MenuItem Header="_Space To TAB(Trailing)" Click="MainMenu_Edit_BlankOperations_SpaceToTabTrailing"/>
                             <MenuItem Header="_Space To TAB(All)" Click="MainMenu_Edit_BlankOperations_SpaceToTabAll"/>
                         </MenuItem>
-                        <MenuItem x:Name="readOnlyMenuItem"  Header="_Set As Read-Only" Click="MainMenu_Edit_SetAsReadOnly" IsCheckable="True"/>
+                        <MenuItem x:Name="readOnlyMenuItem"  Header="_Set As Read-Only" Click="MainMenu_Edit_SetAsReadOnly" IsCheckable="True">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_lock" Source="/Windows/Assets/darkMode/lock.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_View" >
                     <MenuItem x:Name="menuItem_FullScreen" Header="_Toggle Full Screen Mode" InputGestureText="Ctrl+Shift+F" Click="MainMenu_View_ToggleFullScreen">
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_fullScreen" Source="/Windows/Assets/darkMode/fullScreen.png"/>
+                        </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="_Show Symbol" >
                         <MenuItem x:Name="menuItem_showSpacesTabs" Header="_Show spaces and Tabs" Click="MainMenu_View_ShowSymbol_ShowSpacesAndTabs" IsCheckable="True"/>
@@ -270,37 +391,53 @@
                         <MenuItem x:Name="menuItem_showAllCharacters" Header="_Show all characters" Click="MainMenu_View_ShowSymbol_ShowAllCharacters"/>
                     </MenuItem>
                     <MenuItem Header="_Zoom" >
-                        <MenuItem Header="_Zoom in" Click="MainMenu_View_ZoomIn" InputGestureText="Ctrl+Num+"/>
-                        <MenuItem Header="_Zoom out" InputGestureText="Ctrl+Num-" Click="MainMenu_View_ZoomOut"/>
-                        <MenuItem Header="_Restore default zoom" InputGestureText="Ctrl+Num/" Click="MainMenu_View_ZoomDefault"/>
+                        <MenuItem Header="_Zoom in" Click="MainMenu_View_ZoomIn" InputGestureText="Ctrl+Num+">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_add_new_1" Source="/Windows/Assets/darkMode/add_new.png"/>
+                            </MenuItem.Icon>
+                            <MenuItem Header="_Zoom out" InputGestureText="Ctrl+Num-" Click="MainMenu_View_ZoomOut">
+                                <MenuItem.Icon>
+                                    <Image x:Name="icon_minus_1" Source="/Windows/Assets/darkMode/minus.png"/>
+                                </MenuItem.Icon>
+                                <MenuItem Header="_Restore default zoom" InputGestureText="Ctrl+Num/" Click="MainMenu_View_ZoomDefault"/>
+                            </MenuItem>
+                            <MenuItem x:Name="mainMenu_showLineNumbers" Header="Show Line Numbers" Click="MainMenu_View_ShowLineNumbers" IsCheckable="True" IsChecked="True"/>
+                            <MenuItem x:Name="mainMenu_showXMLTree" Header="Show XML Tree" Click="MainMenu_View_ShowXMLTree" IsCheckable="True" IsChecked="True"/>
+                        </MenuItem>
                     </MenuItem>
-                    <MenuItem x:Name="mainMenu_showLineNumbers" Header="Show Line Numbers" Click="MainMenu_View_ShowLineNumbers" IsCheckable="True" IsChecked="True"/>
-                    <MenuItem x:Name="mainMenu_showXMLTree" Header="Show XML Tree" Click="MainMenu_View_ShowXMLTree" IsCheckable="True" IsChecked="True"/>
                 </MenuItem>
                 <MenuItem Header="_Settings" >
-                    <MenuItem Header="_Change Theme" Click="MainMenu_Settings_EnvironmentPreferences"/>
-                    <MenuItem Header="_Syntax Highlighting">
-                        <MenuItem Header="_XML" Click="Language_Click"/>
-                        <MenuItem Header="_XmlDoc" Click="Language_Click"/>
-                        <MenuItem Header="_C#" Click="Language_Click"/>
-                        <MenuItem Header="_JavaScript" Click="Language_Click"/>
-                        <MenuItem Header="_HTML" Click="Language_Click"/>
-                        <MenuItem Header="_Boo" Click="Language_Click"/>
-                        <MenuItem Header="_Coco" Click="Language_Click"/>
-                        <MenuItem Header="_CSS" Click="Language_Click"/>
-                        <MenuItem Header="_C++" Click="Language_Click"/>
-                        <MenuItem Header="_Java" Click="Language_Click"/>
-                        <MenuItem Header="_Patch" Click="Language_Click"/>
-                        <MenuItem Header="_PowerShell" Click="Language_Click"/>
-                        <MenuItem Header="_PHP" Click="Language_Click"/>
-                        <MenuItem Header="_TeX" Click="Language_Click"/>
-                        <MenuItem Header="_VBNET" Click="Language_Click"/>
-                        <MenuItem Header="_MarkDown" Click="Language_Click"/>
-                    </MenuItem>
-                </MenuItem>
-                <MenuItem Header="_Help" >
-                    <MenuItem Header="_View Manual" Click="MainMenu_Help_ViewManual"/>
-                </MenuItem>
+                            <MenuItem Header="_Change Theme" Click="MainMenu_Settings_EnvironmentPreferences">
+                                <MenuItem.Icon>
+                                    <Image x:Name="icon_darkMode" Source="/Windows/Assets/darkMode/darkMode.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="_Syntax Highlighting">
+                                <MenuItem Header="_XML" Click="Language_Click"/>
+                                <MenuItem Header="_XmlDoc" Click="Language_Click"/>
+                                <MenuItem Header="_C#" Click="Language_Click"/>
+                                <MenuItem Header="_JavaScript" Click="Language_Click"/>
+                                <MenuItem Header="_HTML" Click="Language_Click"/>
+                                <MenuItem Header="_Boo" Click="Language_Click"/>
+                                <MenuItem Header="_Coco" Click="Language_Click"/>
+                                <MenuItem Header="_CSS" Click="Language_Click"/>
+                                <MenuItem Header="_C++" Click="Language_Click"/>
+                                <MenuItem Header="_Java" Click="Language_Click"/>
+                                <MenuItem Header="_Patch" Click="Language_Click"/>
+                                <MenuItem Header="_PowerShell" Click="Language_Click"/>
+                                <MenuItem Header="_PHP" Click="Language_Click"/>
+                                <MenuItem Header="_TeX" Click="Language_Click"/>
+                                <MenuItem Header="_VBNET" Click="Language_Click"/>
+                                <MenuItem Header="_MarkDown" Click="Language_Click"/>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="_Help" >
+                            <MenuItem Header="_View Manual" Click="MainMenu_Help_ViewManual">
+                                <MenuItem.Icon>
+                                    <Image x:Name="icon_manual" Source="/Windows/Assets/darkMode/manual.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </MenuItem>
             </Menu>
             <StatusBar x:Name="mainWindowStatusBar" DockPanel.Dock="Bottom" Style="{DynamicResource DarkModeStyleStatusBar}" >
                 <Label x:Name="LineCharacterPosition" Content="Line: 0 Column: 0" Foreground="White"/>

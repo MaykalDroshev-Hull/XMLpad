@@ -18,6 +18,76 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Windows\Assets\darkMode\add_new.png" />
+    <None Remove="Windows\Assets\darkMode\allUpper.png" />
+    <None Remove="Windows\Assets\darkMode\backspace.png" />
+    <None Remove="Windows\Assets\darkMode\clear.png" />
+    <None Remove="Windows\Assets\darkMode\copy.png" />
+    <None Remove="Windows\Assets\darkMode\copyContent.png" />
+    <None Remove="Windows\Assets\darkMode\copyName.png" />
+    <None Remove="Windows\Assets\darkMode\cut.png" />
+    <None Remove="Windows\Assets\darkMode\darkMode.png" />
+    <None Remove="Windows\Assets\darkMode\dateTimeLong.png" />
+    <None Remove="Windows\Assets\darkMode\dateTimeShort.png" />
+    <None Remove="Windows\Assets\darkMode\difference.png" />
+    <None Remove="Windows\Assets\darkMode\duplicateLine.png" />
+    <None Remove="Windows\Assets\darkMode\exit.png" />
+    <None Remove="Windows\Assets\darkMode\findReplace.png" />
+    <None Remove="Windows\Assets\darkMode\fullScreen.png" />
+    <None Remove="Windows\Assets\darkMode\lock.png" />
+    <None Remove="Windows\Assets\darkMode\lowercase.png" />
+    <None Remove="Windows\Assets\darkMode\manual.png" />
+    <None Remove="Windows\Assets\darkMode\minus.png" />
+    <None Remove="Windows\Assets\darkMode\moveDown.png" />
+    <None Remove="Windows\Assets\darkMode\moveUp.png" />
+    <None Remove="Windows\Assets\darkMode\open.png" />
+    <None Remove="Windows\Assets\darkMode\openFolder.png" />
+    <None Remove="Windows\Assets\darkMode\paste.png" />
+    <None Remove="Windows\Assets\darkMode\path.png" />
+    <None Remove="Windows\Assets\darkMode\print.png" />
+    <None Remove="Windows\Assets\darkMode\random.png" />
+    <None Remove="Windows\Assets\darkMode\redo.png" />
+    <None Remove="Windows\Assets\darkMode\removeDuplicateLines.png" />
+    <None Remove="Windows\Assets\darkMode\save.png" />
+    <None Remove="Windows\Assets\darkMode\saveAs.png" />
+    <None Remove="Windows\Assets\darkMode\selectAll.png" />
+    <None Remove="Windows\Assets\darkMode\swap.png" />
+    <None Remove="Windows\Assets\darkMode\undo.png" />
+    <None Remove="Windows\Assets\lightMode\add_new.png" />
+    <None Remove="Windows\Assets\lightMode\allUpper.png" />
+    <None Remove="Windows\Assets\lightMode\backspace.png" />
+    <None Remove="Windows\Assets\lightMode\clear.png" />
+    <None Remove="Windows\Assets\lightMode\copy.png" />
+    <None Remove="Windows\Assets\lightMode\copyContent.png" />
+    <None Remove="Windows\Assets\lightMode\copyName.png" />
+    <None Remove="Windows\Assets\lightMode\cut.png" />
+    <None Remove="Windows\Assets\lightMode\darkMode.png" />
+    <None Remove="Windows\Assets\lightMode\dateTimeLong.png" />
+    <None Remove="Windows\Assets\lightMode\dateTimeShort.png" />
+    <None Remove="Windows\Assets\lightMode\difference.png" />
+    <None Remove="Windows\Assets\lightMode\duplicateLine.png" />
+    <None Remove="Windows\Assets\lightMode\exit.png" />
+    <None Remove="Windows\Assets\lightMode\findReplace.png" />
+    <None Remove="Windows\Assets\lightMode\fullScreen.png" />
+    <None Remove="Windows\Assets\lightMode\lock.png" />
+    <None Remove="Windows\Assets\lightMode\lowercase.png" />
+    <None Remove="Windows\Assets\lightMode\manual.png" />
+    <None Remove="Windows\Assets\lightMode\minus.png" />
+    <None Remove="Windows\Assets\lightMode\moveDown.png" />
+    <None Remove="Windows\Assets\lightMode\moveUp.png" />
+    <None Remove="Windows\Assets\lightMode\open.png" />
+    <None Remove="Windows\Assets\lightMode\openFolder.png" />
+    <None Remove="Windows\Assets\lightMode\paste.png" />
+    <None Remove="Windows\Assets\lightMode\path.png" />
+    <None Remove="Windows\Assets\lightMode\print.png" />
+    <None Remove="Windows\Assets\lightMode\random.png" />
+    <None Remove="Windows\Assets\lightMode\redo.png" />
+    <None Remove="Windows\Assets\lightMode\removeDuplicateLines.png" />
+    <None Remove="Windows\Assets\lightMode\save.png" />
+    <None Remove="Windows\Assets\lightMode\saveAs.png" />
+    <None Remove="Windows\Assets\lightMode\selectAll.png" />
+    <None Remove="Windows\Assets\lightMode\swap.png" />
+    <None Remove="Windows\Assets\lightMode\undo.png" />
     <None Remove="Windows\Assets\noun-cross-1776298.png" />
     <None Remove="Windows\Assets\noun-plus-1807535.png" />
     <None Remove="Windows\Assets\XMLpad-logos.jpeg" />
@@ -36,6 +106,216 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Windows\Assets\darkMode\add_new.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\allUpper.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\backspace.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\clear.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\copy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\copyContent.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\copyName.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\cut.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\darkMode.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\dateTimeLong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\dateTimeShort.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\difference.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\duplicateLine.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\exit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\findReplace.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\fullScreen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\lock.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\lowercase.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\manual.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\minus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\moveDown.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\moveUp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\open.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\openFolder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\paste.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\path.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\print.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\random.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\redo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\removeDuplicateLines.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\save.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\saveAs.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\selectAll.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\swap.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\darkMode\undo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\add_new.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\allUpper.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\backspace.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\clear.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\copy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\copyContent.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\copyName.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\cut.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\darkMode.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\dateTimeLong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\dateTimeShort.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\difference.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\duplicateLine.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\exit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\findReplace.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\fullScreen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\lock.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\lowercase.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\manual.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\minus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\moveDown.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\moveUp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\open.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\openFolder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\paste.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\path.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\print.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\random.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\redo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\removeDuplicateLines.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\save.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\saveAs.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\selectAll.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\swap.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Assets\lightMode\undo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Windows\Assets\noun-cross-1776298.png" />
     <Resource Include="Windows\Assets\noun-plus-1807535.png" />
     <Resource Include="Windows\Assets\XMLpad-logos.jpeg" />
