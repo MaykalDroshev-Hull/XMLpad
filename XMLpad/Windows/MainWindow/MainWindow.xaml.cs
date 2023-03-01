@@ -1,11 +1,7 @@
 ﻿namespace XMLpad
 {
-    using System;
     using System.Windows;
-    using ICSharpCode.AvalonEdit;
-    using System.Windows.Media;
     using ICSharpCode.AvalonEdit.Folding;
-    using ICSharpCode.AvalonEdit.Highlighting;
     using System.IO;
     using System.Linq;
 
@@ -37,15 +33,6 @@
                 var backgroundRenderer = new HighlightCurrentLineBackgroundRenderer(textEditor, currentTheme);
                 textEditor.TextArea.TextView.BackgroundRenderers.Add(backgroundRenderer);
             }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainWindow"/> class.
-        /// Used for testing purposes
-        /// </summary>
-        /// <param name="test">if set to <c>true</c> [test].</param>
-        public MainWindow(bool test)
-        {
         }
 
         /// <summary>
