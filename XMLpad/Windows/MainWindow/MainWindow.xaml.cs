@@ -62,6 +62,9 @@
                 {
                     if (fileInfo.Extension == ".xml" || fileInfo.Extension == ".cs" || fileInfo.Extension == ".txt")
                     {
+                        // Save the current file first before opening the other one
+                        SaveCurrentFile();
+
                         // Get the file name
                         string fileName = fileInfo.Name;
                         mCurrentFile.FileName = fileName;
