@@ -15,6 +15,11 @@
                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
             </Border>
         </ControlTemplate>
+        <ControlTemplate x:Key="ContextMenuTemplate1" TargetType="{x:Type ContextMenu}">
+            <Border x:Name="SubMenuBorder" Background="{DynamicResource Menu.Static.Background}" BorderThickness="0" BorderBrush="{DynamicResource Menu.Static.Border}" Padding="2">
+                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+            </Border>
+        </ControlTemplate>
         <SolidColorBrush x:Key="ListBorder" Color="#828790"/>
     </Window.Resources>
     <Window.InputBindings>
@@ -407,37 +412,37 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Settings" >
-                            <MenuItem Header="_Change Theme" Click="MainMenu_Settings_EnvironmentPreferences">
-                                <MenuItem.Icon>
-                                    <Image x:Name="icon_darkMode" Source="/Windows/Assets/darkMode/darkMode.png"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="_Syntax Highlighting">
-                                <MenuItem Header="_XML" Click="Language_Click"/>
-                                <MenuItem Header="_XmlDoc" Click="Language_Click"/>
-                                <MenuItem Header="_C#" Click="Language_Click"/>
-                                <MenuItem Header="_JavaScript" Click="Language_Click"/>
-                                <MenuItem Header="_HTML" Click="Language_Click"/>
-                                <MenuItem Header="_Boo" Click="Language_Click"/>
-                                <MenuItem Header="_Coco" Click="Language_Click"/>
-                                <MenuItem Header="_CSS" Click="Language_Click"/>
-                                <MenuItem Header="_C++" Click="Language_Click"/>
-                                <MenuItem Header="_Java" Click="Language_Click"/>
-                                <MenuItem Header="_Patch" Click="Language_Click"/>
-                                <MenuItem Header="_PowerShell" Click="Language_Click"/>
-                                <MenuItem Header="_PHP" Click="Language_Click"/>
-                                <MenuItem Header="_TeX" Click="Language_Click"/>
-                                <MenuItem Header="_VBNET" Click="Language_Click"/>
-                                <MenuItem Header="_MarkDown" Click="Language_Click"/>
-                            </MenuItem>
-                        </MenuItem>
-                        <MenuItem Header="_Help" >
-                            <MenuItem Header="_View Manual" Click="MainMenu_Help_ViewManual">
-                                <MenuItem.Icon>
-                                    <Image x:Name="icon_manual" Source="/Windows/Assets/darkMode/manual.png"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
+                    <MenuItem Header="_Change Theme" Click="MainMenu_Settings_EnvironmentPreferences">
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_darkMode" Source="/Windows/Assets/darkMode/darkMode.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_Syntax Highlighting">
+                        <MenuItem Header="_XML" Click="Language_Click"/>
+                        <MenuItem Header="_XmlDoc" Click="Language_Click"/>
+                        <MenuItem Header="_C#" Click="Language_Click"/>
+                        <MenuItem Header="_JavaScript" Click="Language_Click"/>
+                        <MenuItem Header="_HTML" Click="Language_Click"/>
+                        <MenuItem Header="_Boo" Click="Language_Click"/>
+                        <MenuItem Header="_Coco" Click="Language_Click"/>
+                        <MenuItem Header="_CSS" Click="Language_Click"/>
+                        <MenuItem Header="_C++" Click="Language_Click"/>
+                        <MenuItem Header="_Java" Click="Language_Click"/>
+                        <MenuItem Header="_Patch" Click="Language_Click"/>
+                        <MenuItem Header="_PowerShell" Click="Language_Click"/>
+                        <MenuItem Header="_PHP" Click="Language_Click"/>
+                        <MenuItem Header="_TeX" Click="Language_Click"/>
+                        <MenuItem Header="_VBNET" Click="Language_Click"/>
+                        <MenuItem Header="_MarkDown" Click="Language_Click"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Help" >
+                    <MenuItem Header="_View Manual" Click="MainMenu_Help_ViewManual">
+                        <MenuItem.Icon>
+                            <Image x:Name="icon_manual" Source="/Windows/Assets/darkMode/manual.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
             </Menu>
             <StatusBar x:Name="mainWindowStatusBar" DockPanel.Dock="Bottom" Style="{DynamicResource DarkModeStyleStatusBar}" >
                 <Label x:Name="LineCharacterPosition" Content="Line: 0 Column: 0" Foreground="White"/>
@@ -448,6 +453,7 @@
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <avalonEdit:TextEditor
+                AllowDrop="True" Drop="textEditor_Drop"
                 x:Name="textEditor"
                 xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
                 ShowLineNumbers="True"
@@ -463,21 +469,71 @@
                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                     Grid.Column="0">
                     <avalonEdit:TextEditor.ContextMenu>
-                        <ContextMenu x:Name="rightClickMenu">
-                            <MenuItem Command="ApplicationCommands.Cut" Style="{DynamicResource MenuItemStyle1}"/>
-                            <MenuItem Command="ApplicationCommands.Copy" Style="{DynamicResource MenuItemStyle1}"/>
-                            <MenuItem Command="ApplicationCommands.Paste" Style="{DynamicResource MenuItemStyle1}"/>
-                            <Separator />
-                            <MenuItem Command="ApplicationCommands.SelectAll" Style="{DynamicResource MenuItemStyle1}"/>
-                            <Separator/>
-                            <MenuItem Command="ApplicationCommands.New" Style="{DynamicResource MenuItemStyle1}" Icon="{}">
+                        <ContextMenu x:Name="rightClickMenu" Template="{DynamicResource ContextMenuTemplate1}" Foreground="White" BorderThickness="1" BorderBrush="Black">
+                            <MenuItem Command="ApplicationCommands.Cut" >
+                                <MenuItem.Icon>
+                                    <Image Source="/Windows/Assets/darkMode/cut.png" />
+                                </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Command="ApplicationCommands.Open" Style="{DynamicResource MenuItemStyle1}"/>
-                            <MenuItem Command="ApplicationCommands.Save" Style="{DynamicResource MenuItemStyle1}"/>
-                            <MenuItem Command="ApplicationCommands.SaveAs" Style="{DynamicResource MenuItemStyle1}"/>
-                            <MenuItem Command="ApplicationCommands.Print" Style="{DynamicResource MenuItemStyle1}"/>
-                            <MenuItem Command="ApplicationCommands.Close" Style="{DynamicResource MenuItemStyle1}"/>
-                            <MenuItem Command="ApplicationCommands.Undo" Style="{DynamicResource MenuItemStyle1}"/>
+                            <MenuItem Command="ApplicationCommands.Copy" >
+                                <MenuItem.Icon>
+                                    <Image Source="/Windows/Assets/darkMode/copy.png" />
+
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Command="ApplicationCommands.Paste" >
+                                <MenuItem.Icon>
+                                    <Image Source="/Windows/Assets/darkMode/paste.png" />
+
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator />
+                            <MenuItem Command="ApplicationCommands.SelectAll" >
+                                <MenuItem.Icon>
+                                    <Image Source="/Windows/Assets/darkMode/selectAll.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Command="ApplicationCommands.New">
+                                <MenuItem.Icon>
+                                    <Image Source="/Windows/Assets/darkMode/add_new.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Command="ApplicationCommands.Open" >
+                                <MenuItem.Icon>
+                                    <Image Source="/Windows/Assets/darkMode/open.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Command="ApplicationCommands.Save" >
+                                <MenuItem.Icon>
+                                    <Image Source="/Windows/Assets/darkMode/save.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Command="ApplicationCommands.SaveAs" >
+                                <MenuItem.Icon>
+                                    <Image Source="/Windows/Assets/darkMode/saveAs.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Command="ApplicationCommands.Print" >
+                                <MenuItem.Icon>
+                                    <Image Source="/Windows/Assets/darkMode/print.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Command="ApplicationCommands.Close" >
+                                <MenuItem.Icon>
+                                    <Image Source="/Windows/Assets/darkMode/exit.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Command="ApplicationCommands.Undo" >
+                                <MenuItem.Icon>
+                                    <Image Source="/Windows/Assets/darkMode/undo.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Command="ApplicationCommands.Redo" >
+                                <MenuItem.Icon>
+                                    <Image Source="/Windows/Assets/darkMode/redo.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
                         </ContextMenu>
                     </avalonEdit:TextEditor.ContextMenu>
                 </avalonEdit:TextEditor>

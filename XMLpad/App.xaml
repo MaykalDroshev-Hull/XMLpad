@@ -55,7 +55,7 @@
             <Setter Property="Background" Value="#3D3D3D" />
             <Setter Property="Foreground" Value="White"/>
         </Style>
-        
+
         <SolidColorBrush x:Key="grayBrush" Color="#1F1F1F" />
         <SolidColorBrush x:Key="LightGrayBrush" Color="#3d3d3d" />
         <SolidColorBrush x:Key="blueTagBrush" Color="#4F98BB" />

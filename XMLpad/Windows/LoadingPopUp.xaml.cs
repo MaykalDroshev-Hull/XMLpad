@@ -20,6 +20,7 @@ namespace XMLpad
     public partial class LoadingPopUp : Window
     {
         private readonly TaskCompletionSource<bool> _hiddenTcs = new TaskCompletionSource<bool>();
+        private readonly TaskCompletionSource<bool> _shownTcs = new TaskCompletionSource<bool>();
 
         public LoadingPopUp()
         {
@@ -27,10 +28,21 @@ namespace XMLpad
             Closed += (_, _) => _hiddenTcs.TrySetResult(true);
         }
 
+        public async Task ShowAsync()
+        {
+            Show();
+            await _shownTcs.Task;
+        }
+
         public async Task HideAsync()
         {
             Hide();
             await _hiddenTcs.Task;
+        }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            _shownTcs.TrySetResult(true);
         }
     }
 }
