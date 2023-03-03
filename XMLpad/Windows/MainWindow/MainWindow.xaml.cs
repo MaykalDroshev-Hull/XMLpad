@@ -4,6 +4,10 @@
     using ICSharpCode.AvalonEdit.Folding;
     using System.IO;
     using System.Linq;
+    using static ScintillaNET.Style;
+    using System.Text;
+    using System.Xml;
+    using System;
 
     /// <summary>
     /// Definition logic for MainWindow.xaml
@@ -66,6 +70,38 @@
                     }
                 }
             }
+        }
+
+        private void FormatXML_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(textEditor.Text))
+            {
+                return;
+            }
+
+            // Load the XML string into an XmlDocument.
+            var doc = new XmlDocument();
+            doc.LoadXml(textEditor.Text);
+
+            // Create a writer to write the indented XML to.
+            var writer = new StringWriter();
+            var settings = new XmlWriterSettings
+            {
+                Indent = true,
+                IndentChars = "  ",
+                NewLineChars = Environment.NewLine,
+                NewLineHandling = NewLineHandling.Replace,
+                Encoding = Encoding.UTF8
+            };
+
+            // Write the indented XML to the writer.
+            using (var xmlWriter = XmlWriter.Create(writer, settings))
+            {
+                doc.Save(xmlWriter);
+            }
+
+            // Return the indented XML string.
+            textEditor.Text = writer.ToString();
         }
     }
 }

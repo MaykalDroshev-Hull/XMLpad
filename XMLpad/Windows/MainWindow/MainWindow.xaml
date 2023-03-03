@@ -470,68 +470,69 @@
                     Grid.Column="0">
                     <avalonEdit:TextEditor.ContextMenu>
                         <ContextMenu x:Name="rightClickMenu" Template="{DynamicResource ContextMenuTemplate1}" Foreground="White" BorderThickness="1" BorderBrush="Black">
+                            <MenuItem x:Name="FormatXML" Header="_Format XML" Click="FormatXML_Click"/>
                             <MenuItem Command="ApplicationCommands.Cut" >
                                 <MenuItem.Icon>
-                                    <Image Source="/Windows/Assets/darkMode/cut.png" />
+                                    <Image x:Name="contextIcon_Cut" Source="/Windows/Assets/darkMode/cut.png" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Command="ApplicationCommands.Copy" >
                                 <MenuItem.Icon>
-                                    <Image Source="/Windows/Assets/darkMode/copy.png" />
+                                    <Image x:Name="contextIcon_Copy" Source="/Windows/Assets/darkMode/copy.png" />
 
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Command="ApplicationCommands.Paste" >
                                 <MenuItem.Icon>
-                                    <Image Source="/Windows/Assets/darkMode/paste.png" />
+                                    <Image x:Name="contextIcon_Paste" Source="/Windows/Assets/darkMode/paste.png" />
 
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator />
                             <MenuItem Command="ApplicationCommands.SelectAll" >
                                 <MenuItem.Icon>
-                                    <Image Source="/Windows/Assets/darkMode/selectAll.png" />
+                                    <Image x:Name="contextIcon_SelectAll" Source="/Windows/Assets/darkMode/selectAll.png" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
                             <MenuItem Command="ApplicationCommands.New">
                                 <MenuItem.Icon>
-                                    <Image Source="/Windows/Assets/darkMode/add_new.png" />
+                                    <Image x:Name="contextIcon_New" Source="/Windows/Assets/darkMode/add_new.png" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Command="ApplicationCommands.Open" >
                                 <MenuItem.Icon>
-                                    <Image Source="/Windows/Assets/darkMode/open.png" />
+                                    <Image x:Name="contextIcon_Open" Source="/Windows/Assets/darkMode/open.png" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Command="ApplicationCommands.Save" >
                                 <MenuItem.Icon>
-                                    <Image Source="/Windows/Assets/darkMode/save.png" />
+                                    <Image x:Name="contextIcon_Save" Source="/Windows/Assets/darkMode/save.png" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Command="ApplicationCommands.SaveAs" >
                                 <MenuItem.Icon>
-                                    <Image Source="/Windows/Assets/darkMode/saveAs.png" />
+                                    <Image x:Name="contextIcon_SaveAs" Source="/Windows/Assets/darkMode/saveAs.png" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Command="ApplicationCommands.Print" >
                                 <MenuItem.Icon>
-                                    <Image Source="/Windows/Assets/darkMode/print.png" />
+                                    <Image x:Name="contextIcon_Print" Source="/Windows/Assets/darkMode/print.png" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Command="ApplicationCommands.Close" >
                                 <MenuItem.Icon>
-                                    <Image Source="/Windows/Assets/darkMode/exit.png" />
+                                    <Image x:Name="contextIcon_Close" Source="/Windows/Assets/darkMode/exit.png" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Command="ApplicationCommands.Undo" >
                                 <MenuItem.Icon>
-                                    <Image Source="/Windows/Assets/darkMode/undo.png" />
+                                    <Image x:Name="contextIcon_Undo" Source="/Windows/Assets/darkMode/undo.png" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Command="ApplicationCommands.Redo" >
                                 <MenuItem.Icon>
-                                    <Image Source="/Windows/Assets/darkMode/redo.png" />
+                                    <Image x:Name="contextIcon_Redo" Source="/Windows/Assets/darkMode/redo.png" />
                                 </MenuItem.Icon>
                             </MenuItem>
                         </ContextMenu>
