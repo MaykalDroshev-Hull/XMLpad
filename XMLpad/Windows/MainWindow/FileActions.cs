@@ -269,7 +269,7 @@ namespace XMLpad
                 fileStream = new FileStream("C:/temp/XMLPadPreferences.txt", FileMode.Create, FileAccess.Write);
             }
             StreamWriter writer = new(fileStream);
-            writer.Write(currentTheme);
+            writer.Write($"{currentTheme} {currentLanguage}");
             writer.Flush();
             writer.Close();
         }

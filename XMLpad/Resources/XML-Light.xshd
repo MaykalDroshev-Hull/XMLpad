@@ -1,0 +1,45 @@
+﻿<SyntaxDefinition name="XML"
+        xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+	<Color name="Comment" foreground="Green" />
+	<Color name="String" foreground="Blue" />
+	<Color name="Attribute" foreground="Red" />
+
+	<!-- This is the main ruleset. -->
+	<RuleSet>
+		<Span color="Comment" begin="//" />
+		<Span color="Comment" multiline="true"
+           begin="/\*" end="\*/" />
+
+		<Span color="String">
+			<Begin>"</Begin>
+			<End>"</End>
+			<RuleSet>
+				<!-- nested span for escape sequences -->
+				<Span begin="\\" end="." />
+			</RuleSet>
+		</Span>
+
+		<Span color="Attribute">
+			<Begin>[a-zA-Z0-9\-_]+</Begin>
+			<End>\s*=</End>
+			<RuleSet>
+				<Span color="String">
+					<Begin>"</Begin>
+					<End>"</End>
+					<RuleSet>
+						<!-- nested span for escape sequences -->
+						<Span begin="\\" end="." />
+					</RuleSet>
+				</Span>
+				<Span color="String">
+					<Begin>'</Begin>
+					<End>'</End>
+					<RuleSet>
+						<!-- nested span for escape sequences -->
+						<Span begin="\\" end="." />
+					</RuleSet>
+				</Span>
+			</RuleSet>
+		</Span>
+	</RuleSet>
+</SyntaxDefinition>

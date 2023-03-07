@@ -94,6 +94,7 @@
                     foldingStrategy = new XmlFoldingStrategy();
                     textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
                     highlightingDefinition = HighlightingManager.Instance.GetDefinition("XML");
+                    currentLanguage = HighlightLanguage.XML;
                     break;
                 case "_C#":
                 case "_C++":
@@ -102,6 +103,7 @@
                     textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.CSharp.CSharpIndentationStrategy(textEditor.Options);
                     foldingStrategy = new BraceFoldingStrategy();
                     highlightingDefinition = HighlightingManager.Instance.GetDefinition("C#");
+                    currentLanguage = HighlightLanguage.CSharp;
                     break;
                 default:
                     textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
@@ -126,6 +128,7 @@
                     mFoldingManager = null;
                 }
             }
+            ChangeLetterColours();
         }
         #region ShowSymbols
 

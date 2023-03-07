@@ -2,16 +2,14 @@
 {
     using System.Windows.Media;
     using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Controls.Primitives;
     using System.IO;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Windows.Media.Imaging;
     using System;
+    using System.Xml;
     using Window = System.Windows.Window;
     using System.Threading.Tasks;
-    using System.Threading;
+    using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+    using ICSharpCode.AvalonEdit.Highlighting;
 
     /// <summary>
     /// Settings and help logic for MainWindow.xaml
@@ -62,6 +60,7 @@
                     ChangeTitleBarToLightMode();
                     ChangeMenuIconsToLightMode();
                     ChangeContextIconsToLightMode();
+                    ChangeLetterColours();
                 });
 
                 currentTheme = theme.Light;
@@ -79,6 +78,7 @@
                     ChangeTitleBarToDarkMode();
                     ChangeMenuIconsToDarkMode();
                     ChangeContextIconsToDarkMode();
+                    ChangeLetterColours();
                 });
 
                 currentTheme = theme.Dark;
@@ -96,6 +96,31 @@
 
                 UpdateStatusBar(pAppend: true, pValue: $"Theme changed!");
             });
+        }
+
+        private void ChangeLetterColours()
+        {
+                 if(currentTheme == theme.Dark && currentLanguage == HighlightLanguage.XML){LoadSyntax("Resources/XML-dark.xshd"); }
+            else if(currentTheme == theme.Dark && currentLanguage == HighlightLanguage.CSharp) { LoadSyntax("Resources/C#-Dark.xshd"); }
+            else if(currentTheme == theme.Light && currentLanguage == HighlightLanguage.XML) { LoadSyntax("Resources/XML-Light.xshd"); }
+            else if(currentTheme == theme.Light && currentLanguage == HighlightLanguage.CSharp) { LoadSyntax("Resources/C#-Light.xshd"); }
+        }
+
+        private void LoadSyntax(string filePath)
+        {
+            // Load the syntax highlighting definition from the xml.xshd file
+            using (var stream = new FileStream(filePath, FileMode.Open))
+            {
+                using (XmlTextReader reader = new XmlTextReader(stream))
+                {
+                    var definition = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+                    // Register the syntax highlighting definition with the HighlightingManager
+                    HighlightingManager.Instance.RegisterHighlighting("XML", new string[] { ".xml" }, definition);
+                }
+            }
+
+            // Apply the "XML" syntax highlighting definition to your TextEditor control
+            textEditor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("XML");
         }
 
         /// <summary>
@@ -336,7 +361,11 @@
             {
                 string preferences = File.ReadAllText(preferencesFile);
 
-                if (preferences.ToLower().Contains("light"))
+                string[] preferences_arr = preferences.Split(' ');
+
+                Enum.TryParse(preferences_arr[1], out HighlightLanguage currentLanguage);
+
+                if (preferences_arr[0].ToLower().Contains("light"))
                     return theme.Light;
             }
 
@@ -351,6 +380,7 @@
         {
             if (currentTheme == theme.Light)
                 SwitchTheme("firstBoot", null);
+
         }
 
         /// <summary>

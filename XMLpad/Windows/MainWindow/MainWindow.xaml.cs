@@ -8,6 +8,8 @@
     using System.Text;
     using System.Xml;
     using System;
+    using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+    using ICSharpCode.AvalonEdit.Highlighting;
 
     /// <summary>
     /// Definition logic for MainWindow.xaml
@@ -32,6 +34,8 @@
                 textEditor.TextArea.TextEntered += TextEditor_TextArea_TextEntered;
                 GatherCompletionString();
                 defaultFontSize = textEditor.FontSize;
+
+                ChangeLetterColours();
 
                 // add current line highlight
                 var backgroundRenderer = new HighlightCurrentLineBackgroundRenderer(textEditor, currentTheme);
@@ -88,7 +92,7 @@
             var settings = new XmlWriterSettings
             {
                 Indent = true,
-                IndentChars = "  ",
+                IndentChars = "    ",
                 NewLineChars = Environment.NewLine,
                 NewLineHandling = NewLineHandling.Replace,
                 Encoding = Encoding.UTF8

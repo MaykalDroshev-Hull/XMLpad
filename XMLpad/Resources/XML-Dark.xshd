@@ -1,0 +1,26 @@
+﻿<SyntaxDefinition name="XML-Dark"
+    xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+
+	<Color name="Comment" foreground="Gray" />
+	<!--<Color name="String" foreground="Yellow" />
+	<Color name="Tag" foreground="#FF4500" />
+	<Color name="Attribute" foreground="White" />-->
+
+	<RuleSet>
+
+		<!--<Span color="Tag">
+			<Begin>&lt;</Begin>
+			<End>&gt;</End>
+			<RuleSet>
+				<Span color="Attribute">
+					<Begin>&lt;[\w-]+\s+[\w-]+=</Begin>
+					<End>"</End>
+				</Span>
+			</RuleSet>
+		</Span>-->
+		<Span color="Comment">
+			<Begin>&lt;!--</Begin>
+			<End>--&gt;</End>
+		</Span>
+	</RuleSet>
+</SyntaxDefinition>

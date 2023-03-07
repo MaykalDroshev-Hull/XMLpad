@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\C#-Dark.xshd" />
+    <None Remove="Resources\C#-Light.xshd" />
+    <None Remove="Resources\XML-Light.xshd" />
     <None Remove="Windows\Assets\darkMode\add_new.png" />
     <None Remove="Windows\Assets\darkMode\allUpper.png" />
     <None Remove="Windows\Assets\darkMode\backspace.png" />
@@ -94,8 +97,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\XML.xshd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="Resources\C#-Light.xshd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\C#-Dark.xshd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\XML-Light.xshd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\XML-Dark.xshd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -103,6 +115,7 @@
     <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="jacobslusser.ScintillaNET.Signed" Version="3.6.3" />
+    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.13.0" />
   </ItemGroup>
 
   <ItemGroup>
