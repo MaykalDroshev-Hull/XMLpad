@@ -53,10 +53,8 @@
             CSS,
             Cpp,
             Java,
-            Patch,
             PowerShell,
             PHP,
-            TeX,
             VBNET,
             XML,
             MarkDown

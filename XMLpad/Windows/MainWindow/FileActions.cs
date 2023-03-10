@@ -293,6 +293,16 @@ namespace XMLpad
         {
             // TODO: add a small window to ask to save the file if there are differences
 
+
+            AskUserToSaveFile();
+
+            SavePreferenceFile();
+
+            Environment.Exit(0);
+        }
+
+        private void AskUserToSaveFile()
+        {
             if (Title.Text.Contains('*'))
             {
                 MessageBoxResult savefileYesNo = System.Windows.MessageBox.Show("Would you like to save the changes before you exit?", "Save File?", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -301,9 +311,6 @@ namespace XMLpad
                     SaveCurrentFile();
                 }
             }
-            SavePreferenceFile();
-
-            Environment.Exit(0);
         }
     }
 }

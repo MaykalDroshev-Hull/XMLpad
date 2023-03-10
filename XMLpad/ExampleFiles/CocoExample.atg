@@ -1,0 +1,103 @@
+Grammar MyLanguage;
+
+@left
+Rule Expr: Term
+     | Expr '+' Term
+     | Expr '-' Term;
+
+Rule Term: Factor
+     | Term '*' Factor
+     | Term '/' Factor;
+
+Rule Factor: number
+       | variable
+       | '(' Expr ')'
+       | '-' Factor;
+
+Rule Statement: variable '=' Expr ';'
+           | 'print' Expr ';';
+
+Rule Program: Statement+;
+
+Token variable: '[a-zA-Z]+';
+Token number: '[0-9]+';
+
+Ignore ' ' '\t' '\n' '\r' '\f';
+
+{{
+    var variables = new Dictionary<string, int>();
+}}
+
+int EvaluateExpr(ExprNode node) {{
+    if (node.Term != null) {{
+        var left = EvaluateExpr(node.Term.Left);
+        var right = EvaluateExpr(node.Term.Right);
+        if (node.Term.Op == '+') {{
+            return left + right;
+        }}
+        else {{
+            return left - right;
+        }}
+    }}
+    else {{
+        return EvaluateFactor(node.Factor);
+    }}
+}}
+
+int EvaluateTerm(TermNode node) {{
+    if (node.Factor != null) {{
+        var left = EvaluateTerm(node.Factor.Left);
+        var right = EvaluateTerm(node.Factor.Right);
+        if (node.Factor.Op == '*') {{
+            return left * right;
+        }}
+        else {{
+            return left / right;
+        }}
+    }}
+    else {{
+        return EvaluateFactor(node.Factor);
+    }}
+}}
+
+int EvaluateFactor(FactorNode node) {{
+    if (node.Number != null) {{
+        return int.Parse(node.Number.Value);
+    }}
+    else if (node.Variable != null) {{
+        return variables[node.Variable.Value];
+    }}
+    else if (node.Expr != null) {{
+        return EvaluateExpr(node.Expr);
+    }}
+    else {{
+        return -EvaluateFactor(node.Factor);
+    }}
+}}
+
+void RunStatement(StatementNode node) {{
+    if (node.Variable != null) {{
+        var value = EvaluateExpr(node.Expr);
+        variables[node.Variable.Value] = value;
+    }}
+    else if (node.Print != null) {{
+        var value = EvaluateExpr(node.Print);
+        Console.WriteLine(value);
+    }}
+}}
+
+void Main() {{
+    while (true) {{
+        Console.Write("> ");
+        var line = Console.ReadLine();
+        if (line == "exit") {{
+            break;
+        }}
+        var scanner = new Scanner(line);
+        var parser = new Parser(scanner);
+        var program = parser.ParseProgram();
+        foreach (var statement in program.Statements) {{
+            RunStatement(statement);
+        }}
+    }}
+}}

@@ -5,6 +5,7 @@
     using System;
     using System.Windows.Controls;
     using System.Windows;
+    using System.IO;
 
     /// <summary>
     /// View actions logic for MainWindow.xaml
@@ -142,6 +143,131 @@
             ChangeLetterColours();
         }
 
+
+        private void Example_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not MenuItem menuItem)
+                return;
+
+            AskUserToSaveFile();
+
+            switch (menuItem.Header)
+            {
+                case "_XML":
+                    textEditor.Text = ReadTextFile("ExampleFiles/XMLExample.xml");
+                    currentLanguage = HighlightLanguage.XML;
+                    ChangeLetterColours();
+                    break;
+                case "_XmlDoc":
+                    textEditor.Text = ReadTextFile("ExampleFiles/XmlDocExample.xml");
+                    currentLanguage = HighlightLanguage.XML;
+                    ChangeLetterColours();
+                    break;
+                case "_C#":
+                    textEditor.Text = ReadTextFile("ExampleFiles/CSharpExample.cs");
+                    currentLanguage = HighlightLanguage.CSharp;
+                    ChangeLetterColours();
+                    break;
+                case "_JavaScript":
+                    textEditor.Text = ReadTextFile("ExampleFiles/JavaScriptExample.js");
+                    currentLanguage = HighlightLanguage.JavaScript;
+                    ChangeLetterColours();
+                    break;
+                case "_HTML":
+                    textEditor.Text = ReadTextFile("ExampleFiles/HTMLExample.html");
+                    currentLanguage = HighlightLanguage.HTML;
+                    ChangeLetterColours();
+                    break;
+                case "_Boo":
+                    textEditor.Text = ReadTextFile("ExampleFiles/BooExample.boo");
+                    currentLanguage = HighlightLanguage.Boo;
+                    ChangeLetterColours();
+                    break;
+                case "_Coco":
+                    textEditor.Text = ReadTextFile("ExampleFiles/CocoExample.atg");
+                    currentLanguage = HighlightLanguage.Coco;
+                    ChangeLetterColours();
+                    break;
+                case "_CSS":
+                    textEditor.Text = ReadTextFile("ExampleFiles/CSSExample.css");
+                    currentLanguage = HighlightLanguage.CSS;
+                    ChangeLetterColours();
+                    break;
+                case "_C++":
+                    textEditor.Text = ReadTextFile("ExampleFiles/CPPExample.cpp");
+                    currentLanguage = HighlightLanguage.Cpp;
+                    ChangeLetterColours();
+                    break;
+                case "_Java":
+                    textEditor.Text = ReadTextFile("ExampleFiles/JavaExample.java");
+                    currentLanguage = HighlightLanguage.Java;
+                    ChangeLetterColours();
+                    break;
+                case "_PowerShell":
+                    textEditor.Text = ReadTextFile("ExampleFiles/PowerShellExample.ps1");
+                    currentLanguage = HighlightLanguage.PowerShell;
+                    ChangeLetterColours();
+                    break;
+                case "_PHP":
+                    textEditor.Text = ReadTextFile("ExampleFiles/PHPExample.php");
+                    currentLanguage = HighlightLanguage.PHP;
+                    ChangeLetterColours();
+                    break;
+                case "_VBNET":
+                    textEditor.Text = ReadTextFile("ExampleFiles/VBNETExample.vb");
+                    currentLanguage = HighlightLanguage.VBNET;
+                    ChangeLetterColours();
+                    break;
+                case "_MarkDown":
+                    textEditor.Text = ReadTextFile("ExampleFiles/MarkDownExample.md");
+                    currentLanguage = HighlightLanguage.MarkDown;
+                    ChangeLetterColours();
+                    break;
+                default:
+                    break;
+            }
+            switch (menuItem.Header)
+            {
+                case "_XML":
+                case "_XmlDoc":
+                    XMLNodeTree.Visibility = Visibility.Visible;
+                    mainMenu_showXMLTree.IsChecked = true;
+                    Grid.SetColumnSpan(textEditor, 1);
+                    break;
+                default:
+                    XMLNodeTree.Visibility = Visibility.Collapsed;
+                    mainMenu_showXMLTree.IsChecked = false;
+                    Grid.SetColumnSpan(textEditor, 2);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Reads the text file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
+        public static string ReadTextFile(string filePath)
+        {
+            string fileContent = "";
+
+            try
+            {
+                // Open the text file using a stream reader.
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    // Read the entire file and store its contents in a string variable.
+                    fileContent = reader.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that might occur while reading the file.
+                Console.WriteLine($"Error reading file: {ex.Message}");
+            }
+
+            return fileContent;
+        }
         /// <summary>
         /// Sets the current langauge.
         /// </summary>
@@ -180,17 +306,11 @@
                 case "_Java":
                     currentLanguage = HighlightLanguage.Java;
                     break;
-                case "_Patch":
-                    currentLanguage = HighlightLanguage.Patch;
-                    break;
                 case "_PowerShell":
                     currentLanguage = HighlightLanguage.PowerShell;
                     break;
                 case "_PHP":
                     currentLanguage = HighlightLanguage.PHP;
-                    break;
-                case "_TeX":
-                    currentLanguage = HighlightLanguage.TeX;
                     break;
                 case "_VBNET":
                     currentLanguage = HighlightLanguage.VBNET;

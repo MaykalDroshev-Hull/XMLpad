@@ -119,10 +119,8 @@
     { HighlightLanguage.CSS, "CSS" },
     { HighlightLanguage.Cpp, "CPP" },
     { HighlightLanguage.Java, "Java" },
-    { HighlightLanguage.Patch, "Patch" },
     { HighlightLanguage.PowerShell, "PowerShell" },
     { HighlightLanguage.PHP, "PHP" },
-    { HighlightLanguage.TeX, "Tex" },
     { HighlightLanguage.VBNET, "VBNET" },
     { HighlightLanguage.MarkDown, "MarkDown" }
 };

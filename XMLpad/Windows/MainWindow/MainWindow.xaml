@@ -428,10 +428,8 @@
                         <MenuItem Header="_CSS" Click="Language_Click"/>
                         <MenuItem Header="_C++" Click="Language_Click"/>
                         <MenuItem Header="_Java" Click="Language_Click"/>
-                        <MenuItem Header="_Patch" Click="Language_Click"/>
                         <MenuItem Header="_PowerShell" Click="Language_Click"/>
                         <MenuItem Header="_PHP" Click="Language_Click"/>
-                        <MenuItem Header="_TeX" Click="Language_Click"/>
                         <MenuItem Header="_VBNET" Click="Language_Click"/>
                         <MenuItem Header="_MarkDown" Click="Language_Click"/>
                     </MenuItem>
@@ -441,6 +439,22 @@
                         <MenuItem.Icon>
                             <Image x:Name="icon_manual" Source="/Windows/Assets/darkMode/manual.png"/>
                         </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_Show Examples">
+                        <MenuItem Header="_XML" Click="Example_Click"/>
+                        <MenuItem Header="_XmlDoc" Click="Example_Click"/>
+                        <MenuItem Header="_C#" Click="Example_Click"/>
+                        <MenuItem Header="_JavaScript" Click="Example_Click"/>
+                        <MenuItem Header="_HTML" Click="Example_Click"/>
+                        <MenuItem Header="_Boo" Click="Example_Click"/>
+                        <MenuItem Header="_Coco" Click="Example_Click"/>
+                        <MenuItem Header="_CSS" Click="Example_Click"/>
+                        <MenuItem Header="_C++" Click="Example_Click"/>
+                        <MenuItem Header="_Java" Click="Example_Click"/>
+                        <MenuItem Header="_PowerShell" Click="Example_Click"/>
+                        <MenuItem Header="_PHP" Click="Example_Click"/>
+                        <MenuItem Header="_VBNET" Click="Example_Click"/>
+                        <MenuItem Header="_MarkDown" Click="Example_Click"/>
                     </MenuItem>
                 </MenuItem>
             </Menu>
