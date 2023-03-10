@@ -25,7 +25,7 @@
         }
 
         /// <summary>
-        /// Changes to show/ hide line numbers.
+        /// Handles the ShowXMLTree event of the MainMenu_View control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -36,6 +36,7 @@
                 XMLNodeTree.Visibility = Visibility.Collapsed;
                 mainMenu_showXMLTree.IsChecked = false;
                 Grid.SetColumnSpan(textEditor, 2);
+
             }
             else
             {
@@ -54,14 +55,14 @@
         {
             if (!isFullScreen)
             {
-                this.WindowStyle = WindowStyle.None;
-                this.WindowState = WindowState.Maximized;
+                WindowStyle = WindowStyle.None;
+                WindowState = WindowState.Maximized;
                 menuItem_FullScreen.Header = "Toggle Normal Screen Mode";
             }
             else
             {
-                this.WindowStyle = WindowStyle.None;
-                this.WindowState = WindowState.Normal;
+                WindowStyle = WindowStyle.None;
+                WindowState = WindowState.Normal;
                 menuItem_FullScreen.Header = "Toggle Full Screen Mode";
             }
             isFullScreen = !isFullScreen;
@@ -94,7 +95,10 @@
                     foldingStrategy = new XmlFoldingStrategy();
                     textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
                     highlightingDefinition = HighlightingManager.Instance.GetDefinition("XML");
-                    currentLanguage = HighlightLanguage.XML;
+
+                    XMLNodeTree.Visibility = Visibility.Visible;
+                    mainMenu_showXMLTree.IsChecked = true;
+                    Grid.SetColumnSpan(textEditor, 1);
                     break;
                 case "_C#":
                 case "_C++":
@@ -103,16 +107,23 @@
                     textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.CSharp.CSharpIndentationStrategy(textEditor.Options);
                     foldingStrategy = new BraceFoldingStrategy();
                     highlightingDefinition = HighlightingManager.Instance.GetDefinition("C#");
-                    currentLanguage = HighlightLanguage.CSharp;
+                    XMLNodeTree.Visibility = Visibility.Collapsed;
+                    mainMenu_showXMLTree.IsChecked = false;
+                    Grid.SetColumnSpan(textEditor, 2);
                     break;
                 default:
                     textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
                     foldingStrategy = null;
                     highlightingDefinition = null;
+                    XMLNodeTree.Visibility = Visibility.Collapsed;
+                    mainMenu_showXMLTree.IsChecked = false;
+                    Grid.SetColumnSpan(textEditor, 2);
                     break;
             }
 
-            textEditor.SyntaxHighlighting = highlightingDefinition;
+            SetCurrentLangauge(menuItem.Header);
+
+            // collapse the XML tree if the highlight language is not XML
 
 
             if (foldingStrategy != null)
@@ -130,6 +141,69 @@
             }
             ChangeLetterColours();
         }
+
+        /// <summary>
+        /// Sets the current langauge.
+        /// </summary>
+        /// <param name="menuItemHeader">The menu item header.</param>
+        private void SetCurrentLangauge(object menuItemHeader)
+        {
+            switch (menuItemHeader)
+            {
+                case "_XML":
+                    currentLanguage = HighlightLanguage.XML;
+                    break;
+                case "_XmlDoc":
+                    currentLanguage = HighlightLanguage.XmlDoc;
+                    break;
+                case "_C#":
+                    currentLanguage = HighlightLanguage.CSharp;
+                    break;
+                case "_JavaScript":
+                    currentLanguage = HighlightLanguage.JavaScript;
+                    break;
+                case "_HTML":
+                    currentLanguage = HighlightLanguage.HTML;
+                    break;
+                case "_Boo":
+                    currentLanguage = HighlightLanguage.Boo;
+                    break;
+                case "_Coco":
+                    currentLanguage = HighlightLanguage.Coco;
+                    break;
+                case "_CSS":
+                    currentLanguage = HighlightLanguage.CSS;
+                    break;
+                case "_C++":
+                    currentLanguage = HighlightLanguage.Cpp;
+                    break;
+                case "_Java":
+                    currentLanguage = HighlightLanguage.Java;
+                    break;
+                case "_Patch":
+                    currentLanguage = HighlightLanguage.Patch;
+                    break;
+                case "_PowerShell":
+                    currentLanguage = HighlightLanguage.PowerShell;
+                    break;
+                case "_PHP":
+                    currentLanguage = HighlightLanguage.PHP;
+                    break;
+                case "_TeX":
+                    currentLanguage = HighlightLanguage.TeX;
+                    break;
+                case "_VBNET":
+                    currentLanguage = HighlightLanguage.VBNET;
+                    break;
+                case "_MarkDown":
+                    currentLanguage = HighlightLanguage.MarkDown;
+                    break;
+                default:
+                    currentLanguage = HighlightLanguage.XML;
+                    break;
+            }
+        }
+
         #region ShowSymbols
 
         /// <summary>

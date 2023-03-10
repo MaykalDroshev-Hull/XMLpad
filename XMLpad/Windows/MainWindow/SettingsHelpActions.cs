@@ -10,6 +10,7 @@
     using System.Threading.Tasks;
     using ICSharpCode.AvalonEdit.Highlighting.Xshd;
     using ICSharpCode.AvalonEdit.Highlighting;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Settings and help logic for MainWindow.xaml
@@ -68,6 +69,7 @@
                 {
                     TryLoadXML();
                 });
+
             }
             else
             {
@@ -95,15 +97,39 @@
                 textEditor.TextArea.TextView.BackgroundRenderers.Add(backgroundRenderer);
 
                 UpdateStatusBar(pAppend: true, pValue: $"Theme changed!");
+                ChangeLetterColours();
             });
+
         }
 
+        /// <summary>
+        /// Changes the letter colours.
+        /// </summary>
         private void ChangeLetterColours()
         {
-                 if(currentTheme == theme.Dark && currentLanguage == HighlightLanguage.XML){LoadSyntax("Resources/XML-dark.xshd"); }
-            else if(currentTheme == theme.Dark && currentLanguage == HighlightLanguage.CSharp) { LoadSyntax("Resources/C#-Dark.xshd"); }
-            else if(currentTheme == theme.Light && currentLanguage == HighlightLanguage.XML) { LoadSyntax("Resources/XML-Light.xshd"); }
-            else if(currentTheme == theme.Light && currentLanguage == HighlightLanguage.CSharp) { LoadSyntax("Resources/C#-Light.xshd"); }
+            var languageToFileName = new Dictionary<HighlightLanguage, string>
+{
+    { HighlightLanguage.XML, "XML" },
+    { HighlightLanguage.XmlDoc, "XMLDoc" },
+    { HighlightLanguage.CSharp, "C#" },
+    { HighlightLanguage.JavaScript, "JavaScript" },
+    { HighlightLanguage.HTML, "HTML" },
+    { HighlightLanguage.Boo, "Boo" },
+    { HighlightLanguage.Coco, "Coco" },
+    { HighlightLanguage.CSS, "CSS" },
+    { HighlightLanguage.Cpp, "CPP" },
+    { HighlightLanguage.Java, "Java" },
+    { HighlightLanguage.Patch, "Patch" },
+    { HighlightLanguage.PowerShell, "PowerShell" },
+    { HighlightLanguage.PHP, "PHP" },
+    { HighlightLanguage.TeX, "Tex" },
+    { HighlightLanguage.VBNET, "VBNET" },
+    { HighlightLanguage.MarkDown, "MarkDown" }
+};
+
+            var fileNameSuffix = currentTheme == theme.Light ? "-light" : "-dark";
+            var fileNamePrefix = "Resources/" + languageToFileName.GetValueOrDefault(currentLanguage, "XML") + fileNameSuffix + ".xshd";
+            LoadSyntax(fileNamePrefix);
         }
 
         private void LoadSyntax(string filePath)

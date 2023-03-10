@@ -400,16 +400,16 @@
                             <MenuItem.Icon>
                                 <Image x:Name="icon_add_new_1" Source="/Windows/Assets/darkMode/add_new.png"/>
                             </MenuItem.Icon>
-                            <MenuItem Header="_Zoom out" InputGestureText="Ctrl+Num-" Click="MainMenu_View_ZoomOut">
-                                <MenuItem.Icon>
-                                    <Image x:Name="icon_minus_1" Source="/Windows/Assets/darkMode/minus.png"/>
-                                </MenuItem.Icon>
-                                <MenuItem Header="_Restore default zoom" InputGestureText="Ctrl+Num/" Click="MainMenu_View_ZoomDefault"/>
-                            </MenuItem>
-                            <MenuItem x:Name="mainMenu_showLineNumbers" Header="Show Line Numbers" Click="MainMenu_View_ShowLineNumbers" IsCheckable="True" IsChecked="True"/>
-                            <MenuItem x:Name="mainMenu_showXMLTree" Header="Show XML Tree" Click="MainMenu_View_ShowXMLTree" IsCheckable="True" IsChecked="True"/>
+                        </MenuItem>
+                        <MenuItem Header="_Zoom out" InputGestureText="Ctrl+Num-" Click="MainMenu_View_ZoomOut">
+                            <MenuItem.Icon>
+                                <Image x:Name="icon_minus_1" Source="/Windows/Assets/darkMode/minus.png"/>
+                            </MenuItem.Icon>
+                            <MenuItem Header="_Restore default zoom" InputGestureText="Ctrl+Num/" Click="MainMenu_View_ZoomDefault"/>
                         </MenuItem>
                     </MenuItem>
+                    <MenuItem x:Name="mainMenu_showLineNumbers" Header="Show Line Numbers" Click="MainMenu_View_ShowLineNumbers" IsCheckable="True" IsChecked="True"/>
+                    <MenuItem x:Name="mainMenu_showXMLTree" Header="Show XML Tree" Click="MainMenu_View_ShowXMLTree" IsCheckable="True" IsChecked="True"/>
                 </MenuItem>
                 <MenuItem Header="_Settings" >
                     <MenuItem Header="_Change Theme" Click="MainMenu_Settings_EnvironmentPreferences">

@@ -64,7 +64,7 @@
 
         private const theme darkTheme = theme.Dark;
         public static theme currentTheme = darkTheme;
-        private static HighlightLanguage currentLanguage = HighlightLanguage.XML;
+        private static HighlightLanguage currentLanguage;
         private static readonly tabSelection currentTabSelection = tabSelection.Tabs;
         private readonly string tabCharacters = currentTabSelection == tabSelection.Spaces ? new string(' ', mTabSpacesCount) : "\t";
     }
