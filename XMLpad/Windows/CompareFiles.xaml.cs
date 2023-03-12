@@ -13,6 +13,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
 using static ICSharpCode.AvalonEdit.Rendering.TextViewWeakEventManager;
+using Azure;
+using DiffMatchPatch;
+using Microsoft.SqlServer.Management.Sdk.Differencing;
+using Newtonsoft.Json.Linq;
+using static System.Net.WebRequestMethods;
+using System.Windows.Forms;
+using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Rendering;
+using System.Text.RegularExpressions;
+using ICSharpCode.AvalonEdit;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Application = System.Windows.Application;
+using Window = System.Windows.Window;
+using File = System.IO.File;
+using MessageBox = System.Windows.MessageBox;
+using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.Rendering;
+
 
 namespace XMLpad
 {
@@ -67,67 +86,140 @@ namespace XMLpad
                 }
                 else
                 {
-                    MessageBox.Show("Please a file to compare.");
+                    MessageBox.Show("Please add a file to compare.");
                 }
             }
         }
+
+        //private void Compare(string file1, string file2)
+        //{
+        //    try
+        //    {
+        //        string[] file1Lines = file1.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+        //        string[] file2Lines = file2.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+
+        //        string file1Text = string.Join(Environment.NewLine, file1Lines);
+        //        txtFile1.Text = file1Text;
+
+        //        for (int lineNumber = 0; lineNumber < file1Lines.Length; lineNumber++)
+        //        {
+        //            if (file1Lines[lineNumber] != file2Lines[lineNumber])
+        //            {
+        //                string[] file1Words = file1Lines[lineNumber].Split(' ');
+        //                string[] file2Words = file2Lines[lineNumber].Split(' ');
+        //                int totalCharCount = file2Words.Select(word => word.Length).Sum() + file2Words.Count() - 1; // the sum of the chars + the num of spaces - 1(we have 2 spaces between 3 words)
+
+
+        //                for (int word = 0; word < file1Words.Length;)
+        //                {
+        //                    if (word >= file2Words.Length || file1Words[word] != file2Words[word])
+        //                    {
+        //                        txtFile2.TextArea.TextView.LineTransformers.Add(new HighlightingColorizer(lineNumber + 1, 0, totalCharCount, Colors.LightGreen));
+        //                        break;
+        //                    }
+        //                    else
+        //                    {
+        //                        txtFile2.TextArea.TextView.LineTransformers.Add(new HighlightingColorizer(lineNumber + 1, 0, totalCharCount, Colors.PaleVioletRed));
+        //                        break;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        string file2Text = string.Join(Environment.NewLine, file2Lines);
+        //        txtFile2.Text = file2Text;
+        //    }
+        //    catch
+        //    {
+        //        this.Hide();
+        //        MessageBox.Show("Cannot compare these files at the moment");
+        //    }
+        //}
 
         private void Compare(string file1, string file2)
         {
-            string[] file1Lines = file1.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            string[] file2Lines = file2.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            diff_match_patch dmp = new diff_match_patch();
+            List<Diff> diff = dmp.diff_main(file1, file2);
+            dmp.diff_cleanupSemantic(diff);
 
-            string file1Text = string.Join(Environment.NewLine, file1Lines);
-            txtFile1.Text = file1Text;
+            // Clear the contents of the TextEditors
+            txtFile1.Document.Text = "";
+            txtFile2.Document.Text = "";
 
-            for (int lineNumber = 0; lineNumber < file1Lines.Length; lineNumber++)
+            foreach (Diff difference in diff)
             {
-                if (file1Lines[lineNumber] != file2Lines[lineNumber])
+                // Set the HighlightingColor of the words based on their corresponding Operation value
+                var highlightingBrush = new SimpleHighlightingBrush(Colors.Transparent);
+                switch (difference.operation)
                 {
-                    string[] file1Words = file1Lines[lineNumber].Split(' ');
-                    string[] file2Words = file2Lines[lineNumber].Split(' ');
-                    int totalCharCount = file2Words.Select(word => word.Length).Sum() + file2Words.Count() - 1; // the sum of the chars + the num of spaces - 1(we have 2 spaces between 3 words)
-
-
-                    for (int word = 0; word < file1Words.Length;)
-                    {
-                        if (word >= file2Words.Length || file1Words[word] != file2Words[word])
-                        {
-                            txtFile2.TextArea.TextView.LineTransformers.Add(new HighlightingColorizer(lineNumber + 1, 0, totalCharCount, Colors.LightGreen));
-                            break;
-                        }
-                        else
-                        {
-                            txtFile2.TextArea.TextView.LineTransformers.Add(new HighlightingColorizer(lineNumber + 1, 0, totalCharCount, Colors.PaleVioletRed));
-                            break;
-                        }
-                    }
+                    case DiffMatchPatch.Operation.EQUAL:
+                        txtFile1.AppendText(difference.text, highlightingBrush);
+                        txtFile2.AppendText(difference.text, highlightingBrush);
+                        break;
+                    case DiffMatchPatch.Operation.INSERT:
+                        highlightingBrush = new SimpleHighlightingBrush(Colors.LightGreen);
+                        txtFile2.AppendText(difference.text, highlightingBrush);
+                        break;
+                    case DiffMatchPatch.Operation.DELETE:
+                        highlightingBrush = new SimpleHighlightingBrush(Colors.LightSalmon);
+                        txtFile1.AppendText(difference.text, highlightingBrush);
+                        break;
                 }
             }
-            string file2Text = string.Join(Environment.NewLine, file2Lines);
-            txtFile2.Text = file2Text;
+
+            // Highlight words in txtFile1 and txtFile2
+            string[] wordsToHighlight = new string[] { "hello", "world" };
+            HighlightLineTransformer highlighter1 = new HighlightLineTransformer(wordsToHighlight);
+            HighlightLineTransformer highlighter2 = new HighlightLineTransformer(wordsToHighlight);
+            txtFile1.TextArea.TextView.LineTransformers.Add(highlighter1);
+            txtFile2.TextArea.TextView.LineTransformers.Add(highlighter2);
         }
+
 
         private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+    {
+        this.Close();
+    }
 
-        /// <summary>
-        /// Invoked when an unhandled <see cref="E:System.Windows.UIElement.MouseLeftButtonDown" /> routed event is raised on this element. Implement this method to add class handling for this event.
-        /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. The event data reports that the left mouse button was pressed.</param>
+    /// <summary>
+    /// Invoked when an unhandled <see cref="E:System.Windows.UIElement.MouseLeftButtonDown" /> routed event is raised on this element. Implement this method to add class handling for this event.
+    /// </summary>
+    /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. The event data reports that the left mouse button was pressed.</param>
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
+    {
+        base.OnMouseLeftButtonDown(e);
 
-            // Begin dragging the window
+        // Begin dragging the window
             this.DragMove();
-        }
+    }
 
         private void compareWindow_Closed(object sender, EventArgs e)
         {
             this.Owner.Activate();
+        }
+        private void chkSyncScrolling_Checked(object sender, RoutedEventArgs e)
+        {
+            // Attach the ScrollOffsetChanged event handlers to both TextEditors
+            txtFile1.TextArea.TextView.ScrollOffsetChanged += txtFile1_ScrollOffsetChanged;
+            txtFile2.TextArea.TextView.ScrollOffsetChanged += txtFile2_ScrollOffsetChanged;
+        }
+
+        private void chkSyncScrolling_Unchecked(object sender, RoutedEventArgs e)
+        {
+            // Detach the ScrollOffsetChanged event handlers from both TextEditors
+            txtFile1.TextArea.TextView.ScrollOffsetChanged -= txtFile1_ScrollOffsetChanged;
+            txtFile2.TextArea.TextView.ScrollOffsetChanged -= txtFile2_ScrollOffsetChanged;
+        }
+
+        private void txtFile1_ScrollOffsetChanged(object sender, EventArgs e)
+        {
+            // Synchronize the vertical scroll offset of txtFile2
+            txtFile2.ScrollToVerticalOffset(txtFile1.TextArea.TextView.VerticalOffset);
+        }
+
+        private void txtFile2_ScrollOffsetChanged(object sender, EventArgs e)
+        {
+            // Synchronize the vertical scroll offset of txtFile1
+            txtFile1.ScrollToVerticalOffset(txtFile2.TextArea.TextView.VerticalOffset);
         }
     }
 

@@ -23,6 +23,8 @@
         <avalonEdit:TextEditor x:Name="txtFile1" Grid.Row="1" Grid.Column="0" Margin="5" IsReadOnly="True" ShowLineNumbers="True"/>
         <avalonEdit:TextEditor x:Name="txtFile2"  Grid.Row="1" Grid.Column="1" Margin="5" IsReadOnly="True" ShowLineNumbers="True"/>
 
+        <CheckBox  Grid.Row="2" x:Name="chkSyncScrolling" Content="Sync Scrolling" Margin="5" FontWeight="Bold" IsChecked="{Binding IsScrollingSynced}" Checked="chkSyncScrolling_Checked" Unchecked="chkSyncScrolling_Unchecked"/>
+
         <Button x:Name="btnClose" Content="Close" Grid.Row="2" Grid.Column="1" Margin="682,5,0,5" HorizontalAlignment="Left"
                 Click="btnClose_Click" Width="83"/>
     </Grid>
