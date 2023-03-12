@@ -31,6 +31,9 @@ using File = System.IO.File;
 using MessageBox = System.Windows.MessageBox;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Rendering;
+using Microsoft.SqlServer.Management.Sdk.Sfc;
+using Microsoft.SqlServer.Management.Smo;
+using ScintillaNET;
 
 
 namespace XMLpad
@@ -145,23 +148,26 @@ namespace XMLpad
             txtFile1.Document.Text = "";
             txtFile2.Document.Text = "";
 
+            int lineNumber1 = 1;
+            int lineNumber2 = 1;
             foreach (Diff difference in diff)
             {
                 // Set the HighlightingColor of the words based on their corresponding Operation value
-                var highlightingBrush = new SimpleHighlightingBrush(Colors.Transparent);
                 switch (difference.operation)
                 {
                     case DiffMatchPatch.Operation.EQUAL:
-                        txtFile1.AppendText(difference.text, highlightingBrush);
-                        txtFile2.AppendText(difference.text, highlightingBrush);
+                        txtFile1.AppendText(difference.text);
+                        txtFile2.AppendText(difference.text);
+                        lineNumber1 += difference.text.Count(c => c == '\n');
+                        lineNumber2 += difference.text.Count(c => c == '\n');
                         break;
                     case DiffMatchPatch.Operation.INSERT:
-                        highlightingBrush = new SimpleHighlightingBrush(Colors.LightGreen);
-                        txtFile2.AppendText(difference.text, highlightingBrush);
+                        editor.Document.Insert(editor.Document.GetLineByNumber(line).Offset, run);
+                        lineNumber2 += difference.text.Count(c => c == '\n');
                         break;
                     case DiffMatchPatch.Operation.DELETE:
-                        highlightingBrush = new SimpleHighlightingBrush(Colors.LightSalmon);
-                        txtFile1.AppendText(difference.text, highlightingBrush);
+                        txtFile1.InsertAtLine(difference.text, lineNumber1, Colors.LightSalmon);
+                        lineNumber1 += difference.text.Count(c => c == '\n');
                         break;
                 }
             }
@@ -173,6 +179,7 @@ namespace XMLpad
             txtFile1.TextArea.TextView.LineTransformers.Add(highlighter1);
             txtFile2.TextArea.TextView.LineTransformers.Add(highlighter2);
         }
+
 
 
         private void btnClose_Click(object sender, EventArgs e)
