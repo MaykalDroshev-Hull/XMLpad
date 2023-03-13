@@ -14,7 +14,9 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label x:Name="fileName1" Content="File 1" Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Center"/>
@@ -22,10 +24,14 @@
 
         <avalonEdit:TextEditor x:Name="txtFile1" Grid.Row="1" Grid.Column="0" Margin="5" IsReadOnly="True" ShowLineNumbers="True"/>
         <avalonEdit:TextEditor x:Name="txtFile2"  Grid.Row="1" Grid.Column="1" Margin="5" IsReadOnly="True" ShowLineNumbers="True"/>
+        <Label Content="Difference" Grid.Row="2" Grid.ColumnSpan="2"  HorizontalAlignment="Center"/>
 
-        <CheckBox  Grid.Row="2" x:Name="chkSyncScrolling" Content="Sync Scrolling" Margin="5" FontWeight="Bold" IsChecked="{Binding IsScrollingSynced}" Checked="chkSyncScrolling_Checked" Unchecked="chkSyncScrolling_Unchecked"/>
+        <WebBrowser Margin="200,0" Name="myWebBrowser" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
 
-        <Button x:Name="btnClose" Content="Close" Grid.Row="2" Grid.Column="1" Margin="682,5,0,5" HorizontalAlignment="Left"
+
+        <CheckBox  Grid.Row="4" x:Name="chkSyncScrolling" Content="Sync Original Files Scrolling" Margin="5" Checked="chkSyncScrolling_Checked" Unchecked="chkSyncScrolling_Unchecked"/>
+
+        <Button x:Name="btnClose" Content="Close" Grid.Row="4" Grid.Column="1" Margin="682,5,0,5" HorizontalAlignment="Left"
                 Click="btnClose_Click" Width="83"/>
     </Grid>
 </Window>

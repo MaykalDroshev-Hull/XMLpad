@@ -11,6 +11,7 @@
     using ICSharpCode.AvalonEdit.Highlighting.Xshd;
     using ICSharpCode.AvalonEdit.Highlighting;
     using System.Collections.Generic;
+    using ICSharpCode.AvalonEdit;
 
     /// <summary>
     /// Settings and help logic for MainWindow.xaml
@@ -61,7 +62,7 @@
                     ChangeTitleBarToLightMode();
                     ChangeMenuIconsToLightMode();
                     ChangeContextIconsToLightMode();
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                 });
 
                 currentTheme = theme.Light;
@@ -80,7 +81,7 @@
                     ChangeTitleBarToDarkMode();
                     ChangeMenuIconsToDarkMode();
                     ChangeContextIconsToDarkMode();
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                 });
 
                 currentTheme = theme.Dark;
@@ -97,7 +98,7 @@
                 textEditor.TextArea.TextView.BackgroundRenderers.Add(backgroundRenderer);
 
                 UpdateStatusBar(pAppend: true, pValue: $"Theme changed!");
-                ChangeLetterColours();
+                ChangeLetterColours(textEditor, currentTheme);
             });
 
         }
@@ -105,7 +106,7 @@
         /// <summary>
         /// Changes the letter colours.
         /// </summary>
-        private void ChangeLetterColours()
+        public static void ChangeLetterColours(TextEditor textEditor, theme theme)
         {
             var languageToFileName = new Dictionary<HighlightLanguage, string>
 {
@@ -125,12 +126,12 @@
     { HighlightLanguage.MarkDown, "MarkDown" }
 };
 
-            var fileNameSuffix = currentTheme == theme.Light ? "-light" : "-dark";
+            var fileNameSuffix = theme == theme.Light ? "-light" : "-dark";
             var fileNamePrefix = "Resources/" + languageToFileName.GetValueOrDefault(currentLanguage, "XML") + fileNameSuffix + ".xshd";
-            LoadSyntax(fileNamePrefix);
+            LoadSyntax(fileNamePrefix, textEditor);
         }
 
-        private void LoadSyntax(string filePath)
+        private static void LoadSyntax(string filePath, TextEditor textEditor)
         {
             // Load the syntax highlighting definition from the xml.xshd file
             using (var stream = new FileStream(filePath, FileMode.Open))

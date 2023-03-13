@@ -140,7 +140,7 @@
                     mFoldingManager = null;
                 }
             }
-            ChangeLetterColours();
+            ChangeLetterColours(textEditor, currentTheme);
         }
 
 
@@ -156,72 +156,72 @@
                 case "_XML":
                     textEditor.Text = ReadTextFile("ExampleFiles/XMLExample.xml");
                     currentLanguage = HighlightLanguage.XML;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_XmlDoc":
                     textEditor.Text = ReadTextFile("ExampleFiles/XmlDocExample.xml");
                     currentLanguage = HighlightLanguage.XML;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_C#":
                     textEditor.Text = ReadTextFile("ExampleFiles/CSharpExample.cs");
                     currentLanguage = HighlightLanguage.CSharp;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_JavaScript":
                     textEditor.Text = ReadTextFile("ExampleFiles/JavaScriptExample.js");
                     currentLanguage = HighlightLanguage.JavaScript;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_HTML":
                     textEditor.Text = ReadTextFile("ExampleFiles/HTMLExample.html");
                     currentLanguage = HighlightLanguage.HTML;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_Boo":
                     textEditor.Text = ReadTextFile("ExampleFiles/BooExample.boo");
                     currentLanguage = HighlightLanguage.Boo;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_Coco":
                     textEditor.Text = ReadTextFile("ExampleFiles/CocoExample.atg");
                     currentLanguage = HighlightLanguage.Coco;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_CSS":
                     textEditor.Text = ReadTextFile("ExampleFiles/CSSExample.css");
                     currentLanguage = HighlightLanguage.CSS;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_C++":
                     textEditor.Text = ReadTextFile("ExampleFiles/CPPExample.cpp");
                     currentLanguage = HighlightLanguage.Cpp;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_Java":
                     textEditor.Text = ReadTextFile("ExampleFiles/JavaExample.java");
                     currentLanguage = HighlightLanguage.Java;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_PowerShell":
                     textEditor.Text = ReadTextFile("ExampleFiles/PowerShellExample.ps1");
                     currentLanguage = HighlightLanguage.PowerShell;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_PHP":
                     textEditor.Text = ReadTextFile("ExampleFiles/PHPExample.php");
                     currentLanguage = HighlightLanguage.PHP;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_VBNET":
                     textEditor.Text = ReadTextFile("ExampleFiles/VBNETExample.vb");
                     currentLanguage = HighlightLanguage.VBNET;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_MarkDown":
                     textEditor.Text = ReadTextFile("ExampleFiles/MarkDownExample.md");
                     currentLanguage = HighlightLanguage.MarkDown;
-                    ChangeLetterColours();
+                    ChangeLetterColours(textEditor, currentTheme);
                     break;
                 default:
                     break;

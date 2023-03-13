@@ -18,7 +18,6 @@ using DiffMatchPatch;
 using Microsoft.SqlServer.Management.Sdk.Differencing;
 using Newtonsoft.Json.Linq;
 using static System.Net.WebRequestMethods;
-using System.Windows.Forms;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Rendering;
@@ -34,6 +33,7 @@ using ICSharpCode.AvalonEdit.Rendering;
 using Microsoft.SqlServer.Management.Sdk.Sfc;
 using Microsoft.SqlServer.Management.Smo;
 using ScintillaNET;
+using static ScintillaNET.Style;
 
 
 namespace XMLpad
@@ -49,15 +49,15 @@ namespace XMLpad
 
             if (theme == MainWindow.theme.Dark)
             {
-                compareWindow.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
-                txtFile1.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
-                txtFile2.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
-                btnClose.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
-                btnClose.Foreground = Brushes.White;
-                fileName1.Foreground = Brushes.White;
-                fileName2.Foreground = Brushes.White;
-                txtFile1.Foreground = Brushes.White;
-                txtFile2.Foreground = Brushes.White;
+                //compareWindow.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
+                //txtFile1.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
+                //txtFile2.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
+                //btnClose.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
+                //btnClose.Foreground = Brushes.White;
+                //fileName1.Foreground = Brushes.White;
+                //fileName2.Foreground = Brushes.White;
+                //txtFile1.Foreground = Brushes.White;
+                //txtFile2.Foreground = Brushes.White;
 
                 // Removing the scroll bars as their color cannot be changed
                 txtFile1.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
@@ -144,70 +144,45 @@ namespace XMLpad
             List<Diff> diff = dmp.diff_main(file1, file2);
             dmp.diff_cleanupSemantic(diff);
 
-            // Clear the contents of the TextEditors
-            txtFile1.Document.Text = "";
-            txtFile2.Document.Text = "";
+            // Clear the contents of the RichTextBoxes
+            myWebBrowser.NavigateToString(dmp.diff_prettyHtml(diff).Replace("¶", string.Empty).Replace(@"\u00B6", string.Empty));
 
-            int lineNumber1 = 1;
-            int lineNumber2 = 1;
-            foreach (Diff difference in diff)
-            {
-                // Set the HighlightingColor of the words based on their corresponding Operation value
-                switch (difference.operation)
-                {
-                    case DiffMatchPatch.Operation.EQUAL:
-                        txtFile1.AppendText(difference.text);
-                        txtFile2.AppendText(difference.text);
-                        lineNumber1 += difference.text.Count(c => c == '\n');
-                        lineNumber2 += difference.text.Count(c => c == '\n');
-                        break;
-                    case DiffMatchPatch.Operation.INSERT:
-                        editor.Document.Insert(editor.Document.GetLineByNumber(line).Offset, run);
-                        lineNumber2 += difference.text.Count(c => c == '\n');
-                        break;
-                    case DiffMatchPatch.Operation.DELETE:
-                        txtFile1.InsertAtLine(difference.text, lineNumber1, Colors.LightSalmon);
-                        lineNumber1 += difference.text.Count(c => c == '\n');
-                        break;
-                }
-            }
-
-            // Highlight words in txtFile1 and txtFile2
-            string[] wordsToHighlight = new string[] { "hello", "world" };
-            HighlightLineTransformer highlighter1 = new HighlightLineTransformer(wordsToHighlight);
-            HighlightLineTransformer highlighter2 = new HighlightLineTransformer(wordsToHighlight);
-            txtFile1.TextArea.TextView.LineTransformers.Add(highlighter1);
-            txtFile2.TextArea.TextView.LineTransformers.Add(highlighter2);
+            txtFile1.Text = file1;
+            txtFile2.Text = file2;
+            // we always have light theme in that window because
+            MainWindow.ChangeLetterColours(txtFile1, MainWindow.theme.Light);
+            MainWindow.ChangeLetterColours(txtFile2, MainWindow.theme.Light);
         }
 
-
-
         private void btnClose_Click(object sender, EventArgs e)
-    {
-        this.Close();
-    }
+        {
+            this.Close();
+        }
 
-    /// <summary>
-    /// Invoked when an unhandled <see cref="E:System.Windows.UIElement.MouseLeftButtonDown" /> routed event is raised on this element. Implement this method to add class handling for this event.
-    /// </summary>
-    /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. The event data reports that the left mouse button was pressed.</param>
+        /// <summary>
+        /// Invoked when an unhandled <see cref="E:System.Windows.UIElement.MouseLeftButtonDown" /> routed event is raised on this element. Implement this method to add class handling for this event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. The event data reports that the left mouse button was pressed.</param>
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-    {
-        base.OnMouseLeftButtonDown(e);
+        {
+            base.OnMouseLeftButtonDown(e);
 
-        // Begin dragging the window
+            // Begin dragging the window
             this.DragMove();
-    }
+        }
 
         private void compareWindow_Closed(object sender, EventArgs e)
         {
             this.Owner.Activate();
         }
+
         private void chkSyncScrolling_Checked(object sender, RoutedEventArgs e)
         {
             // Attach the ScrollOffsetChanged event handlers to both TextEditors
             txtFile1.TextArea.TextView.ScrollOffsetChanged += txtFile1_ScrollOffsetChanged;
             txtFile2.TextArea.TextView.ScrollOffsetChanged += txtFile2_ScrollOffsetChanged;
+            txtFile1.ScrollToVerticalOffset(0);
+            txtFile2.ScrollToVerticalOffset(0);
         }
 
         private void chkSyncScrolling_Unchecked(object sender, RoutedEventArgs e)

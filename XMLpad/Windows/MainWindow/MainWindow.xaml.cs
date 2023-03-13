@@ -35,7 +35,7 @@
                 GatherCompletionString();
                 defaultFontSize = textEditor.FontSize;
 
-                ChangeLetterColours();
+                ChangeLetterColours(textEditor, currentTheme);
 
                 // add current line highlight
                 var backgroundRenderer = new HighlightCurrentLineBackgroundRenderer(textEditor, currentTheme);
