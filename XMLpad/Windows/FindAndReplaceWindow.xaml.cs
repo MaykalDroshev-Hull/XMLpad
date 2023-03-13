@@ -59,8 +59,7 @@
             MatchWholeWordCheckBox.Checked += (s, e) => MatchWholeWord = true;
             MatchWholeWordCheckBox.Unchecked += (s, e) => MatchWholeWord = false;
 
-            MatchRegexCheckBox.Checked += (s, e) => MatchRegex = true;
-            MatchRegexCheckBox.Unchecked += (s, e) => MatchRegex = false;
+           
 
             ReplaceTextBox.TextChanged += (s, e) =>
             {
@@ -96,7 +95,6 @@
                 FindReplaceButton.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
                 MatchCaseCheckBox.Foreground = Brushes.White;
                 MatchWholeWordCheckBox.Foreground = Brushes.White;
-                MatchRegexCheckBox.Foreground = Brushes.White;
 
                 TitleBar.Background = Application.Current.Resources["grayBrush"] as SolidColorBrush;
                 Title.Foreground = Brushes.White;
@@ -206,7 +204,7 @@
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void FindReplaceButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_textEditor.SelectedText == FindTextBox.Text || (MatchRegexCheckBox.IsChecked.Value && Regex.IsMatch(_textEditor.Text, FindTextBox.Text)))
+            if (_textEditor.SelectedText == FindTextBox.Text)
             {
                 int start = _textEditor.SelectionStart;
                 int length = _textEditor.SelectionLength;

@@ -113,10 +113,10 @@
     { HighlightLanguage.XML, "XML" },
     { HighlightLanguage.XmlDoc, "XMLDoc" },
     { HighlightLanguage.CSharp, "C#" },
-    { HighlightLanguage.JavaScript, "JavaScript" },
+    { HighlightLanguage.JavaScript, "C#" },
     { HighlightLanguage.HTML, "HTML" },
     { HighlightLanguage.Boo, "Boo" },
-    { HighlightLanguage.Coco, "Coco" },
+    { HighlightLanguage.Coco, "C#" },
     { HighlightLanguage.CSS, "CSS" },
     { HighlightLanguage.Cpp, "CPP" },
     { HighlightLanguage.Java, "Java" },
@@ -388,7 +388,7 @@
 
                 string[] preferences_arr = preferences.Split(' ');
 
-                Enum.TryParse(preferences_arr[1], out HighlightLanguage currentLanguage);
+                Enum.TryParse(preferences_arr[1], out currentLanguage);
 
                 if (preferences_arr[0].ToLower().Contains("light"))
                     return theme.Light;

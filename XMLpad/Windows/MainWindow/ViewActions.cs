@@ -143,7 +143,11 @@
             ChangeLetterColours(textEditor, currentTheme);
         }
 
-
+        /// <summary>
+        /// Loads pre-made files to show examples of popular languages.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void Example_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not MenuItem menuItem)
@@ -214,12 +218,12 @@
                     ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_VBNET":
-                    textEditor.Text = ReadTextFile("ExampleFiles/VBNETExample.vb");
+                    textEditor.Text = ReadTextFile("ExampleFiles/VBExample.vb");
                     currentLanguage = HighlightLanguage.VBNET;
                     ChangeLetterColours(textEditor, currentTheme);
                     break;
                 case "_MarkDown":
-                    textEditor.Text = ReadTextFile("ExampleFiles/MarkDownExample.md");
+                    textEditor.Text = ReadTextFile("ExampleFiles/MDExample.md");
                     currentLanguage = HighlightLanguage.MarkDown;
                     ChangeLetterColours(textEditor, currentTheme);
                     break;

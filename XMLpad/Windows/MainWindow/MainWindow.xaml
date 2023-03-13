@@ -200,6 +200,7 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Edit">
+                    <MenuItem Header="_Tabify" Click="MainMenu_Edit_Tabify"/>
                     <MenuItem Header="_Undo" InputGestureText="Ctrl+Z" Click="MainMenu_Undo">
                         <MenuItem.InputBindings>
                             <KeyBinding Key="Z" Modifiers="Ctrl" Command="ApplicationCommands.Undo"/>
