@@ -113,9 +113,7 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="jacobslusser.ScintillaNET.Signed" Version="3.6.3" />
-    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.13.0" />
   </ItemGroup>
 
   <ItemGroup>
