@@ -42,4 +42,4 @@ git clone https://github.com/MaykalDroshev-Hull/XMLpad
 If you want to contribute to the development of XMLpad, feel free to create a pull request. Any contributions are welcome!
 
 ## License
-XMLpad is licensed under the [MIT License](https://github.com/MaykalDroshev-Hull/XMLpad/blob/master/LICENSE).
+XMLpad is licensed under the [MIT License](https://opensource.org/license/mit/).
