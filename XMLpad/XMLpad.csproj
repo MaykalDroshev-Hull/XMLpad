@@ -8,6 +8,7 @@
     <PackageIcon>XMLpad-logos_transparent.png</PackageIcon>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <AnalysisLevel>6.0</AnalysisLevel>
+	  <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup>

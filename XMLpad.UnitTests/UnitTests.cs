@@ -22,7 +22,7 @@ namespace XMLpad.UnitTests
     using System.Windows;
 
     [TestClass]
-    public class UnitTest1
+    public class UnitTests
     {
         /// <summary>
         /// Tests that Inverting case works when the input is all uppercase.
