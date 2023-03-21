@@ -26,4 +26,4 @@ jobs:
       run: dotnet build --configuration Release --no-restore
       
     - name: test
-      run: dotnet test --no-restore --verbosity normal --configuration Release XMLpad/XMLpad.UnitTests.csproj
+      run: dotnet test --no-restore --verbosity normal --configuration Release XMLpad.UnitTests/XMLpad.UnitTests.csproj
