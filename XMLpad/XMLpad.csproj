@@ -9,6 +9,7 @@
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <AnalysisLevel>6.0</AnalysisLevel>
 	  <EnableWindowsTargeting>true</EnableWindowsTargeting>
+	  <StartupObject></StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

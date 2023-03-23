@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="XMLpad.MainWindow">
+    <Position X="0.5" Y="1.5" Width="4.25" />
+    <NestedTypes>
+      <Enum Name="XMLpad.MainWindow.tabSelection" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Windows\MainWindow\MemberVariables.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="XMLpad.MainWindow.theme" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Windows\MainWindow\MemberVariables.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="XMLpad.MainWindow.HighlightLanguage" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Windows\MainWindow\MemberVariables.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>o7LdIbbg2M38TObvm/pzRpEkGQcdvkAUPECB0ZAFwDQ=</HashCode>
+      <FileName>Windows\MainWindow\CustomTestable Logic\MainWindowCustomLogic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="XMLpad.CompareFiles">
+    <Position X="5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAKAAAAAAAAAEAEAEAAQAAAABBAAAAAAAA=</HashCode>
+      <FileName>Windows\CompareFiles.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="XMLpad.FindAndReplaceWindow">
+    <Position X="5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAEAAAAgACAAIAAAAACAAAQAAAAAgAAQAAAAAAABA=</HashCode>
+      <FileName>Windows\FindAndReplaceWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="XMLpad.LoadingPopUp">
+    <Position X="5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACACAAAAAAAAAEAAAAAEAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Windows\LoadingPopUp.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="XMLpad.ManualWindow">
+    <Position X="5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAACAAAAAEAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Windows\ManualWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="XMLpad.Welcome_Window">
+    <Position X="5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAJhQIAEAEAAAAQAAAQIAEQAAEAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Windows\Welcome_Window.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="XMLpad.MyCompletionData">
+    <Position X="12.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAgAAIEAAAAAAAAAAAAABAAAAAACAAAAAA=</HashCode>
+      <FileName>Helper Classes\MyCompletionData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="XMLpad.HighlightLineTransformer">
+    <Position X="23" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACgCAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Helper Classes\HighlightLineTransformer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DiffMatchPatch.CompatibilityExtensions">
+    <Position X="21.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helper Classes\DiffMatchPatch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DiffMatchPatch.Diff">
+    <Position X="21.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEgAAAAAAAAAAAAIAIAAAAAAABAAA=</HashCode>
+      <FileName>Helper Classes\DiffMatchPatch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DiffMatchPatch.Patch">
+    <Position X="21.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAkAAAAIAEAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helper Classes\DiffMatchPatch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DiffMatchPatch.diff_match_patch">
+    <Position X="19.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAFoMASAKAQAgOVkDQACgIgACAAIYgISBAAAQAOE=</HashCode>
+      <FileName>Helper Classes\DiffMatchPatch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="XMLpad.CurrentFile">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABABAAAAAAABAAABAAAA=</HashCode>
+      <FileName>Helper Classes\CurrentFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="XMLpad.HighlightingColorizer">
+    <Position X="12.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAgAAAAAACACAAAAACAAAAAAgAAAAA=</HashCode>
+      <FileName>AvalonEditFiles\HighlightingColorizer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="XMLpad.AbstractFoldingStrategy">
+    <Position X="12.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>AvalonEditFiles\AbstractFoldingStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="XMLpad.BraceFoldingStrategy">
+    <Position X="14.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAQAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>AvalonEditFiles\BraceFoldingStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="XMLpad.HighlightCurrentLineBackgroundRenderer">
+    <Position X="14.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABBAAgAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>AvalonEditFiles\HighlightCurrentLineBackgroundRenderer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Enum Name="DiffMatchPatch.Operation">
+    <Position X="21.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAQAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Helper Classes\DiffMatchPatch.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
