@@ -485,7 +485,6 @@
                     Grid.Column="0">
                     <avalonEdit:TextEditor.ContextMenu>
                         <ContextMenu x:Name="rightClickMenu" Template="{DynamicResource ContextMenuTemplate1}" Foreground="White" BorderThickness="1" BorderBrush="Black">
-                            <MenuItem x:Name="FormatXML" Header="_Format XML" Click="FormatXML_Click"/>
                             <MenuItem Command="ApplicationCommands.Cut" >
                                 <MenuItem.Icon>
                                     <Image x:Name="contextIcon_Cut" Source="/Windows/Assets/darkMode/cut.png" />
